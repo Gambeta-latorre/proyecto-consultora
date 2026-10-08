@@ -1,7 +1,9 @@
-database/
 README.md
 .env
 .env.*
 !.env.example
 *.sqlite
 data/
+.agents/
+skills-lock.json
+.vercel

@@ -9,6 +9,11 @@ if (!$token || !hash_equals($token, (string)($_GET['token'] ?? ''))) {
 }
 $driver = db_driver();
 $file = __DIR__ . '/../../database/' . ($driver === 'pgsql' ? 'postgres' : ($driver === 'mysql' ? 'mysql' : 'sqlite')) . '.sql';
+if (!is_file($file)) {
+    http_response_code(500);
+    exit("No se encontró el esquema $file
+");
+}
 $n = run_sql_file($file);
 echo "Motor: $driver\nSentencias ejecutadas: $n\n";
 echo 'Productos de ejemplo cargados: ' . (function_exists('sembrar_productos') ? sembrar_productos() : 0) . "\n";

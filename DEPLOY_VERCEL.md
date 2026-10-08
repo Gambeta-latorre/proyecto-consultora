@@ -11,6 +11,15 @@ Vercel no ejecuta PHP de forma nativa: usamos el runtime comunitario [`vercel-ph
 
 > Cada web necesita **su propia base de datos** (las dos usan tablas con el mismo nombre).
 
+## Estado actual
+
+- **Consultora:** https://rumboglobal.vercel.app (proyecto `rumboglobal`)
+- **ASHAB:** https://ashab-omega.vercel.app (proyecto `ashab`; el nombre `ashab.vercel.app` ya estaba ocupado por otra persona, por eso Vercel asignó `ashab-omega`)
+- Bases de datos Neon `rumboglobal-db` y `ashab-db` (plan gratuito, región iad1), tablas ya creadas con `/install`, que quedó desactivado.
+- Variables cargadas: `DATABASE_URL` (Neon), `ADMIN_EMAILS`, `APP_URL` y, en la consultora, `PROYECTO_URL`.
+- Pendiente: `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` (sección 4) y `BANK_INFO` (datos bancarios para la seña).
+- Para volver a publicar tras cambiar el código: `cd 05_Web_Proyecto && vercel deploy --prod --yes` (igual en `04_Web_Consultora`).
+
 ## 0. Cuentas necesarias (todas con plan gratuito)
 
 - GitHub (ya tenés el repositorio).

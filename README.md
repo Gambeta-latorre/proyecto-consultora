@@ -4,6 +4,15 @@ Proyecto académico: una consultora de comercio exterior (**Rumbo Global Consult
 
 > Los datos del cliente y los números del proyecto son **ficticios**: precios, fletes, aranceles y tipo de cambio son supuestos editables y hay que validarlos con cotizaciones reales.
 
+## Webs publicadas (Vercel)
+
+| Sitio | Dirección |
+|---|---|
+| Rumbo Global Consultores S.A. | https://rumboglobal.vercel.app |
+| ASHAB (español, inglés y árabe) | https://ashab-omega.vercel.app |
+
+Cada una usa su propia base Postgres (Neon). El panel de administración está en `/admin` y solo entra el correo configurado en `ADMIN_EMAILS`. Para activar el botón «Continuar con Google» faltan las credenciales de Google (ver [`DEPLOY_VERCEL.md`](DEPLOY_VERCEL.md), sección 4): sin ellas, la web de ASHAB muestra el aviso de que el ingreso con Google todavía no está configurado, y la de la consultora sigue permitiendo ingresar con DNI y contraseña.
+
 ## Qué hay en el repositorio
 
 | Carpeta / archivo | Contenido |
