@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 320" width="1060" height="320" role="img" aria-label="Rumbo Global Consultores S.A.">
+  <title>Rumbo Global Consultores S.A.</title>
+  <rect width="1060" height="320" fill="#FFFFFF"/>
+  <g transform="translate(20,10)">
+    <!-- globo -->
+    <circle cx="150" cy="150" r="110" fill="none" stroke="#111111" stroke-width="10"/>
+    <ellipse cx="150" cy="150" rx="46" ry="110" fill="none" stroke="#111111" stroke-width="6"/>
+    <line x1="150" y1="40" x2="150" y2="260" stroke="#111111" stroke-width="6"/>
+    <line x1="40" y1="150" x2="260" y2="150" stroke="#111111" stroke-width="6"/>
+    <path d="M62 95 Q150 125 238 95" fill="none" stroke="#111111" stroke-width="6"/>
+    <path d="M62 205 Q150 175 238 205" fill="none" stroke="#111111" stroke-width="6"/>
+    <!-- trayectoria -->
+    <path d="M52 232 Q120 205 205 128" fill="none" stroke="#D0021B" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 16"/>
+    <!-- avión -->
+    <g transform="translate(238,82) rotate(45) scale(1.05)">
+      <polygon points="0,-42 5,-30 5,-10 40,12 40,20 5,8 5,24 16,34 16,40 0,36 -16,40 -16,34 -5,24 -5,8 -40,20 -40,12 -5,-10 -5,-30"
+               fill="#D0021B" stroke="#FFFFFF" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="345" y="165" font-size="70" font-weight="900" fill="#111111" letter-spacing="2">RUMBO <tspan fill="#D0021B">GLOBAL</tspan></text>
+    <text x="350" y="228" font-size="30" font-weight="700" fill="#111111" letter-spacing="11">CONSULTORES S.A.</text>
+  </g>
+</svg>

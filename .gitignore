@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+*.sqlite
+__pycache__/
+*.pyc
+_superseded/
+.vercel/
+node_modules/
+data/
+*.log
+_build/pv_*.png
+_build/m_*.png

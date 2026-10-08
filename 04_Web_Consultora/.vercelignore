@@ -1,0 +1,7 @@
+database/
+README.md
+.env
+.env.*
+!.env.example
+*.sqlite
+data/
