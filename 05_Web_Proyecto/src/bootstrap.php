@@ -85,7 +85,7 @@ function usuario_actual(): ?array
         $st->execute([$_SESSION['uid']]);
         $u = $st->fetch() ?: null;
         if ($u) {
-            $u['es_admin'] = email_es_admin($u['email']);
+            $u['es_admin'] = !empty($u['google_sub']) && email_es_admin($u['email']);
             if ($u['es_admin']) {
                 $u['cuenta'] = 'aprobada';
             }

@@ -13,3 +13,4 @@ _build/pv_*.png
 _build/m_*.png
 .agents/
 skills-lock.json
+.claude/

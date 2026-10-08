@@ -61,7 +61,8 @@ function usuario_actual(): ?array
         $st->execute([$_SESSION['uid']]);
         $u = $st->fetch() ?: null;
         if ($u) {
-            $u['es_admin'] = email_es_admin($u['email']);
+            // administrador solo si el email fue verificado por Google (el registro con DNI no verifica el email)
+            $u['es_admin'] = !empty($u['google_sub']) && email_es_admin($u['email']);
             $cache = $u;
         }
     }
@@ -151,6 +152,9 @@ function registrar_usuario(array $d): array
     if ($err) {
         return $err;
     }
+    if (email_es_admin($email)) {      // los correos de administrador solo se pueden usar entrando con Google
+        return ['e_exists'];
+    }
     $st = db()->prepare('SELECT 1 FROM usuarios WHERE dni = ? OR email = ?');
     $st->execute([$dni, $email]);
     if ($st->fetch()) {
@@ -172,8 +176,13 @@ function usuario_desde_google(array $claims): array
     $nombre = mb_substr((string)($claims['given_name'] ?? $claims['name'] ?? ''), 0, 120);
     $apellido = mb_substr((string)($claims['family_name'] ?? ''), 0, 80);
     if ($u) {
-        db()->prepare('UPDATE usuarios SET google_sub = ?, foto_url = ?, ultimo_login = ? WHERE id = ?')
-            ->execute([$sub, mb_substr((string)($claims['picture'] ?? ''), 0, 300), now(), $u['id']]);
+        if (empty($u['google_sub'])) {
+            // La cuenta se creó con DNI y un email SIN verificar. Google acaba de verificar que este email es de quien entra:
+            // se vincula y se anula la contraseña anterior, por si otra persona se había registrado con un email ajeno.
+            db()->prepare('UPDATE usuarios SET google_sub = ?, password_hash = NULL, intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id = ?')->execute([$sub, $u['id']]);
+        }
+        db()->prepare('UPDATE usuarios SET foto_url = ?, ultimo_login = ? WHERE id = ?')
+            ->execute([mb_substr((string)($claims['picture'] ?? ''), 0, 300), now(), $u['id']]);
         return $u;
     }
     db()->prepare('INSERT INTO usuarios (email, google_sub, nombre, apellido, foto_url, activo, intentos_fallidos, creado_en, ultimo_login) VALUES (?,?,?,?,?,?,?,?,?)')

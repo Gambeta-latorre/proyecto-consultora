@@ -163,6 +163,21 @@ try:
     check("el administrador ve idioma y mercado de la consulta", "[pt] [Brasil]" in t_ and "Quero exportar" in t_)
     s_, _, t_ = a.req("/admin?tab=usuarios&lang=zh")
     check("el panel de administración sigue en español", "Alta" in t_ and 'lang="es"' in t_)
+    print("== seguridad: nadie puede hacerse pasar por el administrador")
+    atk = Client("es")
+    s_, _, t_ = atk.post("/registro", {"dni": "40111222", "nombre": "Intruso", "apellido": "X", "email": "boss@example.com", "clave": "ClaveSegura1", "clave2": "ClaveSegura1"})
+    check("no se puede registrar con el email de administrador", "Ya existe una cuenta" in t_)
+    atk.post("/registro", {"dni": "40111222", "nombre": "Intruso", "apellido": "X", "email": "victima@example.com", "clave": "ClaveIntruso1", "clave2": "ClaveIntruso1"})
+    s_, h_, _ = atk.post("/login", {"dni": "40111222", "clave": "ClaveIntruso1"})
+    check("el intruso entra a su propia cuenta (con email ajeno sin verificar)", s_ == 302)
+    check("pero no es administrador", atk.req("/admin")[0] == 403)
+    atk.req("/logout")
+    vic = Client("es")
+    google_login(vic, "victima@example.com", "Victima", sub="sub-victima")
+    s_, _, t_ = Client("es").post("/login", {"dni": "40111222", "clave": "ClaveIntruso1"})
+    check("cuando el dueño real entra con Google, la contraseña del intruso queda anulada", "DNI o contraseña incorrectos" in t_)
+    check("el dueño real accede a la cuenta por Google", "Hola" in vic.req("/panel")[2])
+
 finally:
     for p in procs:
         p.terminate()
