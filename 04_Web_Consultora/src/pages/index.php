@@ -1,34 +1,42 @@
-<?php $titulo = 'Inicio'; require __DIR__ . '/../layout/header.php'; ?>
+<?php $tituloClave = 'nav_home'; require __DIR__ . '/../layout/header.php'; ?>
 <section class="hero">
   <div class="wrap">
-    <p class="eyebrow">Consultoría en comercio exterior</p>
-    <h1>Llevamos a las pymes argentinas <span class="red">al mundo</span>.</h1>
-    <p class="lead">Diagnosticamos el mercado, armamos el plan, resolvemos la documentación y acompañamos cada embarque hasta el cobro.</p>
-    <p><a class="btn" href="/contacto">Quiero exportar</a> <a class="btn ghost" href="/servicios">Ver servicios</a></p>
+    <p class="eyebrow"><?= h(t('home_eyebrow')) ?></p>
+    <h1><?= h(t('home_title_a')) ?> <span class="red"><?= h(t('home_title_b')) ?></span>.</h1>
+    <p class="lead"><?= h(t('home_lead')) ?></p>
+    <p><a class="btn" href="/contacto"><?= h(t('home_cta1')) ?></a> <a class="btn ghost" href="/servicios"><?= h(t('home_cta2')) ?></a></p>
   </div>
 </section>
 
 <section class="wrap stats">
-  <div><b>4</b><span>países objetivo en Medio Oriente</span></div>
-  <div><b>8</b><span>etapas en nuestro ciclo de trabajo</span></div>
-  <div><b>3</b><span>idiomas de trabajo: español, inglés y árabe</span></div>
+  <?php for ($i = 1; $i <= 3; $i++): ?>
+    <div><b><?= h(t("stat{$i}_n")) ?></b><span><?= h(t("stat{$i}_t")) ?></span></div>
+  <?php endfor; ?>
 </section>
 
 <section class="wrap">
-  <h2>Qué hacemos</h2>
+  <h2><?= h(t('what_title')) ?></h2>
   <div class="grid3">
-    <article class="card"><h3>Estudio de mercado</h3><p>Elegimos países y canales según demanda real, aranceles y requisitos sanitarios.</p></article>
-    <article class="card"><h3>Habilitaciones y documentos</h3><p>Registro de exportador, marca, certificados de origen y sanitarios, permiso de embarque.</p></article>
-    <article class="card"><h3>Logística y cobranza</h3><p>Contenedor, seguro, despacho y cobro asegurado con seña y carta de crédito.</p></article>
+    <?php for ($i = 1; $i <= 3; $i++): ?>
+      <article class="card"><h3><?= h(t("svc{$i}_t")) ?></h3><p><?= h(t("svc{$i}_d")) ?></p></article>
+    <?php endfor; ?>
   </div>
+</section>
+
+<section class="wrap">
+  <h2><?= h(t('markets_title')) ?></h2>
+  <p class="lead"><?= h(t('markets_lead')) ?></p>
+  <ul class="chips">
+    <?php for ($i = 1; $i <= 6; $i++): ?><li><?= h(t("reg{$i}")) ?></li><?php endfor; ?>
+  </ul>
 </section>
 
 <section class="wrap case">
   <div>
-    <p class="eyebrow">Caso en curso</p>
-    <h2>ASHAB · Yerba mate argentina para Medio Oriente</h2>
-    <p>Acompañamos a una yerbatera de Misiones para llegar a Siria, Líbano, Jordania y Emiratos Árabes Unidos, con sitio web en español, inglés y árabe y una política de seña del 50 % para asegurar cada pedido.</p>
-    <p><a class="btn" href="<?= h(PROYECTO_URL) ?>">Ver el proyecto</a></p>
+    <p class="eyebrow"><?= h(t('case_eyebrow')) ?></p>
+    <h2><?= h(t('case_title')) ?></h2>
+    <p><?= h(t('case_text')) ?></p>
+    <p><a class="btn" href="<?= h(PROYECTO_URL) ?>"><?= h(t('case_btn')) ?></a></p>
   </div>
 </section>
 <?php require __DIR__ . '/../layout/footer.php'; ?>

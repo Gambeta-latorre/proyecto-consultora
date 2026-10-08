@@ -1,7 +1,7 @@
 <?php
 // Panel de administración. Acceso: emails en la variable ADMIN_EMAILS.
 requerir_admin();
-$titulo = 'Administración';
+$tituloClave = 'nav_admin';
 $tab = in_array($_GET['tab'] ?? '', ['resumen', 'usuarios', 'accesos', 'proyectos', 'consultas'], true) ? $_GET['tab'] : 'resumen';
 $msg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -44,6 +44,7 @@ if ($tab === 'resumen') {
 } else {
     $data['rows'] = db()->query('SELECT * FROM consultas ORDER BY fecha DESC LIMIT 300')->fetchAll();
 }
+$GLOBALS['LANG'] = 'es';   // el panel de administración está solo en español
 require __DIR__ . '/../layout/header.php';
 ?>
 <section class="wrap page admin">

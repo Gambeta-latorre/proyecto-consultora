@@ -1,14 +1,14 @@
 </main>
 <footer class="foot">
   <div class="wrap cols">
-    <div><strong><?= h(SITE_NAME) ?></strong><br>Consultoría en comercio exterior.<br>Buenos Aires, Argentina.</div>
-    <div><strong>WhatsApp</strong><br><bdi dir="ltr"><?= h(wa_display()) ?></bdi><br><a href="/contacto">Escribinos</a></div>
-    <div><strong>Cliente destacado</strong><br><a href="<?= h(PROYECTO_URL) ?>">Proyecto ASHAB · Yerba mate a Medio Oriente</a><br><a href="/privacidad">Privacidad</a></div>
+    <div><strong><?= h(SITE_NAME) ?></strong><br><?= h(t('foot_tag')) ?><br><?= h(t('foot_city')) ?></div>
+    <div><strong>WhatsApp</strong><br><bdi dir="ltr"><?= h(wa_display()) ?></bdi><br><a href="/contacto"><?= h(t('contact_title')) ?></a></div>
+    <div><strong><?= h(t('foot_case')) ?></strong><br><a href="<?= h(PROYECTO_URL) ?>"><?= h(t('foot_case_link')) ?></a><br><a href="/privacidad"><?= h(t('foot_privacy')) ?></a></div>
   </div>
-  <div class="wrap copy">© <?= date('Y') ?> <?= h(SITE_NAME) ?> · Todos los derechos reservados.</div>
+  <div class="wrap copy">© <?= date('Y') ?> <?= h(SITE_NAME) ?> · <?= h(t('foot_rights')) ?></div>
 </footer>
 
-<a class="wa-float" href="<?= h(whatsapp_url()) ?>" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+<a class="wa-float" href="<?= h(whatsapp_url()) ?>" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path fill="#fff" d="M16.04 3C9.4 3 4 8.38 4 15.01c0 2.12.55 4.19 1.6 6.01L4 29l8.17-1.57a12 12 0 0 0 3.87.63h.01C22.68 28.06 28 22.67 28 16.04 28 9.4 22.68 3 16.04 3zm0 22.03h-.01a10 10 0 0 1-5.1-1.4l-.37-.22-4.85.93.98-4.72-.24-.39a9.95 9.95 0 0 1-1.53-5.3c0-5.5 4.5-9.97 10.04-9.97 5.52 0 10.01 4.47 10.01 9.97 0 5.5-4.5 9.97-10.03 9.97zm5.5-7.46c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.66-2.07c-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.64-.93-2.25-.25-.58-.5-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.13 3.23 5.15 4.53.72.3 1.28.5 1.72.63.72.23 1.38.2 1.9.12.58-.09 1.78-.72 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35z"/></svg>
 </a>
 </body>

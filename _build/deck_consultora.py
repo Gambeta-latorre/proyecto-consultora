@@ -24,10 +24,10 @@ d.text(s, 0.7, 1.7, 6.4, 4.8, [
     ("Visión", {"size": 20, "bold": True, "color": RED, "gap": 2}),
     ("Ser la consultora de referencia en comercio exterior para las economías regionales de Argentina.", {"size": 16}),
 ], size=16)
-for i, (n, l) in enumerate([("4", "países de Medio Oriente en nuestro proyecto actual"), ("8", "etapas en nuestro ciclo de trabajo"), ("3", "idiomas de trabajo: español, inglés y árabe")]):
+for i, (n, l) in enumerate([("Mundo", "sin límite de países: cada proyecto elige su mercado"), ("8", "etapas en nuestro ciclo de trabajo"), ("8", "idiomas en nuestro sitio web")]):
     y = 1.7 + i * 1.65
     d.rect(s, 7.7, y, 4.9, 1.45, fill=SOFT)
-    d.text(s, 7.9, y + 0.1, 1.5, 1.25, n, size=54, bold=True, color=RED, font="Arial", anchor="m", check=False)
+    d.text(s, 7.9, y + 0.1, 1.5, 1.25, n, size=54 if len(n) < 3 else 24, bold=True, color=RED, font="Arial", anchor="m", check=False)
     d.text(s, 9.4, y + 0.1, 3.1, 1.25, l, size=16, anchor="m")
 
 # 3 Qué hacemos

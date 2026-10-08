@@ -6,16 +6,20 @@ define('SITE_NAME', 'Rumbo Global Consultores S.A.');
 define('MAX_INTENTOS', 5);
 define('BLOQUEO_MINUTOS', 15);
 define('PROYECTO_URL', getenv('PROYECTO_URL') ?: '#');
+define('IDIOMAS', ['es' => 'Español', 'en' => 'English', 'pt' => 'Português', 'fr' => 'Français', 'de' => 'Deutsch', 'it' => 'Italiano', 'ar' => 'العربية', 'zh' => '中文']);
 
 require __DIR__ . '/core.php';
+require __DIR__ . '/lang.php';
 
 define('WHATSAPP_NUMBER', env('WHATSAPP_NUMBER', '5491133486017'));   // 54 9 11 3348-6017
 
 send_security_headers();
 if (defined('NO_SESSION')) {          // /install corre antes de que existan las tablas
     $_SESSION = [];
+    $LANG = 'es';
 } else {
     start_session('RGSID');
+    $LANG = idioma_inicial();
 }
 
 function wa_display(): string
@@ -25,8 +29,14 @@ function wa_display(): string
 
 function whatsapp_url(string $msg = ''): string
 {
-    $msg = $msg !== '' ? $msg : 'Hola Rumbo Global, quiero consultar por un proyecto de exportación.';
-    return 'https://wa.me/' . WHATSAPP_NUMBER . '?text=' . rawurlencode($msg);
+    return 'https://wa.me/' . WHATSAPP_NUMBER . '?text=' . rawurlencode($msg !== '' ? $msg : t('wa_default'));
+}
+
+function url_idioma(string $l): string
+{
+    $q = $_GET;
+    $q['lang'] = $l;
+    return '/' . ($GLOBALS['PAGE'] === 'index' ? '' : $GLOBALS['PAGE']) . '?' . http_build_query($q);
 }
 
 function normalizar_dni(string $s): string
@@ -62,7 +72,7 @@ function requerir_login(): array
 {
     $u = usuario_actual();
     if (!$u) {
-        flash('Iniciá sesión para continuar.', 'error');
+        flash('need_login', 'error');
         redirect('/login');
     }
     return $u;
@@ -78,17 +88,17 @@ function requerir_admin(): array
     return $u;
 }
 
-/** Ingreso con DNI y contraseña. Devuelve [bool exito, string mensaje]. */
+/** Ingreso con DNI y contraseña. Devuelve [bool exito, clave de mensaje]. */
 function intentar_login(string $dniRaw, string $clave): array
 {
     $dni = normalizar_dni($dniRaw);
     if (ip_bloqueada()) {
         log_acceso(null, $dni, 'dni', false, 'IP bloqueada');
-        return [false, 'Demasiados intentos desde esta conexión. Probá más tarde.'];
+        return [false, 'err_ip'];
     }
     if (!dni_valido($dni) || $clave === '') {
         log_acceso(null, $dni, 'dni', false, 'datos inválidos');
-        return [false, 'DNI o contraseña incorrectos.'];
+        return [false, 'err_login'];
     }
     $st = db()->prepare('SELECT * FROM usuarios WHERE dni = ?');
     $st->execute([$dni]);
@@ -99,12 +109,13 @@ function intentar_login(string $dniRaw, string $clave): array
 
     if ($u && $u['bloqueado_hasta'] && $u['bloqueado_hasta'] > now()) {
         log_acceso((int)$u['id'], $dni, 'dni', false, 'cuenta bloqueada');
-        return [false, 'Cuenta bloqueada temporalmente por intentos fallidos. Probá más tarde.'];
+        return [false, 'err_locked'];
     }
     if ($u && (int)$u['activo'] && !empty($u['password_hash']) && $okClave) {
         db()->prepare('UPDATE usuarios SET intentos_fallidos = 0, bloqueado_hasta = NULL, ultimo_login = ? WHERE id = ?')->execute([now(), $u['id']]);
         session_regenerate_id(true);
         $_SESSION['uid'] = (int)$u['id'];
+        $_SESSION['lang'] = lang();
         log_acceso((int)$u['id'], $dni, 'dni', true, 'ok');
         return [true, 'ok'];
     }
@@ -118,10 +129,10 @@ function intentar_login(string $dniRaw, string $clave): array
         db()->prepare('UPDATE usuarios SET intentos_fallidos = ?, bloqueado_hasta = ? WHERE id = ?')->execute([$n, $bloq, $u['id']]);
     }
     log_acceso($u ? (int)$u['id'] : null, $dni, 'dni', false, 'clave incorrecta');
-    return [false, 'DNI o contraseña incorrectos.'];
+    return [false, 'err_login'];
 }
 
-/** Registro con DNI. Devuelve lista de errores (vacía = registrado). */
+/** Registro con DNI. Devuelve lista de claves de error (vacía = registrado). */
 function registrar_usuario(array $d): array
 {
     $err = [];
@@ -131,19 +142,19 @@ function registrar_usuario(array $d): array
     $email = strtolower(trim((string)($d['email'] ?? '')));
     $clave = (string)($d['clave'] ?? '');
     $clave2 = (string)($d['clave2'] ?? '');
-    if (!dni_valido($dni)) { $err[] = 'El DNI debe tener 7 u 8 números.'; }
-    if ($nombre === '' || mb_strlen($nombre) > 80) { $err[] = 'Ingresá tu nombre.'; }
-    if ($apellido === '' || mb_strlen($apellido) > 80) { $err[] = 'Ingresá tu apellido.'; }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 160) { $err[] = 'El email no es válido.'; }
-    if (strlen($clave) < 8) { $err[] = 'La contraseña debe tener al menos 8 caracteres.'; }
-    if ($clave !== $clave2) { $err[] = 'Las contraseñas no coinciden.'; }
+    if (!dni_valido($dni)) { $err[] = 'e_dni'; }
+    if ($nombre === '' || mb_strlen($nombre) > 80) { $err[] = 'e_first'; }
+    if ($apellido === '' || mb_strlen($apellido) > 80) { $err[] = 'e_last'; }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 160) { $err[] = 'e_email'; }
+    if (strlen($clave) < 8) { $err[] = 'e_pass_len'; }
+    if ($clave !== $clave2) { $err[] = 'e_pass_match'; }
     if ($err) {
         return $err;
     }
     $st = db()->prepare('SELECT 1 FROM usuarios WHERE dni = ? OR email = ?');
     $st->execute([$dni, $email]);
     if ($st->fetch()) {
-        return ['Ya existe una cuenta con ese DNI o email.'];
+        return ['e_exists'];
     }
     db()->prepare('INSERT INTO usuarios (dni, email, nombre, apellido, password_hash, activo, intentos_fallidos, creado_en) VALUES (?,?,?,?,?,?,?,?)')
         ->execute([$dni, $email, $nombre, $apellido, password_hash($clave, PASSWORD_DEFAULT), 1, 0, now()]);

@@ -20,7 +20,7 @@ Cada una usa su propia base Postgres (Neon). El panel de administración está e
 | [`01_Logo/`](01_Logo) | Logo de la consultora (rojo y negro, globo terráqueo con avión): PNG, SVG, versión en negativo e isotipo |
 | [`02_Presentaciones/`](02_Presentaciones) | Presentación de la consultora, del proyecto y de los diagramas (PowerPoint), y la **versión editable para Google Slides** |
 | [`03_Diagramas/`](03_Diagramas) | 3 diagramas de flujo simples (S1–S3) y 6 complejos (C1–C6) en PNG |
-| [`04_Web_Consultora/`](04_Web_Consultora) | Web PHP de la consultora: WhatsApp flotante, ingreso con DNI + contraseña o Google, panel de administración |
+| [`04_Web_Consultora/`](04_Web_Consultora) | Web PHP de la consultora en **8 idiomas** (es, en, pt, fr, de, it, ar, zh) y sin límite de países: WhatsApp flotante, ingreso con DNI + contraseña o Google, panel de administración |
 | [`05_Web_Proyecto/`](05_Web_Proyecto) | Web PHP de ASHAB en **español, inglés y árabe (RTL)**: ingreso con Google, empresas aprobadas, pedidos con **seña del 50 %**, panel de administración |
 | [`06_Documentos/`](06_Documentos) | Manual de usuario, costo del proyecto (Word + Excel), cultura, seguridad e higiene, ciclo de trabajo y la guía de WhatsApp / identificación / seña |
 | [`DEPLOY_VERCEL.md`](DEPLOY_VERCEL.md) | Cómo publicar las dos webs en Vercel con base Postgres |

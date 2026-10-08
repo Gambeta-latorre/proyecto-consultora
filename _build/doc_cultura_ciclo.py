@@ -48,7 +48,8 @@ D.p("La información del cliente (costos, precios, compradores, planos de planta
 D.h2("5.4 Trato respetuoso")
 D.p("No toleramos el acoso, la discriminación ni las bromas que humillan. Cualquier persona puede hacer una denuncia a la Dirección General de forma confidencial y no sufrirá represalias.")
 
-D.h1("6. Trabajar con culturas de Medio Oriente")
+D.h1("6. Trabajar con la cultura de cada mercado")
+D.p("Trabajamos con cualquier país del mundo. Nuestro caso actual es Medio Oriente y por eso la tabla toma ese ejemplo, pero las mismas reglas valen para Europa, Asia, África o América: estudiar la cultura del mercado antes de contactar al comprador.")
 D.table([["Tema", "Buena práctica"],
          ["Relaciones", "El negocio empieza por la confianza personal. Se dedica tiempo a conocerse antes de hablar de precios."],
          ["Idioma", "Materiales comerciales en árabe e inglés. Los textos en árabe los revisa un hablante nativo."],

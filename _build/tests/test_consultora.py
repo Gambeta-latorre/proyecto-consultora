@@ -39,13 +39,14 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 class Client:
-    def __init__(self):
+    def __init__(self, accept="es"):
+        self.accept = accept
         self.jar = http.cookiejar.CookieJar()
         self.op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.jar), NoRedirect)
 
     def req(self, path, data=None):
         body = urllib.parse.urlencode(data).encode() if data is not None else None
-        r = urllib.request.Request(BASE + path, data=body, headers={"User-Agent": "test-agent"})
+        r = urllib.request.Request(BASE + path, data=body, headers={"User-Agent": "test-agent", "Accept-Language": self.accept})
         try:
             resp = self.op.open(r, timeout=20)
         except urllib.error.HTTPError as e:
@@ -136,6 +137,32 @@ try:
     s, _, t = u2.post("/contacto", {"nombre": "Ana", "email": "ana@test.com", "telefono": "", "mensaje": "Quiero exportar yerba a Líbano"})
     check("formulario de contacto guarda la consulta", s == 302)
     check("admin ve la consulta", "Quiero exportar yerba" in a.req("/admin?tab=consultas")[2])
+
+    print("== idiomas y mercados sin límite")
+    for code, frag in [("es", "Llevamos a las pymes argentinas"), ("en", "We take Argentine SMEs"), ("pt", "Levamos as PMEs argentinas"), ("fr", "Nous menons les PME argentines"),
+                       ("de", "Wir bringen argentinische KMU"), ("it", "Portiamo le PMI argentine"), ("ar", "نوصل الشركات الأرجنتينية"), ("zh", "我们带领阿根廷中小企业")]:
+        s_, _, t_ = Client("en").req(f"/?lang={code}")
+        check(f"idioma {code}", s_ == 200 and frag in t_ and f'lang="{code}"' in t_)
+    s_, _, t_ = Client("en").req("/?lang=ar")
+    check("árabe => dir=rtl", 'dir="rtl"' in t_)
+    s_, _, t_ = Client("pt-BR,pt;q=0.9,en;q=0.8").req("/")
+    check("detecta portugués del navegador (pt-BR)", 'lang="pt"' in t_)
+    s_, _, t_ = Client("ja,zh-CN;q=0.8").req("/")
+    check("usa el primer idioma disponible del navegador (zh)", 'lang="zh"' in t_)
+    s_, _, t_ = Client("ja").req("/")
+    check("idioma no ofrecido => inglés", 'lang="en"' in t_)
+    s_, _, t_ = Client("es").req("/")
+    check("mercados sin límite: sin lista cerrada de 4 países", "Mercados sin límites" in t_ and "Medio Oriente y norte de África" in t_ and "países objetivo" not in t_)
+    check("selector con los 8 idiomas", all(n in t_ for n in ["Español", "English", "Português", "Français", "Deutsch", "Italiano", "العربية", "中文"]))
+    cz = Client("en")
+    cz.req("/?lang=pt")
+    check("el idioma elegido se recuerda en la sesión", 'lang="pt"' in cz.req("/servicios")[2])
+    s_, _, t_ = cz.post("/contacto", {"nombre": "Paulo", "email": "paulo@example.com", "telefono": "", "mercado": "Brasil", "mensaje": "Quero exportar para o Brasil"}, "/contacto")
+    check("contacto traducido y guardado", s_ == 302)
+    s_, _, t_ = a.req("/admin?tab=consultas")
+    check("el administrador ve idioma y mercado de la consulta", "[pt] [Brasil]" in t_ and "Quero exportar" in t_)
+    s_, _, t_ = a.req("/admin?tab=usuarios&lang=zh")
+    check("el panel de administración sigue en español", "Alta" in t_ and 'lang="es"' in t_)
 finally:
     for p in procs:
         p.terminate()
