@@ -7,6 +7,12 @@ declare(strict_types=1);
 
 const SESSION_TTL = 604800; // 7 días
 
+// En producción los avisos y errores no se muestran en pantalla (rompen las cabeceras y filtran datos); quedan en el registro.
+if (getenv('APP_DEBUG') !== '1') {
+    ini_set('display_errors', '0');
+}
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 function env(string $k, ?string $d = null): ?string
 {
     $v = getenv($k);
@@ -296,7 +302,6 @@ function http_post_form(string $url, array $fields): ?array
         CURLOPT_TIMEOUT => 10, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_HTTPHEADER => ['Accept: application/json'],
     ]);
     $body = curl_exec($ch);
-    curl_close($ch);
     $j = is_string($body) ? json_decode($body, true) : null;
     return is_array($j) ? $j : null;
 }
