@@ -1,5 +1,9 @@
 # Rumbo Global Consultores S.A. + ASHAB (أعشاب الواحة)
 
+> **Versión actual del proyecto (noviembre 2026):** [`07_Web_Patitas_Felices/`](07_Web_Patitas_Felices) — sitio de **Veterinaria Patitas Felices** con turnos online, desarrollado por **Berasoft S.R.L.** Hecho solo con HTML, CSS, PHP y MySQL para que sea fácil de defender. Instrucciones para XAMPP y hosting en su [README](07_Web_Patitas_Felices/README.md).
+> Las carpetas de abajo son la versión anterior (Rumbo Global + ASHAB) y quedan como historial.
+
+
 Proyecto académico: una consultora de comercio exterior (**Rumbo Global Consultores S.A.**) y su cliente, una yerbatera de Misiones (ficticia) que quiere exportar yerba mate con la marca **ASHAB / أعشاب الواحة** («hierbas del oasis») a **Siria, Líbano, Jordania y Emiratos Árabes Unidos**.
 
 > Los datos del cliente y los números del proyecto son **ficticios**: precios, fletes, aranceles y tipo de cambio son supuestos editables y hay que validarlos con cotizaciones reales.

@@ -1,0 +1,101 @@
+/* Estilos del sitio de Veterinaria Patitas Felices. Los colores están en variables para cambiarlos en un solo lugar. */
+:root {
+  --principal: #2a6f6b;   /* verde azulado */
+  --acento: #f08a3c;      /* naranja */
+  --fondo: #faf7f2;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #222;
+  background: var(--fondo);
+  line-height: 1.5;
+}
+a { color: var(--principal); }
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+h1, h2, h3 { color: var(--principal); line-height: 1.2; }
+
+/* ---------- Barra superior ---------- */
+.barra {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 24px; background: var(--principal);
+}
+.barra a { color: #fff; text-decoration: none; }
+.marca { display: flex; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: bold; }
+.marca img { width: 44px; height: 44px; background: #fff; border-radius: 50%; }
+.marca small { display: block; font-size: .75rem; font-weight: normal; opacity: .85; }
+.barra nav { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
+/* ---------- Botones ---------- */
+.boton {
+  display: inline-block; padding: 10px 18px; border: 0; border-radius: 6px; cursor: pointer;
+  background: var(--acento); color: #fff !important; font-size: 1rem; text-decoration: none;
+}
+.boton:hover { opacity: .85; }
+.boton.claro { background: #fff; color: var(--principal) !important; border: 2px solid var(--principal); }
+.boton.chico { padding: 4px 10px; font-size: .85rem; }
+
+/* ---------- Secciones ---------- */
+.portada { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 40px 0; }
+.portada h1 { font-size: 2.4rem; margin: 8px 0 16px; }
+.portada-logo { width: 220px; }
+.etiqueta { color: var(--acento); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+.caso { background: #fff; border-left: 6px solid var(--acento); padding: 8px 24px 16px; margin: 32px 0; }
+
+.grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+.tarjeta { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 4px rgba(0, 0, 0, .08); }
+.numero {
+  display: inline-block; width: 32px; height: 32px; border-radius: 50%; text-align: center; line-height: 32px;
+  background: var(--acento); color: #fff; font-weight: bold;
+}
+.precio { font-size: 1.3rem; font-weight: bold; color: var(--acento); }
+
+/* ---------- Formularios ---------- */
+.formulario { max-width: 520px; }
+label { display: block; margin-bottom: 12px; font-weight: bold; }
+input, select, textarea {
+  display: block; width: 100%; margin-top: 4px; padding: 8px; font: inherit;
+  border: 1px solid #bbb; border-radius: 4px; background: #fff;
+}
+form.enlinea { display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 2px 0 12px; }
+form.enlinea input { width: auto; display: inline-block; margin: 0; }
+.ok, .error { padding: 10px 14px; border-radius: 6px; }
+.ok { background: #e2f4e4; color: #1d5b25; }
+.error { background: #fde8e8; color: #8a1c1c; }
+
+/* ---------- Tablas ---------- */
+table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 24px; font-size: .92rem; }
+th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; vertical-align: top; }
+th { background: var(--principal); color: #fff; }
+td form.enlinea { margin: 0; }
+
+.estado { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: .8rem; }
+.estado.reservado { background: #fff1c2; }
+.estado.atendido  { background: #d1f0d6; }
+.estado.cancelado { background: #f8d0d0; }
+
+.pestanas { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.pestanas a { padding: 8px 14px; background: #fff; border-radius: 6px; text-decoration: none; }
+.pestanas a.activa { background: var(--principal); color: #fff; }
+
+/* ---------- Pie y botón de WhatsApp ---------- */
+.pie { text-align: center; padding: 24px 16px 64px; background: var(--principal); color: #fff; margin-top: 48px; }
+.whatsapp {
+  position: fixed; right: 16px; bottom: 16px; padding: 12px 18px; border-radius: 30px;
+  background: #25d366; color: #fff; font-weight: bold; text-decoration: none; box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 700px) {
+  .portada { flex-direction: column-reverse; padding: 16px 0; }
+  .portada h1 { font-size: 1.8rem; }
+  .portada-logo { width: 120px; }
+  .barra { padding: 12px 16px; }
+  table { display: block; overflow-x: auto; }
+}
+
+/* Separación entre el paso 1 (día) y el paso 2 (horario) y entre botones de una misma fila */
+form + form { margin-top: 16px; }
+td form.enlinea + form.enlinea { margin-left: 4px; }
