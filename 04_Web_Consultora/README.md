@@ -1,6 +1,6 @@
 # Web de Berasoft S.R.L.
 
-Sitio institucional de la empresa: **Inicio, Servicios, Trabajos, Nosotros y Contacto** (sigue los bocetos de `03_Bocetos`).
+Sitio institucional de la empresa: **Inicio, Servicios, Trabajos, Nosotros y Contacto** (sigue los bocetos de `03_Bocetos`). Paleta gris grafito y celeste, letra Montserrat.
 Hecho con **HTML, CSS y PHP**, sin JavaScript. El menú del celular se abre con un checkbox de CSS.
 
 - No usa base de datos: el formulario de contacto arma el pedido de presupuesto y lo abre en **WhatsApp** (atención al cliente).

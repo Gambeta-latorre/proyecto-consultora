@@ -10,7 +10,7 @@ require 'inc/cabecera.php';
     <p>Una <strong>Sociedad de Responsabilidad Limitada</strong> de Berazategui que desarrolla sitios web para comercios y profesionales de la zona sur.</p>
     <p>Elegimos ser S.R.L. porque somos una empresa chica: los socios responden solo con lo que aportaron y los trámites son más simples que en una S.A.</p>
   </div>
-  <img src="img/logo.svg" alt="Escudo de Bera Soft" class="escudo">
+  <img src="img/logo.svg" alt="Logo de Berasoft" class="escudo" style="border:0;box-shadow:none;background:#fff;padding:24px">
 </section>
 
 <div class="grilla">

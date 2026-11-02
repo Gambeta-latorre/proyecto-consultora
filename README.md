@@ -10,16 +10,16 @@ Los dos sitios están hechos solo con **HTML, CSS y PHP**, sin JavaScript. Patit
 
 | Sitio | Dirección |
 |---|---|
-| Berasoft S.R.L. | https://rumboglobal.vercel.app |
-| Veterinaria Patitas Felices | https://ashab-omega.vercel.app |
+| Berasoft S.R.L. | https://berasoftsrl.vercel.app |
+| Veterinaria Patitas Felices | https://patitasfelices.vercel.app |
 
-Las direcciones conservan el nombre de la versión anterior. Se cambian en Vercel, en *Settings > Domains* de cada proyecto (por ejemplo, `berasoft.vercel.app` y `patitasfelices.vercel.app`).
+Para publicarlas (o volver a publicarlas) alcanza con correr `node publicar.js` en la carpeta del repo, con la sesión de Vercel iniciada (`vercel login`).
 
 ## Carpetas
 
 | Carpeta | Qué tiene |
 |---|---|
-| [`01_Logo/`](01_Logo) | Escudo de Bera Soft (SVG y PNG) y logo de Patitas Felices |
+| [`01_Logo/`](01_Logo) | Logo de Berasoft (monograma BS, SVG y PNG) y logo de Patitas Felices |
 | [`03_Bocetos/`](03_Bocetos) | Mapa de secciones y bocetos de las pantallas de la web de Berasoft |
 | [`04_Web_Consultora/`](04_Web_Consultora) | Web de Berasoft (Inicio, Servicios, Trabajos, Nosotros, Contacto) |
 | [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de Patitas Felices: turnos, registro, ingreso y panel de administración, con MySQL |

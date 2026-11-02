@@ -7,12 +7,12 @@ require 'inc/cabecera.php';
 <section class="portada">
   <div>
     <p class="etiqueta">Desarrollo web en Berazategui</p>
-    <h1>Hacemos la web de tu negocio</h1>
+    <h1>Hacemos la web de <span>tu negocio</span></h1>
     <p>Sitios, turnos online y tiendas para comercios del barrio. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
     <a class="boton" href="contacto.php">Pedir presupuesto</a>
     <a class="boton claro" href="trabajos.php">Ver trabajos</a>
   </div>
-  <img src="img/logo.svg" alt="Escudo de Bera Soft" class="escudo">
+  <img src="img/patitas_turnos.jpg" alt="Turnos online de Patitas Felices, hecho por Berasoft" class="escudo">
 </section>
 
 <section>

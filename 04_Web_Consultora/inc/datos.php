@@ -3,7 +3,7 @@
 const EMPRESA      = 'Berasoft S.R.L.';
 const WHATSAPP     = '5491133486017';
 const EMAIL        = 'contacto@berasoft.com.ar';
-const URL_PATITAS  = 'https://ashab-omega.vercel.app'; // sitio publicado de nuestro cliente
+const URL_PATITAS  = 'https://patitasfelices.vercel.app'; // sitio publicado de nuestro cliente
 
 // Servicios: nombre => [descripción, precio de referencia]
 const SERVICIOS = [

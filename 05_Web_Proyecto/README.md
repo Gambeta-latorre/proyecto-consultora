@@ -76,7 +76,7 @@ No hace falta configurar nada más: `inc/conexion.php` ya usa `root` sin contras
 
 ## Versión publicada (Vercel)
 
-Está publicada en **https://ashab-omega.vercel.app**. El nombre se puede cambiar en Vercel, en *Settings > Domains*.
+Está publicada en **https://patitasfelices.vercel.app** (se publica con `node publicar.js` desde la carpeta del repo).
 
 Vercel no ofrece MySQL y no guarda archivos entre una visita y otra. Por eso la versión publicada:
 - usa la base **Postgres (Neon)** que llega en la variable `DATABASE_URL`;

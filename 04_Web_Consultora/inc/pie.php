@@ -1,7 +1,7 @@
 </main>
 <footer class="pie">
   <div>
-    <img src="img/logo.svg" alt="" width="48">
+    <img src="img/icono.svg" alt="" width="48">
     <p><strong><?= EMPRESA ?></strong><br>Desarrollo de sitios web · Berazategui, Buenos Aires</p>
   </div>
   <p>

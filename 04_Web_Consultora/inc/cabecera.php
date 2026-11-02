@@ -11,11 +11,11 @@ $menu = ['index.php' => 'Inicio', 'servicios.php' => 'Servicios', 'trabajos.php'
   <title><?= h($titulo) ?> · Berasoft</title>
   <meta name="description" content="Berasoft S.R.L.: sitios web, turnos online y tiendas para comercios de Berazategui.">
   <link rel="stylesheet" href="css/estilos.css">
-  <link rel="icon" href="img/logo.svg">
+  <link rel="icon" href="img/icono.svg">
 </head>
 <body>
 <header class="barra">
-  <a class="marca" href="index.php"><img src="img/logo.svg" alt="Escudo de Bera Soft"> Berasoft</a>
+  <a class="marca" href="index.php"><img src="img/icono.svg" alt="Monograma BS"><span>bera<b>soft</b></span></a>
   <!-- Menú para celular sin JavaScript: el checkbox abre y cierra la lista -->
   <input type="checkbox" id="abrir-menu">
   <label for="abrir-menu" class="hamburguesa" aria-label="Abrir menú">☰</label>
