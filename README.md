@@ -21,6 +21,7 @@ Para publicarlas (o volver a publicarlas) alcanza con correr `node publicar.js` 
 |---|---|
 | [`01_Logo/`](01_Logo) | Logo de Berasoft (monograma BS, SVG y PNG) y logo de Patitas Felices |
 | [`03_Bocetos/`](03_Bocetos) | Mapa de secciones y bocetos de las pantallas de la web de Berasoft |
+| [`06_Documentos/`](06_Documentos) | Carpeta física del proyecto (Word y PDF) |
 | [`04_Web_Consultora/`](04_Web_Consultora) | Web de Berasoft (Inicio, Servicios, Trabajos, Nosotros, Contacto) |
 | [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de Patitas Felices: turnos, registro, ingreso y panel de administración, con MySQL |
 | [`_version_anterior/`](_version_anterior) | Versión anterior del proyecto (Rumbo Global + ASHAB), guardada como historial |
