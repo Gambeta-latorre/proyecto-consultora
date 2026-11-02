@@ -1,8 +1,8 @@
 <?php
 // Se incluye al principio de TODAS las páginas.
-session_start();
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 require __DIR__ . '/conexion.php';
+session_start();
 
 const WHATSAPP = '5491133486017'; // número de atención al cliente
 const MAX_TURNOS = 2;             // turnos reservados a la vez por cliente
@@ -59,8 +59,8 @@ function intentar_ingreso($email, $clave) {
     global $db;
 
     // Bloqueo: 5 intentos fallidos con el mismo email en 15 minutos.
-    $st = $db->prepare('SELECT COUNT(*) FROM accesos WHERE email = ? AND exito = 0 AND fecha > NOW() - INTERVAL 15 MINUTE');
-    $st->execute([$email]);
+    $st = $db->prepare('SELECT COUNT(*) FROM accesos WHERE email = ? AND exito = 0 AND fecha > ?');
+    $st->execute([$email, date('Y-m-d H:i:s', time() - 15 * 60)]);
     if ($st->fetchColumn() >= 5) return 'Demasiados intentos. Esperá 15 minutos.';
 
     $st = $db->prepare('SELECT * FROM usuarios WHERE email = ?');
@@ -69,8 +69,8 @@ function intentar_ingreso($email, $clave) {
     $ok = $u && password_verify($clave, $u['clave_hash']);
 
     // Se guarda cada intento con su IP (auditoría)
-    $db->prepare('INSERT INTO accesos (usuario_id, email, exito, ip) VALUES (?, ?, ?, ?)')
-       ->execute([$u['id'] ?? null, $email, $ok ? 1 : 0, $_SERVER['REMOTE_ADDR'] ?? '']);
+    $db->prepare('INSERT INTO accesos (usuario_id, email, exito, ip, fecha) VALUES (?, ?, ?, ?, ?)')
+       ->execute([$u['id'] ?? null, $email, $ok ? 1 : 0, $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '', date('Y-m-d H:i:s')]);
 
     if (!$ok) return 'Email o contraseña incorrectos.';
     if (!$u['activo']) return 'Tu cuenta está bloqueada. Escribinos por WhatsApp.';
@@ -105,7 +105,7 @@ function horarios_del_dia($fecha) {
 // Horarios todavía libres de un día (los que no tienen un turno reservado o atendido).
 function horarios_libres($fecha) {
     global $db;
-    $st = $db->prepare("SELECT TIME_FORMAT(hora, '%H:%i') FROM turnos WHERE fecha = ? AND estado <> 'cancelado'");
+    $st = $db->prepare("SELECT hora FROM turnos WHERE fecha = ? AND estado <> 'cancelado'");
     $st->execute([$fecha]);
     return array_values(array_diff(horarios_del_dia($fecha), $st->fetchAll(PDO::FETCH_COLUMN)));
 }

@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     elseif (strlen(preg_replace('/\D/', '', $whatsapp)) < 8) $error = 'Ingresá tu número de WhatsApp.';
     elseif (strlen($mensaje) < 10)                           $error = 'El mensaje es muy corto.';
     else {
-        $db->prepare('INSERT INTO consultas (nombre, email, whatsapp, mensaje) VALUES (?, ?, ?, ?)')
-           ->execute([$nombre, $email, $whatsapp, $mensaje]);
+        $db->prepare('INSERT INTO consultas (nombre, email, whatsapp, mensaje, fecha) VALUES (?, ?, ?, ?, ?)')
+           ->execute([$nombre, $email, $whatsapp, $mensaje, date('Y-m-d H:i:s')]);
         $enviado = true;
     }
 }

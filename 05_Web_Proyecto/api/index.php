@@ -1,32 +1,24 @@
 <?php
-declare(strict_types=1);
-// Punto de entrada único (Vercel) y enrutador. Solo se ejecutan las páginas de la lista blanca.
+// SOLO para Vercel: todas las direcciones llegan a este archivo y acá se carga la página pedida.
+// En XAMPP no se usa (Apache ejecuta cada .php directamente).
+$ruta = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+if ($ruta === '') $ruta = 'index.php';
+if (is_dir(__DIR__ . "/../$ruta")) $ruta .= '/index.php';     // /admin -> admin/index.php
 
-const PAGES = ['index', 'mercados', 'productos', 'contacto', 'login', 'google', 'google_callback', 'perfil', 'panel', 'pedido', 'admin', 'admin_export', 'logout', 'terminos', 'privacidad', 'install'];
-
-$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-$name = preg_replace('/\.php$/', '', trim($path, '/'));
-if ($name === '' || $name === 'api/index') {
-    $name = 'index';
-}
-$page = in_array($name, PAGES, true) ? $name : '404';
-$GLOBALS['PAGE'] = $page;
-if ($page === 'install') {
-    define('NO_SESSION', true);
+// Archivos de diseño (css e imágenes)
+$tipos = ['css' => 'text/css', 'svg' => 'image/svg+xml', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'ico' => 'image/x-icon'];
+if (preg_match('#^(css|img)/[\w.-]+$#', $ruta) && is_file(__DIR__ . "/../$ruta")) {
+    header('Content-Type: ' . $tipos[pathinfo($ruta, PATHINFO_EXTENSION)]);
+    header('Cache-Control: public, max-age=86400');
+    readfile(__DIR__ . "/../$ruta");
+    exit;
 }
 
-try {
-    require __DIR__ . '/../src/bootstrap.php';
-    require __DIR__ . '/../src/pages/' . $page . '.php';
-} catch (Throwable $e) {
-    error_log('[' . ($GLOBALS['PAGE'] ?? '?') . '] ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
-    if (!headers_sent()) {
-        http_response_code(500);
-        header('Content-Type: text/html; charset=utf-8');
-    }
-    $debug = getenv('APP_DEBUG') === '1';
-    echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Error</title>'
-        . '<body style="font-family:sans-serif;max-width:560px;margin:15vh auto;padding:0 20px"><h1>Service temporarily unavailable</h1>'
-        . '<p>Please try again in a few minutes · حاول مرة أخرى بعد دقائق · Intentá de nuevo en unos minutos.</p>'
-        . ($debug ? '<pre>' . htmlspecialchars($e->getMessage()) . '</pre>' : '') . '</body>';
+// Páginas permitidas (lista blanca: nadie puede pedir inc/conexion.php ni otros archivos internos)
+$paginas = ['index.php', 'turnos.php', 'contacto.php', 'ingresar.php', 'registro.php', 'salir.php', 'admin/index.php', 'admin/exportar.php'];
+if (!in_array($ruta, $paginas)) {
+    http_response_code(404);
+    exit('Página no encontrada');
 }
+chdir(__DIR__ . '/../' . dirname($ruta)); // así funcionan los require relativos de cada página
+require basename($ruta);

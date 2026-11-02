@@ -8,8 +8,8 @@ $error = '';
 $aviso = '';
 
 // ¿Cuántos turnos reservados (a futuro) tiene este cliente?
-$st = $db->prepare("SELECT COUNT(*) FROM turnos WHERE usuario_id = ? AND estado = 'reservado' AND fecha >= CURDATE()");
-$st->execute([$yo['id']]);
+$st = $db->prepare("SELECT COUNT(*) FROM turnos WHERE usuario_id = ? AND estado = 'reservado' AND fecha >= ?");
+$st->execute([$yo['id'], date('Y-m-d')]);
 $reservados = $st->fetchColumn();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'reservar') {
@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'reser
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cancelar') {
     // Solo puede cancelar SUS turnos reservados, y hasta el día anterior.
     $st = $db->prepare("UPDATE turnos SET estado = 'cancelado'
-                        WHERE id = ? AND usuario_id = ? AND estado = 'reservado' AND fecha > CURDATE()");
-    $st->execute([$_POST['id'], $yo['id']]);
+                        WHERE id = ? AND usuario_id = ? AND estado = 'reservado' AND fecha > ?");
+    $st->execute([$_POST['id'], $yo['id'], date('Y-m-d')]);
     $aviso = $st->rowCount() ? 'Turno cancelado.' : 'Ese turno ya no se puede cancelar.';
     if ($st->rowCount()) $reservados--;
 }

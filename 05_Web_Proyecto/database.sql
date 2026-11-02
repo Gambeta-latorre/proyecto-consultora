@@ -35,7 +35,7 @@ CREATE TABLE turnos (
   mascota     VARCHAR(60) NOT NULL,
   especie     ENUM('Perro','Gato','Ovino','Bovino') NOT NULL,   -- tipo de animal
   fecha       DATE NOT NULL,
-  hora        TIME NOT NULL,
+  hora        CHAR(5) NOT NULL,                  -- '09:30'
   estado      ENUM('reservado','atendido','cancelado') NOT NULL DEFAULT 'reservado',
   creado_en   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (usuario_id)  REFERENCES usuarios(id)  ON DELETE CASCADE,

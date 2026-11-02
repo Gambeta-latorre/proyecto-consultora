@@ -1,0 +1,6 @@
+{
+  "name": "web",
+  "private": true,
+  "description": "Sitio PHP desplegado en Vercel con vercel-php",
+  "engines": { "node": "22.x" }
+}

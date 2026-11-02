@@ -1,6 +1,12 @@
 <?php
-// Conexión a MySQL con PDO. En XAMPP alcanzan los valores por defecto (root sin contraseña).
-// En un hosting se cambian acá o con variables de entorno.
+// Conexión a la base de datos con PDO.
+// En la computadora (XAMPP) se usa MySQL: alcanzan los valores por defecto (root sin contraseña).
+// En la versión publicada en Vercel no hay MySQL: llega la variable DATABASE_URL y se usa inc/vercel.php.
+if (getenv('DATABASE_URL')) {
+    require __DIR__ . '/vercel.php';
+    return;
+}
+
 $host  = getenv('DB_HOST') ?: 'localhost';
 $base  = getenv('DB_NAME') ?: 'patitas_felices';
 $user  = getenv('DB_USER') ?: 'root';
