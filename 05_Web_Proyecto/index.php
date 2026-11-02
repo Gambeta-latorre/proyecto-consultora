@@ -8,7 +8,7 @@ require 'inc/cabecera.php';
 ?>
 <section class="portada">
   <div>
-    <p class="etiqueta">Veterinaria en Berazategui</p>
+    <p class="etiqueta">Veterinaria para grandes y chicos</p>
     <h1>Cuidamos a tu mascota como a la nuestra</h1>
     <p>Atendemos perros, gatos, ovejas y vacas: consultas, vacunas, baño y corte. Sacá turno online en un minuto, sin llamar por teléfono.</p>
     <p>
@@ -44,6 +44,6 @@ require 'inc/cabecera.php';
 
 <section class="caso">
   <h2>Dónde estamos</h2>
-  <p>Av. Mitre 1234, Berazategui · Lunes a viernes de 9 a 18 h · Sábados de 9 a 13 h</p>
+  <p>Av. Mitre 1234 · Lunes a viernes de 9 a 18 h · Sábados de 9 a 13 h</p>
 </section>
 <?php require 'inc/pie.php'; ?>

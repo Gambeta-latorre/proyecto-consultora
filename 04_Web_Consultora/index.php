@@ -6,9 +6,9 @@ require 'inc/cabecera.php';
 ?>
 <section class="portada">
   <div>
-    <p class="etiqueta">Desarrollo web en Berazategui</p>
+    <p class="etiqueta">Desarrollo web para comercios</p>
     <h1>Hacemos la web de <span>tu negocio</span></h1>
-    <p>Sitios, turnos online y tiendas para comercios del barrio. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
+    <p>Sitios, turnos online y tiendas para comercios y profesionales. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
     <a class="boton" href="contacto.php">Pedir presupuesto</a>
     <a class="boton claro" href="trabajos.php">Ver trabajos</a>
   </div>

@@ -10,7 +10,7 @@ require 'inc/cabecera.php';
   <img src="img/patitas_turnos.jpg" alt="Pantalla de turnos de Patitas Felices">
   <div>
     <h2>Veterinaria Patitas Felices</h2>
-    <p><small>Berazategui · 2026</small></p>
+    <p><small>Veterinaria · 2026</small></p>
     <h3>El problema</h3>
     <p>Los turnos se daban por teléfono, se superponían horarios y la recepción no sabía qué animal venía.</p>
     <h3>Lo que hicimos</h3>

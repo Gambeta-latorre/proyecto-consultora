@@ -9,7 +9,7 @@ $menu = ['index.php' => 'Inicio', 'servicios.php' => 'Servicios', 'trabajos.php'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= h($titulo) ?> · Berasoft</title>
-  <meta name="description" content="Berasoft S.R.L.: sitios web, turnos online y tiendas para comercios de Berazategui.">
+  <meta name="description" content="Berasoft S.R.L.: sitios web, turnos online y tiendas para comercios y profesionales.">
   <link rel="stylesheet" href="css/estilos.css">
   <link rel="icon" href="img/icono.svg">
 </head>

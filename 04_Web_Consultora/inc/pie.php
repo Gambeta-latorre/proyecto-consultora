@@ -2,7 +2,7 @@
 <footer class="pie">
   <div>
     <img src="img/icono.svg" alt="" width="48">
-    <p><strong><?= EMPRESA ?></strong><br>Desarrollo de sitios web · Berazategui, Buenos Aires</p>
+    <p><strong><?= EMPRESA ?></strong><br>Desarrollo de sitios web</p>
   </div>
   <p>
     <a href="https://wa.me/<?= WHATSAPP ?>">WhatsApp</a> ·
