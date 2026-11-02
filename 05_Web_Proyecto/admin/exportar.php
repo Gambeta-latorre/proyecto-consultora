@@ -20,5 +20,5 @@ header('Content-Type: text/csv; charset=UTF-8');
 header("Content-Disposition: attachment; filename=$que.csv");
 $salida = fopen('php://output', 'w');
 fwrite($salida, "\xEF\xBB\xBF"); // BOM: así Excel reconoce los acentos
-if ($filas) fputcsv($salida, array_keys($filas[0]), ';');
-foreach ($filas as $f) fputcsv($salida, $f, ';');
+if ($filas) fputcsv($salida, array_keys($filas[0]), ';', '"', '');
+foreach ($filas as $f) fputcsv($salida, $f, ';', '"', ''); // '' = sin carácter de escape (PHP 8.4+)
