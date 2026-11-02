@@ -15,7 +15,7 @@ $yo = usuario_actual();
 <header class="barra">
   <a class="marca" href="<?= $raiz ?>index.php">
     <img src="<?= $raiz ?>img/logo.svg" alt="">
-    <span>Patitas Felices <small>Veterinaria</small></span>
+    <span>Patitas Felices <small>Veterinaria · Berazategui</small></span>
   </a>
   <nav>
     <a href="<?= $raiz ?>index.php#servicios">Servicios</a>
