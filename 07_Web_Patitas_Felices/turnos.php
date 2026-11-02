@@ -16,17 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'reser
     $fecha   = $_POST['fecha'] ?? '';
     $hora    = $_POST['hora'] ?? '';
     $mascota = trim($_POST['mascota'] ?? '');
+    $especie = $_POST['especie'] ?? '';
     $st = $db->prepare('SELECT id FROM servicios WHERE id = ?');
     $st->execute([$_POST['servicio_id'] ?? 0]);
 
     if (!$st->fetch())                                $error = 'Elegí un servicio.';
-    elseif ($mascota === '')                          $error = 'Escribí el nombre de tu mascota.';
+    elseif ($mascota === '')                          $error = 'Escribí el nombre de tu animal.';
+    elseif (!in_array($especie, ESPECIES))            $error = 'Elegí qué animal es.';
     elseif (!fecha_valida($fecha))                    $error = 'Elegí un día de lunes a sábado, desde mañana.';
     elseif (!in_array($hora, horarios_libres($fecha))) $error = 'Ese horario ya no está libre. Elegí otro.';
     elseif ($reservados >= MAX_TURNOS)                $error = 'Ya tenés ' . MAX_TURNOS . ' turnos reservados.';
     else {
-        $db->prepare('INSERT INTO turnos (usuario_id, servicio_id, mascota, fecha, hora) VALUES (?, ?, ?, ?, ?)')
-           ->execute([$yo['id'], $_POST['servicio_id'], $mascota, $fecha, $hora]);
+        $db->prepare('INSERT INTO turnos (usuario_id, servicio_id, mascota, especie, fecha, hora) VALUES (?, ?, ?, ?, ?, ?)')
+           ->execute([$yo['id'], $_POST['servicio_id'], $mascota, $especie, $fecha, $hora]);
         $aviso = 'Turno reservado para el ' . date('d/m/Y', strtotime($fecha)) . " a las $hora.";
         $reservados++;
     }
@@ -87,7 +89,10 @@ require 'inc/cabecera.php';
         <?php foreach ($servicios as $s): ?><option value="<?= $s['id'] ?>"><?= h($s['nombre']) ?> (<?= pesos($s['precio']) ?>)</option><?php endforeach; ?>
       </select>
     </label>
-    <label>Nombre de tu mascota <input name="mascota" required maxlength="60"></label>
+    <label>Tipo de animal
+      <select name="especie"><?php foreach (ESPECIES as $e): ?><option><?= $e ?></option><?php endforeach; ?></select>
+    </label>
+    <label>Nombre del animal <input name="mascota" required maxlength="60"></label>
     <button class="boton">Reservar turno</button>
   </form>
   <?php endif; ?>
@@ -96,12 +101,12 @@ require 'inc/cabecera.php';
 
 <h2>Mis turnos</h2>
 <table>
-  <tr><th>Día</th><th>Hora</th><th>Mascota</th><th>Servicio</th><th>Estado</th><th></th></tr>
+  <tr><th>Día</th><th>Hora</th><th>Animal</th><th>Servicio</th><th>Estado</th><th></th></tr>
   <?php foreach ($misTurnos as $t): ?>
   <tr>
     <td><?= date('d/m/Y', strtotime($t['fecha'])) ?></td>
     <td><?= substr($t['hora'], 0, 5) ?></td>
-    <td><?= h($t['mascota']) ?></td>
+    <td><?= h($t['mascota']) ?> <span class="especie <?= strtolower($t['especie']) ?>"><?= $t['especie'] ?></span></td>
     <td><?= h($t['servicio']) ?></td>
     <td><span class="estado <?= $t['estado'] ?>"><?= $t['estado'] ?></span></td>
     <td>

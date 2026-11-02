@@ -33,6 +33,7 @@ CREATE TABLE turnos (
   usuario_id  INT NOT NULL,
   servicio_id INT NOT NULL,
   mascota     VARCHAR(60) NOT NULL,
+  especie     ENUM('Perro','Gato','Ovino','Bovino') NOT NULL,   -- tipo de animal
   fecha       DATE NOT NULL,
   hora        TIME NOT NULL,
   estado      ENUM('reservado','atendido','cancelado') NOT NULL DEFAULT 'reservado',
@@ -71,10 +72,10 @@ INSERT INTO usuarios (email, clave_hash, nombre, whatsapp, rol) VALUES
 ('sofia@correo.test',         '$2y$10$7/Z4nWNaFcOEQDDx0M2QVOsp6qhz1g2JNAlJRyjc96ZXI96eNQDHW', 'Sofía Pérez', '+54 9 11 4000-0002', 'cliente');
 
 INSERT INTO servicios (nombre, detalle, precio) VALUES
-('Consulta clínica',    'Revisión general de perros y gatos.',                18000),
+('Consulta clínica',    'Revisión general de perros, gatos, ovejas y vacas.',                18000),
 ('Vacunación',          'Vacunas anuales y antirrábica, con libreta.',        15000),
 ('Baño y corte',        'Baño, corte de pelo y uñas.',                        22000),
 ('Control de cachorro', 'Primer control, desparasitación y plan de vacunas.', 16000);
 
-INSERT INTO turnos (usuario_id, servicio_id, mascota, fecha, hora) VALUES
-(2, 2, 'Toby', CURDATE() + INTERVAL 2 DAY, '10:00');
+INSERT INTO turnos (usuario_id, servicio_id, mascota, especie, fecha, hora) VALUES
+(2, 2, 'Toby', 'Perro', CURDATE() + INTERVAL 2 DAY, '10:00');

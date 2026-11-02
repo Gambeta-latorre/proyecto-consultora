@@ -6,6 +6,7 @@ require __DIR__ . '/conexion.php';
 
 const WHATSAPP = '5491133486017'; // número de atención al cliente
 const MAX_TURNOS = 2;             // turnos reservados a la vez por cliente
+const ESPECIES = ['Perro', 'Gato', 'Ovino', 'Bovino']; // tipos de animal que atendemos
 
 // Escapa texto antes de mostrarlo en HTML (evita XSS).
 function h($texto) {

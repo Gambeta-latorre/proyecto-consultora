@@ -99,3 +99,10 @@ td form.enlinea { margin: 0; }
 /* Separación entre el paso 1 (día) y el paso 2 (horario) y entre botones de una misma fila */
 form + form { margin-top: 16px; }
 td form.enlinea + form.enlinea { margin-left: 4px; }
+
+/* Etiqueta de color según el tipo de animal */
+.especie { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: .75rem; color: #fff; }
+.especie.perro  { background: #2a6f6b; }
+.especie.gato   { background: #8a5cc2; }
+.especie.ovino  { background: #9a8b6a; }
+.especie.bovino { background: #a0522d; }

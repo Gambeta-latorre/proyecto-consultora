@@ -73,13 +73,13 @@ require '../inc/cabecera.php';
     <button class="boton chico">Ver día</button>
   </form>
   <table>
-    <tr><th>Hora</th><th>Cliente</th><th>Mascota</th><th>Servicio</th><th>Estado</th><th>Acciones</th></tr>
+    <tr><th>Hora</th><th>Cliente</th><th>Animal</th><th>Servicio</th><th>Estado</th><th>Acciones</th></tr>
     <?php foreach ($filas as $t): ?>
     <tr>
       <td><?= substr($t['hora'], 0, 5) ?></td>
       <td><?= h($t['cliente']) ?><br>
           <a href="https://wa.me/<?= preg_replace('/\D/', '', $t['whatsapp']) ?>"><small><?= h($t['whatsapp']) ?></small></a></td>
-      <td><?= h($t['mascota']) ?></td>
+      <td><?= h($t['mascota']) ?> <span class="especie <?= strtolower($t['especie']) ?>"><?= $t['especie'] ?></span></td>
       <td><?= h($t['servicio']) ?></td>
       <td><span class="estado <?= $t['estado'] ?>"><?= $t['estado'] ?></span></td>
       <td><?php if ($t['estado'] === 'reservado') echo boton('atendido', $t['id'], 'Atendido') . boton('cancelar', $t['id'], 'Cancelar'); ?></td>

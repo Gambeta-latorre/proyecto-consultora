@@ -10,7 +10,7 @@ require 'inc/cabecera.php';
   <div>
     <p class="etiqueta">Veterinaria en Berazategui</p>
     <h1>Cuidamos a tu mascota como a la nuestra</h1>
-    <p>Consultas, vacunas, baño y corte para perros y gatos. Sacá turno online en un minuto, sin llamar por teléfono.</p>
+    <p>Atendemos perros, gatos, ovejas y vacas: consultas, vacunas, baño y corte. Sacá turno online en un minuto, sin llamar por teléfono.</p>
     <p>
       <a class="boton" href="turnos.php">Sacar turno</a>
       <a class="boton claro" href="https://wa.me/<?= WHATSAPP ?>">Consultar por WhatsApp</a>
@@ -37,7 +37,7 @@ require 'inc/cabecera.php';
   <div class="grilla">
     <article class="tarjeta"><span class="numero">1</span><h3>Creá tu cuenta</h3><p>Con tu email y tu WhatsApp.</p></article>
     <article class="tarjeta"><span class="numero">2</span><h3>Elegí el día</h3><p>De lunes a sábado, hasta 30 días adelante.</p></article>
-    <article class="tarjeta"><span class="numero">3</span><h3>Elegí el horario</h3><p>Solo te mostramos los que están libres.</p></article>
+    <article class="tarjeta"><span class="numero">3</span><h3>Elegí horario y animal</h3><p>Solo te mostramos horarios libres. Indicás si es perro, gato, ovino o bovino.</p></article>
     <article class="tarjeta"><span class="numero">4</span><h3>¡Listo!</h3><p>Si no podés venir, lo cancelás desde la web.</p></article>
   </div>
 </section>

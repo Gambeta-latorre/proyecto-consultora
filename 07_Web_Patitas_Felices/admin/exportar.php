@@ -5,7 +5,7 @@ require '../inc/funciones.php';
 exigir_admin();
 
 $tablas = [
-    'turnos'    => 'SELECT t.fecha, t.hora, u.nombre AS cliente, u.whatsapp, t.mascota, s.nombre AS servicio, t.estado
+    'turnos'    => 'SELECT t.fecha, t.hora, u.nombre AS cliente, u.whatsapp, t.mascota, t.especie, s.nombre AS servicio, t.estado
                     FROM turnos t JOIN usuarios u ON u.id = t.usuario_id JOIN servicios s ON s.id = t.servicio_id
                     ORDER BY t.fecha, t.hora',
     'clientes'  => "SELECT nombre, email, whatsapp, activo, creado_en FROM usuarios WHERE rol = 'cliente' ORDER BY id",
