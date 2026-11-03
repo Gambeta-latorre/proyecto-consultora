@@ -11,7 +11,7 @@ Los dos sitios están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB
 | Sitio | Dirección |
 |---|---|
 | Berasoft S.R.L. | https://berasoftsrl.vercel.app |
-| ASHAB | https://ashab.vercel.app |
+| ASHAB | https://ashab-yerba.vercel.app |
 
 ## Carpetas
 

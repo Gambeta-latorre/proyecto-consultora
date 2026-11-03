@@ -7,6 +7,20 @@ $titulo = 'Ingresar';
 $activa = 'Ingresar';
 if (usuario_actual()) ir('panel.php');
 
+// Ingreso del administrador con clave (sirve en cualquier computadora, sin depender de Google).
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clave'])) {
+    $email = strtolower(trim($_POST['email'] ?? ''));
+    if (ip_bloqueada()) {
+        aviso('Demasiados intentos. Esperá 15 minutos.', 'error');
+        ir('login.php');
+    }
+    if (in_array($email, ADMIN_EMAILS, true) && password_verify($_POST['clave'], admin_clave_hash())) {
+        iniciar_sesion(usuario_desde_email($email, 'Administrador'), 'clave de administrador');
+    }
+    registrar_acceso(null, $email, false, 'clave de administrador incorrecta');
+    aviso('Email o clave incorrectos.', 'error');
+    ir('login.php');
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && modo_prueba()) {
     $email = strtolower(trim($_POST['email'] ?? ''));
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -39,6 +53,13 @@ require 'inc/cabecera.php';
   <?php else: ?>
     <div class="aviso error">El ingreso con Google todavía no está configurado en este sitio.</div>
   <?php endif; ?>
+  <h2>Administración</h2>
+  <form method="post" class="formulario">
+    <?= csrf_campo() ?>
+    <label>Email de administrador<input type="email" name="email" required></label>
+    <label>Clave<input type="password" name="clave" required autocomplete="current-password"></label>
+    <button class="borde">Entrar como administrador</button>
+  </form>
   <p class="nota">Después de ingresar completás los datos de tu comercio y nosotros aprobamos la cuenta. Cada ingreso queda registrado.</p>
 </div>
 <?php require 'inc/pie.php'; ?>

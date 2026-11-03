@@ -3,7 +3,7 @@
 const EMPRESA      = 'Berasoft S.R.L.';
 const WHATSAPP     = '5491133486017';
 const EMAIL        = 'juancruzceresani@gmail.com';
-const URL_ASHAB    = 'https://ashab.vercel.app'; // sitio publicado de nuestro cliente
+const URL_ASHAB    = 'https://ashab-yerba.vercel.app'; // sitio publicado de nuestro cliente
 
 // Servicios: nombre => [descripción, precio de referencia]
 const SERVICIOS = [

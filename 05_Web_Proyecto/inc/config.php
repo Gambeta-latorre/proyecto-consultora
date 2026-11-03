@@ -3,6 +3,8 @@
 const MARCA         = 'ASHAB';
 const WHATSAPP      = '5491133486017';                 // atención al cliente
 const ADMIN_EMAILS  = ['juancruzceresani@gmail.com'];  // estos Gmail entran como administrador
+// Clave del administrador (guardada como hash bcrypt, no en texto). Se puede reemplazar con la variable ADMIN_CLAVE_HASH.
+function admin_clave_hash() { return getenv('ADMIN_CLAVE_HASH') ?: '$2y$10$mfhCGT18ctWK7KFUtLKSxuitIkQBjALUveAtZPkqo.r1svZjHSsk6'; }
 const MIN_KG        = 100;                             // pedido mayorista mínimo
 const MAX_KG        = 5000;                            // pedido mayorista máximo
 const MAX_ABIERTOS  = 3;                               // pedidos en curso por cliente
