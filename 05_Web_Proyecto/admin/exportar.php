@@ -6,7 +6,7 @@ exigir_admin();
 
 $tablas = [
     'usuarios'  => "SELECT creado_en, nombre, email, empresa, cuit, ciudad, whatsapp, cuenta, activo FROM usuarios WHERE rol = 'cliente' ORDER BY id",
-    'pedidos'   => 'SELECT p.codigo, p.creado_en, u.empresa, pr.nombre AS yerba, p.cantidad_kg, p.destino, p.precio_kg, p.total, p.sena, p.estado, p.embarcacion
+    'pedidos'   => 'SELECT p.codigo, p.creado_en, u.empresa, pr.nombre AS yerba, p.cantidad_kg, p.destino, p.precio_kg, p.total, p.estado, p.embarcacion
                     FROM pedidos p JOIN usuarios u ON u.id = p.usuario_id JOIN productos pr ON pr.id = p.producto_id ORDER BY p.id',
     'accesos'   => 'SELECT fecha, email, exito, motivo, ip FROM accesos ORDER BY id',
     'consultas' => 'SELECT fecha, nombre, email, whatsapp, mensaje FROM consultas ORDER BY id',

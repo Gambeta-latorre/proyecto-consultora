@@ -1,12 +1,11 @@
 <?php
-// Panel de administración (solo para los Gmail de ADMIN_EMAILS): resumen, cuentas, pedidos con seña, ingresos y consultas.
+// Panel de administración (solo para los Gmail de ADMIN_EMAILS): resumen, cuentas, pedidos, ingresos y consultas.
 $raiz = '../';
 require '../inc/funciones.php';
 $titulo = 'Administración';
 $activa = 'Administración';
 $yo = exigir_admin();
-vencer_proformas();
-$pestanas = ['resumen' => 'Resumen', 'cuentas' => 'Cuentas', 'pedidos' => 'Pedidos y seña', 'accesos' => 'Ingresos', 'consultas' => 'Consultas'];
+$pestanas = ['resumen' => 'Resumen', 'cuentas' => 'Cuentas', 'pedidos' => 'Pedidos', 'accesos' => 'Ingresos', 'consultas' => 'Consultas'];
 $tab = isset($pestanas[$_GET['tab'] ?? '']) ? $_GET['tab'] : 'resumen';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,18 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         aviso('Usuario actualizado.');
     } else {
         $p = cargar_pedido($_POST['c'] ?? '');
-        if ($p && $accion === 'proforma') {                      // el admin fija el precio y se calcula la seña
-            $precio = (float)str_replace(',', '.', $_POST['precio'] ?? '0');
-            if (in_array($p['estado'], ['solicitada', 'proforma_emitida', 'vencida']) && $precio > 0) {
-                [$total, $sena] = calcular_totales($p['cantidad_kg'], $precio);
-                $db->prepare("UPDATE pedidos SET precio_kg = ?, total = ?, sena = ?, estado = 'proforma_emitida', vence_en = ? WHERE id = ?")
-                   ->execute([$precio, $total, $sena, date('Y-m-d H:i:s', time() + PROFORMA_DIAS * 86400), $p['id']]);
-                aviso('Proforma emitida. Avisale al cliente por WhatsApp.');
-            } else aviso('No se pudo emitir la proforma.', 'error');
-        } elseif ($p && $accion === 'estado') {                  // avanzar el pedido
+        if ($p && $accion === 'estado') {                  // avanzar el pedido
             $nuevo = $_POST['nuevo'] ?? '';
-            $permitido = ($nuevo === 'sena_acreditada' && in_array($p['estado'], ['proforma_emitida', 'sena_informada']) && $p['total'] !== null)
-                      || ($nuevo === 'cancelada' && !in_array($p['estado'], ['embarcada', 'cerrada', 'cancelada']))
+            $permitido = ($nuevo === 'cancelada' && !in_array($p['estado'], ['embarcada', 'cerrada', 'cancelada']))
                       || (SIGUIENTE[$p['estado']] ?? '') === $nuevo;
             if ($permitido) {
                 $embarcacion = $nuevo === 'embarcada' ? mb_substr(trim($_POST['embarcacion'] ?? ''), 0, 100) : $p['embarcacion'];
@@ -95,26 +85,16 @@ require '../inc/cabecera.php';
 <?php elseif ($tab === 'pedidos'): ?>
   <?php
     $d = isset($_GET['c']) ? cargar_pedido($_GET['c']) : null;
-    $filas = $db->query('SELECT p.codigo, p.cantidad_kg, p.destino, p.estado, p.total, p.sena, p.creado_en, u.empresa FROM pedidos p JOIN usuarios u ON u.id = p.usuario_id ORDER BY p.id DESC LIMIT 200')->fetchAll();
+    $filas = $db->query('SELECT p.codigo, p.cantidad_kg, p.destino, p.estado, p.total, p.creado_en, u.empresa FROM pedidos p JOIN usuarios u ON u.id = p.usuario_id ORDER BY p.id DESC LIMIT 200')->fetchAll();
   ?>
   <?php if ($d): ?>
     <div class="tarjeta">
       <h3>Pedido <?= h($d['codigo']) ?> · <?= etiqueta_estado($d['estado']) ?></h3>
       <p><b><?= h($d['empresa']) ?></b> · <?= h($d['email']) ?> · WhatsApp <?= h($d['whatsapp']) ?></p>
       <p><?= h($d['producto']) ?> · <?= (int)$d['cantidad_kg'] ?> kg · destino <?= h($d['destino']) ?></p>
-      <?php if ($d['total'] !== null): ?><p>Total <b><?= pesos($d['total']) ?></b> · seña 50 % <b><?= pesos($d['sena']) ?></b> · vence <?= h(substr((string)$d['vence_en'], 0, 10)) ?></p><?php endif; ?>
-      <?php if ($d['pago_ref']): ?><p><b>Pago informado:</b> <?= h($d['pago_banco']) ?> · operación <?= h($d['pago_ref']) ?> · <?= h($d['pago_fecha']) ?> · <?= pesos($d['pago_monto']) ?> · condiciones aceptadas el <?= h($d['acepto_en']) ?> desde la IP <?= h($d['acepto_ip']) ?></p><?php endif; ?>
+      <p>Precio <?= pesos($d['precio_kg']) ?> / kg · total <b><?= pesos($d['total']) ?></b></p>
       <?php if ($d['embarcacion']): ?><p><b>Embarcación / transporte:</b> <?= h($d['embarcacion']) ?></p><?php endif; ?>
 
-      <?php if (in_array($d['estado'], ['solicitada', 'proforma_emitida', 'vencida'])): ?>
-        <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="proforma"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>">
-          Precio por kilo $ <input name="precio" size="7" inputmode="decimal" required>
-          <button class="chico"><?= $d['estado'] === 'solicitada' ? 'Emitir proforma' : 'Reemitir proforma' ?></button></form>
-      <?php endif; ?>
-      <?php if (in_array($d['estado'], ['proforma_emitida', 'sena_informada']) && $d['total'] !== null): ?>
-        <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="estado"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>"><input type="hidden" name="nuevo" value="sena_acreditada">
-          <button class="chico">Confirmar: seña acreditada en el banco</button></form>
-      <?php endif; ?>
       <?php if (($sig = SIGUIENTE[$d['estado']] ?? null)): ?>
         <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="estado"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>"><input type="hidden" name="nuevo" value="<?= $sig ?>">
           <?php if ($sig === 'embarcada'): ?><input name="embarcacion" size="28" maxlength="100" placeholder="Embarcación o transporte" required><?php endif; ?>
@@ -128,11 +108,10 @@ require '../inc/cabecera.php';
     </div>
   <?php endif; ?>
   <div class="tabla"><table class="chica">
-    <tr><th>Código</th><th>Fecha</th><th>Comercio</th><th>Kilos</th><th>Destino</th><th>Total</th><th>Seña</th><th>Estado</th></tr>
+    <tr><th>Código</th><th>Fecha</th><th>Comercio</th><th>Kilos</th><th>Destino</th><th>Total</th><th>Estado</th></tr>
     <?php foreach ($filas as $r): ?>
       <tr><td><a href="?tab=pedidos&amp;c=<?= h(rawurlencode($r['codigo'])) ?>"><?= h($r['codigo']) ?></a></td><td><?= h(substr($r['creado_en'], 0, 10)) ?></td><td><?= h($r['empresa']) ?></td>
-          <td><?= (int)$r['cantidad_kg'] ?></td><td><?= h($r['destino']) ?></td><td><?= $r['total'] !== null ? pesos($r['total']) : '—' ?></td>
-          <td><?= $r['sena'] !== null ? pesos($r['sena']) : '—' ?></td><td><?= etiqueta_estado($r['estado']) ?></td></tr>
+          <td><?= (int)$r['cantidad_kg'] ?></td><td><?= h($r['destino']) ?></td><td><?= pesos($r['total']) ?></td><td><?= etiqueta_estado($r['estado']) ?></td></tr>
     <?php endforeach; ?>
   </table></div>
 

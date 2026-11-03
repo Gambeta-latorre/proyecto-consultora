@@ -33,7 +33,7 @@ CREATE TABLE productos (
   activo TINYINT NOT NULL DEFAULT 1
 ) ENGINE=InnoDB;
 
--- Pedidos mayoristas. Se paga una seña del 50 % y recién ahí se produce y se embarca.
+-- Pedidos mayoristas. El pago se acuerda por WhatsApp o mail: el sistema solo guarda el pedido y su estado.
 CREATE TABLE pedidos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   codigo VARCHAR(10) NOT NULL UNIQUE,
@@ -41,17 +41,9 @@ CREATE TABLE pedidos (
   producto_id INT NOT NULL,
   cantidad_kg INT NOT NULL,
   destino VARCHAR(80) NOT NULL,
-  precio_kg DECIMAL(10,2) NULL,
-  total DECIMAL(12,2) NULL,
-  sena DECIMAL(12,2) NULL,
-  estado ENUM('solicitada','proforma_emitida','sena_informada','sena_acreditada','en_produccion','embarcada','cerrada','cancelada','vencida') NOT NULL DEFAULT 'solicitada',
-  vence_en DATETIME NULL,
-  pago_banco VARCHAR(80) NULL,
-  pago_ref VARCHAR(80) NULL,
-  pago_fecha DATE NULL,
-  pago_monto DECIMAL(12,2) NULL,
-  acepto_en DATETIME NULL,
-  acepto_ip VARCHAR(100) NULL,
+  precio_kg DECIMAL(10,2) NOT NULL,
+  total DECIMAL(12,2) NOT NULL,
+  estado ENUM('solicitada','en_produccion','embarcada','cerrada','cancelada') NOT NULL DEFAULT 'solicitada',
   embarcacion VARCHAR(100) NULL,
   creado_en DATETIME NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,

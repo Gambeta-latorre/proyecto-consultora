@@ -9,7 +9,7 @@ $menu = ['index.php' => 'Inicio', 'productos.php' => 'Productos', 'contacto.php'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= h($titulo) ?> · ASHAB</title>
-  <meta name="description" content="ASHAB: yerba mate argentina. Venta mayorista con seña del 50 %.">
+  <meta name="description" content="ASHAB: yerba mate argentina. Venta mayorista, pago acordado por WhatsApp o mail.">
   <link rel="stylesheet" href="<?= $raiz ?>css/estilos.css">
   <link rel="icon" href="<?= $raiz ?>img/logo.svg">
 </head>

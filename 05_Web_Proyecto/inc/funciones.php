@@ -140,18 +140,9 @@ function modo_prueba() {
 }
 
 // ---- Pedidos ----
-// Total y seña (50 %) calculados en centavos para no tener errores de redondeo.
-function calcular_totales($kg, $precio_kg) {
-    $total = (int)round($kg * $precio_kg * 100);
-    $sena = intdiv($total + 1, 2);
-    return [$total / 100, $sena / 100];
-}
-
-// Las proformas que pasaron su fecha de vencimiento pasan a "vencida".
-function vencer_proformas() {
-    global $db;
-    $db->prepare("UPDATE pedidos SET estado = 'vencida' WHERE estado = 'proforma_emitida' AND vence_en < ?")
-       ->execute([date('Y-m-d H:i:s')]);
+// Total en centavos (enteros) para no tener errores de redondeo.
+function calcular_total($kg, $precio_kg) {
+    return (int)round($kg * $precio_kg * 100) / 100;
 }
 
 function cargar_pedido($codigo, $usuario_id = null) {

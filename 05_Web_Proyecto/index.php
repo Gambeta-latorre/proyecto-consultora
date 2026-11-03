@@ -38,13 +38,13 @@ require 'inc/cabecera.php';
   <div class="grilla">
     <article class="tarjeta"><span class="numero">1</span><h3>Ingresá con Google</h3><p>Con tu cuenta de Gmail, sin crear contraseñas.</p></article>
     <article class="tarjeta"><span class="numero">2</span><h3>Completá tu comercio</h3><p>Razón social, CUIT y WhatsApp. Aprobamos tu cuenta.</p></article>
-    <article class="tarjeta"><span class="numero">3</span><h3>Pedí tu presupuesto</h3><p>Elegís la yerba y los kilos. Te enviamos la proforma.</p></article>
-    <article class="tarjeta"><span class="numero">4</span><h3>Seña del 50 %</h3><p>Con la seña acreditada producimos y embarcamos tu pedido.</p></article>
+    <article class="tarjeta"><span class="numero">3</span><h3>Armá tu pedido</h3><p>Elegís la yerba y los kilos. Ves el total al instante.</p></article>
+    <article class="tarjeta"><span class="numero">4</span><h3>Acordá el pago</h3><p>Nos mandás el pedido por WhatsApp o mail y arreglamos el pago directo.</p></article>
   </div>
 </section>
 
 <section class="caso">
-  <h2>Cómo es la seña</h2>
-  <p>En los pedidos mayoristas se paga el <strong>50 % al confirmar</strong> y el resto antes de la entrega. Así reservamos la producción y vos tenés el precio asegurado durante la validez de la proforma (<?= PROFORMA_DIAS ?> días). Pedidos de <?= MIN_KG ?> a <?= number_format(MAX_KG, 0, ',', '.') ?> kg.</p>
+  <h2>Cómo se paga</h2>
+  <p>El pago se acuerda directamente con nosotros por <strong>WhatsApp</strong> o por mail. Al hacer el pedido, la página te arma un mensaje con todo el detalle para que lo envíes con un toque. Pedidos de <?= MIN_KG ?> a <?= number_format(MAX_KG, 0, ',', '.') ?> kg.</p>
 </section>
 <?php require 'inc/pie.php'; ?>

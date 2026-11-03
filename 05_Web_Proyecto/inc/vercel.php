@@ -39,10 +39,9 @@ if (!$db->query("SELECT to_regclass('ashab.pedidos')")->fetchColumn()) {
         usuario_id INT NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
         producto_id INT NOT NULL REFERENCES productos(id),
         cantidad_kg INT NOT NULL, destino VARCHAR(80) NOT NULL,
-        precio_kg DECIMAL(10,2), total DECIMAL(12,2), sena DECIMAL(12,2),
-        estado VARCHAR(20) NOT NULL DEFAULT 'solicitada' CHECK (estado IN ('solicitada','proforma_emitida','sena_informada','sena_acreditada','en_produccion','embarcada','cerrada','cancelada','vencida')),
-        vence_en TIMESTAMP, pago_banco VARCHAR(80), pago_ref VARCHAR(80), pago_fecha DATE, pago_monto DECIMAL(12,2),
-        acepto_en TIMESTAMP, acepto_ip VARCHAR(100), embarcacion VARCHAR(100), creado_en TIMESTAMP NOT NULL);
+        precio_kg DECIMAL(10,2) NOT NULL, total DECIMAL(12,2) NOT NULL,
+        estado VARCHAR(20) NOT NULL DEFAULT 'solicitada' CHECK (estado IN ('solicitada','en_produccion','embarcada','cerrada','cancelada')),
+        embarcacion VARCHAR(100), creado_en TIMESTAMP NOT NULL);
       CREATE TABLE consultas (
         id SERIAL PRIMARY KEY, nombre VARCHAR(80) NOT NULL, email VARCHAR(120) NOT NULL,
         whatsapp VARCHAR(30) NOT NULL, mensaje TEXT NOT NULL, fecha TIMESTAMP NOT NULL);

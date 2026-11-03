@@ -8,7 +8,7 @@ const URL_ASHAB    = 'https://ashab-yerba.vercel.app'; // sitio publicado de nue
 // Servicios: nombre => [descripción, precio de referencia]
 const SERVICIOS = [
     'Sitios web'              => ['Página para tu comercio o profesión: quiénes son, qué ofrecen, dónde están y cómo contactarlos.', 'desde $ 350.000'],
-    'Ventas y pedidos online' => ['Ingreso con Google, pedidos con seña del 50 % y panel de administración para aprobar clientes y seguir cada pedido.', 'desde $ 5.000.000'],
+    'Ventas y pedidos online' => ['Ingreso con Google, pedidos por WhatsApp o mail y panel de administración para aprobar clientes y seguir cada pedido.', 'desde $ 5.000.000'],
     'Tiendas online'          => ['Catálogo con fotos y precios que el cliente arma y envía por WhatsApp.', 'desde $ 600.000'],
     'Hosting y mantenimiento' => ['Dominio, publicación, copias de seguridad y cambios mensuales.', '$ 35.000 por mes'],
 ];

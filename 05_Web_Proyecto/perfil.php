@@ -28,7 +28,7 @@ require 'inc/cabecera.php';
 ?>
 <div class="pagina angosta">
   <h1>Datos de tu comercio</h1>
-  <p>Los usamos para aprobar tu cuenta y emitir la proforma. Solo los ve el equipo de ASHAB.</p>
+  <p>Los usamos para aprobar tu cuenta y atender tus pedidos. Solo los ve el equipo de ASHAB.</p>
   <?php if ($error): ?><div class="aviso error"><?= h($error) ?></div><?php endif; ?>
   <form method="post" class="formulario">
     <?= csrf_campo() ?>
@@ -37,7 +37,7 @@ require 'inc/cabecera.php';
       <label>CUIT<input name="cuit" value="<?= h($v['cuit']) ?>" maxlength="13" placeholder="30-12345678-9" required></label>
       <label>Ciudad<input name="ciudad" value="<?= h($v['ciudad']) ?>" maxlength="80" required></label>
     </div>
-    <label>WhatsApp<input name="whatsapp" value="<?= h($v['whatsapp']) ?>" maxlength="25" placeholder="+54 9 11 ..." required><small>Te avisamos por acá cuando esté tu proforma.</small></label>
+    <label>WhatsApp<input name="whatsapp" value="<?= h($v['whatsapp']) ?>" maxlength="25" placeholder="+54 9 11 ..." required><small>Te avisamos por acá por tus pedidos.</small></label>
     <button>Guardar</button>
   </form>
 </div>

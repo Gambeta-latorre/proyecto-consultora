@@ -28,10 +28,10 @@ require 'inc/cabecera.php';
 </section>
 
 <section class="destacado">
-  <img src="img/ashab_pedido.jpg" alt="Pedido con seña del 50 % en el sitio de ASHAB">
+  <img src="img/ashab_pedido.jpg" alt="Pedido en el sitio de ASHAB">
   <div>
     <h2>Último trabajo: ASHAB, yerba mate</h2>
-    <p>Un sitio donde los comercios ingresan con Google, piden yerba por mayor y pagan una seña del 50 %, mientras la empresa aprueba clientes y sigue cada pedido desde un panel.</p>
+    <p>Un sitio donde los comercios ingresan con Google, piden yerba por mayor y envían el pedido por WhatsApp o mail, mientras la empresa aprueba clientes y sigue cada pedido desde un panel.</p>
     <a class="boton claro" href="trabajos.php">Ver el caso</a>
   </div>
 </section>

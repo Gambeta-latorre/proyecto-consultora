@@ -8,24 +8,27 @@ function admin_clave_hash() { return getenv('ADMIN_CLAVE_HASH') ?: '$2y$10$mfhCG
 const MIN_KG        = 100;                             // pedido mayorista mínimo
 const MAX_KG        = 5000;                            // pedido mayorista máximo
 const MAX_ABIERTOS  = 3;                               // pedidos en curso por cliente
-const PROFORMA_DIAS = 5;                               // validez del presupuesto (proforma)
+const EMAIL_PEDIDOS = 'juancruzceresani@gmail.com';   // a este mail también llegan los pedidos
 
-// Estados de un pedido, en orden. La seña del 50 % se acredita antes de producir.
+// Estados de un pedido. El pago se acuerda por WhatsApp o mail; el sistema no lo gestiona.
 const ESTADOS = [
-    'solicitada'      => 'Solicitada',
-    'proforma_emitida'=> 'Proforma emitida',
-    'sena_informada'  => 'Pago informado',
-    'sena_acreditada' => 'Seña acreditada',
-    'en_produccion'   => 'En producción',
-    'embarcada'       => 'Embarcada',
-    'cerrada'         => 'Cerrada',
-    'cancelada'       => 'Cancelada',
-    'vencida'         => 'Vencida',
+    'solicitada'   => 'Solicitada',
+    'en_produccion'=> 'En producción',
+    'embarcada'    => 'Embarcada',
+    'cerrada'      => 'Cerrada',
+    'cancelada'    => 'Cancelada',
 ];
 // Qué estado sigue después de cada uno (lo hace el administrador).
-const SIGUIENTE = ['sena_acreditada' => 'en_produccion', 'en_produccion' => 'embarcada', 'embarcada' => 'cerrada'];
+const SIGUIENTE = ['solicitada' => 'en_produccion', 'en_produccion' => 'embarcada', 'embarcada' => 'cerrada'];
 
-// Datos para transferir la seña. Se pueden cambiar con la variable de entorno DATOS_BANCARIOS.
-function datos_bancarios() {
-    return str_replace('\n', "\n", getenv('DATOS_BANCARIOS') ?: "Titular: ASHAB\nBanco: (completar)\nCBU: (completar)\nAlias: (completar)");
+// Mensaje ya redactado con el detalle del pedido, para mandarlo por WhatsApp o por mail.
+function mensaje_pedido($p) {
+    return "Hola, quiero confirmar el pedido " . $p['codigo'] . ":\n"
+         . "Yerba: " . $p['producto'] . " (" . $p['presentacion'] . ")\n"
+         . "Cantidad: " . (int)$p['cantidad_kg'] . " kg\n"
+         . "Destino: " . $p['destino'] . "\n"
+         . "Precio por kilo: " . pesos($p['precio_kg']) . "\n"
+         . "Total: " . pesos($p['total']) . "\n"
+         . "Empresa: " . $p['empresa'] . "\n"
+         . "Quiero acordar la forma de pago.";
 }
