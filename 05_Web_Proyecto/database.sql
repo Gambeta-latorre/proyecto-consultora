@@ -1,81 +1,91 @@
--- Base de datos del sitio de Veterinaria Patitas Felices
--- Importar en phpMyAdmin (pestaña Importar) o con: mysql -u root < database.sql
+-- ASHAB · base de datos para MySQL / MariaDB (XAMPP).
+-- Cómo usarla: en phpMyAdmin, pestaña "Importar", elegir este archivo. Crea la base "ashab" y todo lo necesario.
+CREATE DATABASE IF NOT EXISTS ashab CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE ashab;
+SET NAMES utf8mb4; -- para que respete tildes y ñ al importar
 
-SET NAMES utf8mb4;  -- para que los acentos se guarden bien
-
-DROP DATABASE IF EXISTS patitas_felices;
-CREATE DATABASE patitas_felices CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE patitas_felices;
-
--- Clientes de la veterinaria y el administrador
+-- Quiénes entran al sitio. El ingreso es con Google; el administrador aprueba cada cuenta.
 CREATE TABLE usuarios (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
-  email      VARCHAR(120) NOT NULL UNIQUE,
-  clave_hash VARCHAR(255) NOT NULL,             -- nunca se guarda la contraseña, solo su hash
-  nombre     VARCHAR(80)  NOT NULL,
-  whatsapp   VARCHAR(30)  NOT NULL,
-  rol        ENUM('cliente','admin') NOT NULL DEFAULT 'cliente',
-  activo     TINYINT(1) NOT NULL DEFAULT 1,     -- el admin puede bloquear una cuenta
-  creado_en  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(120) NOT NULL UNIQUE,
+  google_sub VARCHAR(64) NULL,
+  nombre VARCHAR(100) NOT NULL DEFAULT '',
+  empresa VARCHAR(120) NULL,
+  cuit VARCHAR(13) NULL,
+  ciudad VARCHAR(80) NULL,
+  whatsapp VARCHAR(25) NULL,
+  rol ENUM('cliente','admin') NOT NULL DEFAULT 'cliente',
+  cuenta ENUM('pendiente','aprobada','rechazada') NOT NULL DEFAULT 'pendiente',
+  perfil_completo TINYINT NOT NULL DEFAULT 0,
+  activo TINYINT NOT NULL DEFAULT 1,
+  creado_en DATETIME NOT NULL,
+  ultimo_ingreso DATETIME NULL
 ) ENGINE=InnoDB;
 
--- Servicios de la veterinaria (se muestran con precio en el inicio)
-CREATE TABLE servicios (
-  id      INT AUTO_INCREMENT PRIMARY KEY,
-  nombre  VARCHAR(80)   NOT NULL,
-  detalle VARCHAR(200)  NOT NULL,
-  precio  DECIMAL(10,2) NOT NULL               -- en pesos
+-- Catálogo de yerbas: precio al público y precio mayorista por kilo.
+CREATE TABLE productos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(80) NOT NULL,
+  descripcion VARCHAR(200) NOT NULL,
+  presentacion VARCHAR(60) NOT NULL,
+  precio_publico DECIMAL(10,2) NOT NULL,
+  precio_mayorista_kg DECIMAL(10,2) NOT NULL,
+  activo TINYINT NOT NULL DEFAULT 1
 ) ENGINE=InnoDB;
 
--- Turnos (cada turno dura 30 minutos)
-CREATE TABLE turnos (
-  id          INT AUTO_INCREMENT PRIMARY KEY,
-  usuario_id  INT NOT NULL,
-  servicio_id INT NOT NULL,
-  mascota     VARCHAR(60) NOT NULL,
-  especie     ENUM('Perro','Gato','Ovino','Bovino') NOT NULL,   -- tipo de animal
-  fecha       DATE NOT NULL,
-  hora        CHAR(5) NOT NULL,                  -- '09:30'
-  estado      ENUM('reservado','atendido','cancelado') NOT NULL DEFAULT 'reservado',
-  creado_en   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (usuario_id)  REFERENCES usuarios(id)  ON DELETE CASCADE,
-  FOREIGN KEY (servicio_id) REFERENCES servicios(id) ON DELETE RESTRICT,
-  INDEX (fecha, hora)
+-- Pedidos mayoristas. Se paga una seña del 50 % y recién ahí se produce y se embarca.
+CREATE TABLE pedidos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  codigo VARCHAR(10) NOT NULL UNIQUE,
+  usuario_id INT NOT NULL,
+  producto_id INT NOT NULL,
+  cantidad_kg INT NOT NULL,
+  destino VARCHAR(80) NOT NULL,
+  precio_kg DECIMAL(10,2) NULL,
+  total DECIMAL(12,2) NULL,
+  sena DECIMAL(12,2) NULL,
+  estado ENUM('solicitada','proforma_emitida','sena_informada','sena_acreditada','en_produccion','embarcada','cerrada','cancelada','vencida') NOT NULL DEFAULT 'solicitada',
+  vence_en DATETIME NULL,
+  pago_banco VARCHAR(80) NULL,
+  pago_ref VARCHAR(80) NULL,
+  pago_fecha DATE NULL,
+  pago_monto DECIMAL(12,2) NULL,
+  acepto_en DATETIME NULL,
+  acepto_ip VARCHAR(100) NULL,
+  embarcacion VARCHAR(100) NULL,
+  creado_en DATETIME NOT NULL,
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  FOREIGN KEY (producto_id) REFERENCES productos(id)
 ) ENGINE=InnoDB;
 
--- Consultas del formulario de contacto (se responden por WhatsApp)
 CREATE TABLE consultas (
-  id       INT AUTO_INCREMENT PRIMARY KEY,
-  nombre   VARCHAR(80)  NOT NULL,
-  email    VARCHAR(120) NOT NULL,
-  whatsapp VARCHAR(30)  NOT NULL,
-  mensaje  TEXT NOT NULL,
-  fecha    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(80) NOT NULL,
+  email VARCHAR(120) NOT NULL,
+  whatsapp VARCHAR(30) NOT NULL,
+  mensaje TEXT NOT NULL,
+  fecha DATETIME NOT NULL
 ) ENGINE=InnoDB;
 
--- Registro de cada intento de ingreso (auditoría y bloqueo por intentos)
+-- Registro de ingresos (quién, cuándo, desde qué IP y si salió bien).
 CREATE TABLE accesos (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT NULL,
-  email      VARCHAR(120) NOT NULL,
-  exito      TINYINT(1) NOT NULL,
-  ip         VARCHAR(45) NOT NULL,
-  fecha      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL,
-  INDEX (email, fecha)
+  email VARCHAR(120) NOT NULL,
+  exito TINYINT NOT NULL,
+  motivo VARCHAR(80) NOT NULL DEFAULT '',
+  ip VARCHAR(100) NOT NULL,
+  fecha DATETIME NOT NULL,
+  INDEX (ip, fecha),
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- ---------- Datos de prueba ----------
--- Contraseñas: admin -> Admin2026 | cliente de prueba -> Demo2026
-INSERT INTO usuarios (email, clave_hash, nombre, whatsapp, rol) VALUES
-('admin@patitasfelices.test', '$2y$10$w4zFmO6Lkczn/gIOmERAeejpwccaFR5rBdWsetoD5H85uVxJgEOwi', 'Recepción', '+54 9 11 3348-6017', 'admin'),
-('sofia@correo.test',         '$2y$10$7/Z4nWNaFcOEQDDx0M2QVOsp6qhz1g2JNAlJRyjc96ZXI96eNQDHW', 'Sofía Pérez', '+54 9 11 4000-0002', 'cliente');
+-- Datos iniciales: el administrador (se aprueba solo) y las 4 yerbas.
+INSERT INTO usuarios (email, nombre, rol, cuenta, perfil_completo, activo, creado_en)
+VALUES ('juancruzceresani@gmail.com', 'Juan Cruz Ceresani', 'admin', 'aprobada', 1, 1, NOW());
 
-INSERT INTO servicios (nombre, detalle, precio) VALUES
-('Consulta clínica',    'Revisión general de perros, gatos, ovejas y vacas.',                18000),
-('Vacunación',          'Vacunas anuales y antirrábica, con libreta.',        15000),
-('Baño y corte',        'Baño, corte de pelo y uñas.',                        22000),
-('Control de cachorro', 'Primer control, desparasitación y plan de vacunas.', 16000);
-
-INSERT INTO turnos (usuario_id, servicio_id, mascota, especie, fecha, hora) VALUES
-(2, 2, 'Toby', 'Perro', CURDATE() + INTERVAL 2 DAY, '10:00');
+INSERT INTO productos (nombre, descripcion, presentacion, precio_publico, precio_mayorista_kg) VALUES
+('ASHAB Tradicional', 'Yerba mate con palo, sabor intenso y clásico, la de todos los días.', 'Paquete 1 kg · caja de 10 kg', 7500, 5200),
+('ASHAB Suave', 'Poco palo y molienda fina, un mate más suave y parejo.', 'Paquete 500 g · caja de 10 kg', 8200, 5600),
+('ASHAB Serrana', 'Yerba compuesta con menta y boldo, fresca y aromática.', 'Paquete 500 g · caja de 10 kg', 8600, 5900),
+('ASHAB Premium', 'Hoja seleccionada con 24 meses de estacionamiento.', 'Paquete 1 kg · caja de 12 kg', 9800, 6800);

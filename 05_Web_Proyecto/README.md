@@ -1,98 +1,38 @@
-# Veterinaria Patitas Felices — sitio web con turnos online
+# ASHAB · sitio web (HTML + PHP + CSS + MySQL)
 
-Sitio desarrollado por **Berasoft S.R.L.** (empresa de servicios informáticos, Berazategui).
-Proyecto final 7°2 · E.E.S.T. N°4 Berazategui · Juan Cruz Ceresani.
-
-Hecho **solo con HTML, CSS y PHP**, sin JavaScript ni frameworks, con base de datos **MySQL**.
-
-## Qué hace
-
-| Quién | Qué puede hacer |
-|---|---|
-| Visitante | Ver servicios y precios, mandar una consulta, crear cuenta |
-| Cliente | Sacar turno (día → horarios libres), ver y cancelar sus turnos |
-| Administrador | Ver turnos por día, marcarlos atendidos o cancelarlos, bloquear clientes, cambiar precios, ver consultas y accesos, descargar todo en CSV |
-
-La atención al cliente es por **WhatsApp**: botón fijo en todas las páginas y enlaces directos desde el panel de administración.
-
-### Reglas de los turnos
-- Lunes a viernes de 9 a 18 h, sábados de 9 a 13 h, un turno cada 30 minutos. Domingos cerrado.
-- Desde mañana y hasta 30 días adelante.
-- No se puede reservar un horario ocupado (se controla al mostrar y otra vez al guardar).
-- Máximo 2 turnos reservados por cliente.
-- El cliente cancela solo sus turnos y hasta el día anterior.
-
-### Seguridad
-- Contraseñas guardadas con `password_hash` (bcrypt), nunca en texto.
-- Todas las consultas a la base con **sentencias preparadas** (evita inyección SQL).
-- Todo lo que se muestra pasa por `h()` = `htmlspecialchars` (evita XSS).
-- Código **CSRF** en todos los formularios.
-- `session_regenerate_id` al ingresar.
-- Bloqueo de 15 minutos después de 5 contraseñas incorrectas.
-- Registro de cada intento de ingreso con fecha e IP (tabla `accesos`).
+Yerba mate argentina. Catálogo público, ingreso con Google, aprobación de comercios, pedidos mayoristas con **seña del 50 %** y seguimiento hasta que el pedido se **embarca**. Sin JavaScript.
 
 ## Archivos
+| Archivo | Para qué sirve |
+|---|---|
+| `index.php`, `productos.php`, `contacto.php` | Páginas públicas |
+| `login.php`, `google.php`, `salir.php` | Ingreso con Google y salida |
+| `perfil.php`, `panel.php`, `pedido.php` | Zona del cliente: datos del comercio, pedidos y pago de la seña |
+| `admin/index.php`, `admin/exportar.php` | Administración y descarga a Excel (solo el Gmail administrador) |
+| `inc/config.php` | Datos del negocio, administrador y estados del pedido |
+| `inc/funciones.php`, `inc/conexion.php` | Funciones comunes y conexión PDO a MySQL |
+| `inc/cabecera.php`, `inc/pie.php` | Se repiten en todas las páginas |
+| `database.sql` | Crea la base `ashab` con sus tablas y los datos iniciales |
 
-```
-index.php        Inicio: servicios con precios y cómo sacar turno
-turnos.php       Sacar, ver y cancelar turnos (requiere ingresar)
-contacto.php     Formulario de consulta
-ingresar.php     Inicio de sesión          registro.php  Crear cuenta
-salir.php        Cerrar sesión
-admin/index.php  Panel de administración  admin/exportar.php  Descargar CSV
-inc/conexion.php Conexión PDO a MySQL
-inc/funciones.php Funciones comunes: sesión, CSRF, ingreso, horarios
-inc/cabecera.php / inc/pie.php  Parte de arriba y de abajo de todas las páginas
-inc/vercel.php   SOLO para la versión publicada: Postgres + sesiones en la base
-api/index.php    SOLO para Vercel: recibe todas las direcciones y carga la página pedida
-css/estilos.css  Diseño (se adapta al celular)
-database.sql     Crea la base, las 5 tablas y los datos de prueba
-```
+## Correrlo en XAMPP
+1. Copiar esta carpeta en `C:\xampp\htdocs\ashab`.
+2. Iniciar Apache y MySQL desde el panel de XAMPP.
+3. En phpMyAdmin → **Importar** → elegir `database.sql`.
+4. Abrir **http://localhost/ashab/**. Sin claves de Google, en esta computadora el ingreso pide solo el email (modo de prueba). Con `juancruzceresani@gmail.com` se entra como administrador.
 
-## Base de datos (`patitas_felices`)
+## Ingreso con Google (en el sitio publicado)
+1. En Google Cloud Console → *APIs y servicios* → *Credenciales* → **ID de cliente de OAuth** (aplicación web).
+2. Como *URI de redireccionamiento* poner `https://TU-SITIO/google.php`.
+3. Cargar las variables de entorno `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`.
+El modo de prueba **nunca** funciona en el sitio publicado: solo en `localhost`.
 
-- `usuarios` (clientes y admin)
-- `servicios` (con precio)
-- `turnos`: usuario → `usuarios`, servicio → `servicios`
-- `consultas`
-- `accesos`
+## Cómo se protege
+- Consultas con `PDO` y parámetros (no hay SQL armado con texto del usuario).
+- `h()` escapa todo lo que se muestra (evita XSS). Código CSRF en cada formulario.
+- No se guardan contraseñas: el ingreso es con Google y se validan emisor, destinatario, vencimiento y email verificado.
+- Cada ingreso queda registrado con su IP; 20 intentos fallidos desde una IP bloquean 15 minutos.
+- Las cuentas nuevas quedan *pendientes* hasta que el administrador las aprueba.
+- El administrador es quien figura en `ADMIN_EMAILS` (`inc/config.php`).
 
-## Usuarios de prueba
-
-| Rol | Email | Contraseña |
-|---|---|---|
-| Administrador | admin@patitasfelices.test | Admin2026 |
-| Cliente | sofia@correo.test | Demo2026 |
-
-## Cómo correrlo en la computadora (XAMPP)
-
-1. Instalar **XAMPP** y abrir el *XAMPP Control Panel*. Iniciar **Apache** y **MySQL**.
-2. Copiar la carpeta `07_Web_Patitas_Felices` dentro de `C:\xampp\htdocs\` y renombrarla `patitas`.
-3. Entrar a **http://localhost/phpmyadmin**, ir a la pestaña **Importar**, elegir `database.sql` y apretar **Importar**. Se crea la base `patitas_felices`.
-4. Abrir **http://localhost/patitas/**.
-
-No hace falta configurar nada más: `inc/conexion.php` ya usa `root` sin contraseña, como viene XAMPP.
-(Con Laragon es igual: carpeta en `C:\laragon\www\` y la base se importa con HeidiSQL.)
-
-## Versión publicada (Vercel)
-
-Está publicada en **https://patitasfelices.vercel.app** (se publica con `node publicar.js` desde la carpeta del repo).
-
-Vercel no ofrece MySQL y no guarda archivos entre una visita y otra. Por eso la versión publicada:
-- usa la base **Postgres (Neon)** que llega en la variable `DATABASE_URL`;
-- crea sola las tablas la primera vez, en el esquema `patitas`;
-- guarda las sesiones en la tabla `sesiones`.
-
-Todo eso está en `inc/vercel.php`. En XAMPP ese archivo no se carga, y las consultas SQL son las mismas en las dos bases.
-
-## Otra opción: hosting gratis con PHP y MySQL
-
-Ejemplo con **InfinityFree** (sirve cualquier hosting con PHP 8 y MySQL):
-
-1. Crear una cuenta y una web nueva (te da un subdominio gratis).
-2. En el panel, en **MySQL Databases**, crear una base. Anotar *host*, *nombre*, *usuario* y *contraseña*.
-3. Abrir **phpMyAdmin** desde el panel e importar `database.sql`.
-   En los hostings gratis no se puede crear una base desde el archivo. Por eso primero hay que **borrar las 3 primeras líneas que empiezan con `DROP DATABASE`, `CREATE DATABASE` y `USE`**, y después importar dentro de la base que creó el hosting.
-4. Editar `inc/conexion.php` y poner esos 4 datos en lugar de `localhost`, `patitas_felices`, `root` y `''`.
-5. Subir todos los archivos a la carpeta `htdocs` con el **Administrador de archivos** del panel o con FileZilla (FTP).
-6. Entrar al subdominio. **Cambiar la contraseña del administrador** creando una cuenta nueva o actualizando `clave_hash` con un `password_hash` nuevo.
+## Publicado en Vercel
+`api/index.php` recibe todas las direcciones y `inc/vercel.php` usa Postgres (Neon) en lugar de MySQL, con las mismas tablas. Variables: `DATABASE_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DATOS_BANCARIOS` (opcional, con `\n` entre líneas).

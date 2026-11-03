@@ -2,7 +2,7 @@
 // SOLO para la versión publicada en Vercel. En XAMPP este archivo no se usa.
 // Vercel no tiene MySQL ni guarda archivos entre visitas, por eso:
 //   1) se conecta a Postgres (Neon) con la dirección que llega en DATABASE_URL,
-//   2) crea las tablas la primera vez (esquema "patitas"),
+//   2) crea las tablas la primera vez (esquema "ashab"),
 //   3) guarda las sesiones en la base en lugar de archivos.
 
 $url = getenv('DATABASE_URL_UNPOOLED') ?: getenv('DATABASE_URL');
@@ -18,48 +18,48 @@ $db = new PDO($dsn, urldecode($p['user']), urldecode($p['pass'] ?? ''), [
 ]);
 
 // Las tablas de este sitio van en su propio esquema, separadas de cualquier otra cosa que haya en la base.
-$db->exec('CREATE SCHEMA IF NOT EXISTS patitas');
-$db->exec('SET search_path TO patitas');
+$db->exec('CREATE SCHEMA IF NOT EXISTS ashab');
+$db->exec('SET search_path TO ashab');
 
-// Primera visita: se crean las tablas (mismas que database.sql, escritas para Postgres) y los datos de prueba.
-if (!$db->query("SELECT to_regclass('patitas.turnos')")->fetchColumn()) {
+// Primera visita: se crean las tablas (mismas que database.sql, escritas para Postgres) y los datos iniciales.
+if (!$db->query("SELECT to_regclass('ashab.pedidos')")->fetchColumn()) {
     $db->exec("
       CREATE TABLE usuarios (
-        id SERIAL PRIMARY KEY, email VARCHAR(120) NOT NULL UNIQUE, clave_hash VARCHAR(255) NOT NULL,
-        nombre VARCHAR(80) NOT NULL, whatsapp VARCHAR(30) NOT NULL,
+        id SERIAL PRIMARY KEY, email VARCHAR(120) NOT NULL UNIQUE, google_sub VARCHAR(64), nombre VARCHAR(100) NOT NULL DEFAULT '',
+        empresa VARCHAR(120), cuit VARCHAR(13), ciudad VARCHAR(80), whatsapp VARCHAR(25),
         rol VARCHAR(10) NOT NULL DEFAULT 'cliente' CHECK (rol IN ('cliente','admin')),
-        activo SMALLINT NOT NULL DEFAULT 1, creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
-      CREATE TABLE servicios (
-        id SERIAL PRIMARY KEY, nombre VARCHAR(80) NOT NULL, detalle VARCHAR(200) NOT NULL, precio DECIMAL(10,2) NOT NULL);
-      CREATE TABLE turnos (
-        id SERIAL PRIMARY KEY,
+        cuenta VARCHAR(10) NOT NULL DEFAULT 'pendiente' CHECK (cuenta IN ('pendiente','aprobada','rechazada')),
+        perfil_completo SMALLINT NOT NULL DEFAULT 0, activo SMALLINT NOT NULL DEFAULT 1,
+        creado_en TIMESTAMP NOT NULL, ultimo_ingreso TIMESTAMP);
+      CREATE TABLE productos (
+        id SERIAL PRIMARY KEY, nombre VARCHAR(80) NOT NULL, descripcion VARCHAR(200) NOT NULL, presentacion VARCHAR(60) NOT NULL,
+        precio_publico DECIMAL(10,2) NOT NULL, precio_mayorista_kg DECIMAL(10,2) NOT NULL, activo SMALLINT NOT NULL DEFAULT 1);
+      CREATE TABLE pedidos (
+        id SERIAL PRIMARY KEY, codigo VARCHAR(10) NOT NULL UNIQUE,
         usuario_id INT NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
-        servicio_id INT NOT NULL REFERENCES servicios(id) ON DELETE RESTRICT,
-        mascota VARCHAR(60) NOT NULL,
-        especie VARCHAR(10) NOT NULL CHECK (especie IN ('Perro','Gato','Ovino','Bovino')),
-        fecha DATE NOT NULL, hora CHAR(5) NOT NULL,
-        estado VARCHAR(10) NOT NULL DEFAULT 'reservado' CHECK (estado IN ('reservado','atendido','cancelado')),
-        creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
-      CREATE INDEX ON turnos (fecha, hora);
+        producto_id INT NOT NULL REFERENCES productos(id),
+        cantidad_kg INT NOT NULL, destino VARCHAR(80) NOT NULL,
+        precio_kg DECIMAL(10,2), total DECIMAL(12,2), sena DECIMAL(12,2),
+        estado VARCHAR(20) NOT NULL DEFAULT 'solicitada' CHECK (estado IN ('solicitada','proforma_emitida','sena_informada','sena_acreditada','en_produccion','embarcada','cerrada','cancelada','vencida')),
+        vence_en TIMESTAMP, pago_banco VARCHAR(80), pago_ref VARCHAR(80), pago_fecha DATE, pago_monto DECIMAL(12,2),
+        acepto_en TIMESTAMP, acepto_ip VARCHAR(100), embarcacion VARCHAR(100), creado_en TIMESTAMP NOT NULL);
       CREATE TABLE consultas (
         id SERIAL PRIMARY KEY, nombre VARCHAR(80) NOT NULL, email VARCHAR(120) NOT NULL,
-        whatsapp VARCHAR(30) NOT NULL, mensaje TEXT NOT NULL, fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
+        whatsapp VARCHAR(30) NOT NULL, mensaje TEXT NOT NULL, fecha TIMESTAMP NOT NULL);
       CREATE TABLE accesos (
-        id SERIAL PRIMARY KEY, usuario_id INT NULL REFERENCES usuarios(id) ON DELETE SET NULL,
-        email VARCHAR(120) NOT NULL, exito SMALLINT NOT NULL, ip VARCHAR(100) NOT NULL,
-        fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
-      CREATE INDEX ON accesos (email, fecha);
+        id SERIAL PRIMARY KEY, usuario_id INT REFERENCES usuarios(id) ON DELETE SET NULL,
+        email VARCHAR(120) NOT NULL, exito SMALLINT NOT NULL, motivo VARCHAR(80) NOT NULL DEFAULT '',
+        ip VARCHAR(100) NOT NULL, fecha TIMESTAMP NOT NULL);
+      CREATE INDEX ON accesos (ip, fecha);
       CREATE TABLE sesiones (id VARCHAR(128) PRIMARY KEY, datos TEXT NOT NULL, actualizado INT NOT NULL);
 
-      INSERT INTO usuarios (email, clave_hash, nombre, whatsapp, rol) VALUES
-      ('admin@patitasfelices.test', '\$2y\$10\$w4zFmO6Lkczn/gIOmERAeejpwccaFR5rBdWsetoD5H85uVxJgEOwi', 'Recepción', '+54 9 11 3348-6017', 'admin'),
-      ('sofia@correo.test', '\$2y\$10\$7/Z4nWNaFcOEQDDx0M2QVOsp6qhz1g2JNAlJRyjc96ZXI96eNQDHW', 'Sofía Pérez', '+54 9 11 4000-0002', 'cliente');
-      INSERT INTO servicios (nombre, detalle, precio) VALUES
-      ('Consulta clínica', 'Revisión general de perros, gatos, ovejas y vacas.', 18000),
-      ('Vacunación', 'Vacunas anuales y antirrábica, con libreta.', 15000),
-      ('Baño y corte', 'Baño, corte de pelo y uñas.', 22000),
-      ('Control de cachorro', 'Primer control, desparasitación y plan de vacunas.', 16000);
-      INSERT INTO turnos (usuario_id, servicio_id, mascota, especie, fecha, hora) VALUES (2, 2, 'Toby', 'Perro', CURRENT_DATE + 2, '10:00');
+      INSERT INTO usuarios (email, nombre, rol, cuenta, perfil_completo, activo, creado_en)
+        VALUES ('juancruzceresani@gmail.com', 'Juan Cruz Ceresani', 'admin', 'aprobada', 1, 1, CURRENT_TIMESTAMP);
+      INSERT INTO productos (nombre, descripcion, presentacion, precio_publico, precio_mayorista_kg) VALUES
+      ('ASHAB Tradicional', 'Yerba mate con palo, sabor intenso y clásico, la de todos los días.', 'Paquete 1 kg · caja de 10 kg', 7500, 5200),
+      ('ASHAB Suave', 'Poco palo y molienda fina, un mate más suave y parejo.', 'Paquete 500 g · caja de 10 kg', 8200, 5600),
+      ('ASHAB Serrana', 'Yerba compuesta con menta y boldo, fresca y aromática.', 'Paquete 500 g · caja de 10 kg', 8600, 5900),
+      ('ASHAB Premium', 'Hoja seleccionada con 24 meses de estacionamiento.', 'Paquete 1 kg · caja de 12 kg', 9800, 6800);
     ");
 }
 

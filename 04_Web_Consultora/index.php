@@ -8,11 +8,11 @@ require 'inc/cabecera.php';
   <div>
     <p class="etiqueta">Desarrollo web para comercios</p>
     <h1>Hacemos la web de <span>tu negocio</span></h1>
-    <p>Sitios, turnos online y tiendas para comercios y profesionales. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
+    <p>Sitios, ventas y pedidos online y tiendas para comercios y profesionales. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
     <a class="boton" href="contacto.php">Pedir presupuesto</a>
     <a class="boton claro" href="trabajos.php">Ver trabajos</a>
   </div>
-  <img src="img/patitas_turnos.jpg" alt="Turnos online de Patitas Felices, hecho por Berasoft" class="escudo">
+  <img src="img/ashab.jpg" alt="Sitio de ASHAB, hecho por Berasoft" class="escudo">
 </section>
 
 <section>
@@ -28,10 +28,10 @@ require 'inc/cabecera.php';
 </section>
 
 <section class="destacado">
-  <img src="img/patitas.jpg" alt="Sitio de Veterinaria Patitas Felices">
+  <img src="img/ashab_pedido.jpg" alt="Pedido con seña del 50 % en el sitio de ASHAB">
   <div>
-    <h2>Último trabajo: Veterinaria Patitas Felices</h2>
-    <p>Un sitio donde los clientes sacan turno para su perro, gato, oveja o vaca sin llamar por teléfono, y la recepción organiza el día desde un panel.</p>
+    <h2>Último trabajo: ASHAB, yerba mate</h2>
+    <p>Un sitio donde los comercios ingresan con Google, piden yerba por mayor y pagan una seña del 50 %, mientras la empresa aprueba clientes y sigue cada pedido desde un panel.</p>
     <a class="boton claro" href="trabajos.php">Ver el caso</a>
   </div>
 </section>

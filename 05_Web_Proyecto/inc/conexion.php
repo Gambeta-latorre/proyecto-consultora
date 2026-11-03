@@ -8,7 +8,7 @@ if (getenv('DATABASE_URL')) {
 }
 
 $host  = getenv('DB_HOST') ?: 'localhost';
-$base  = getenv('DB_NAME') ?: 'patitas_felices';
+$base  = getenv('DB_NAME') ?: 'ashab';
 $user  = getenv('DB_USER') ?: 'root';
 $clave = getenv('DB_PASS') ?: '';
 

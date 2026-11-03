@@ -1,151 +1,158 @@
 <?php
-// Panel de administración de la veterinaria: turnos, clientes, servicios, consultas y accesos.
+// Panel de administración (solo para los Gmail de ADMIN_EMAILS): resumen, cuentas, pedidos con seña, ingresos y consultas.
 $raiz = '../';
 require '../inc/funciones.php';
-exigir_admin();
 $titulo = 'Administración';
-$pestanas = ['turnos' => 'Turnos', 'clientes' => 'Clientes', 'servicios' => 'Servicios', 'consultas' => 'Consultas', 'accesos' => 'Accesos'];
-$ver = isset($pestanas[$_GET['ver'] ?? '']) ? $_GET['ver'] : 'turnos';
-$dia = $_GET['dia'] ?? date('Y-m-d'); // en "Turnos" se ve un día por vez
+$activa = 'Administración';
+$yo = exigir_admin();
+vencer_proformas();
+$pestanas = ['resumen' => 'Resumen', 'cuentas' => 'Cuentas', 'pedidos' => 'Pedidos y seña', 'accesos' => 'Ingresos', 'consultas' => 'Consultas'];
+$tab = isset($pestanas[$_GET['tab'] ?? '']) ? $_GET['tab'] : 'resumen';
 
-// ---------- Acciones (llegan por POST con su código CSRF) ----------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $accion = $_POST['accion'] ?? '';
     $id = (int)($_POST['id'] ?? 0);
-    switch ($_POST['accion'] ?? '') {
-        case 'atendido':
-        case 'cancelar':
-            $estado = $_POST['accion'] === 'atendido' ? 'atendido' : 'cancelado';
-            $db->prepare("UPDATE turnos SET estado = ? WHERE id = ? AND estado = 'reservado'")->execute([$estado, $id]);
-            break;
-        case 'bloquear':
-        case 'activar':
-            $db->prepare("UPDATE usuarios SET activo = ? WHERE id = ? AND rol = 'cliente'")
-               ->execute([$_POST['accion'] === 'activar' ? 1 : 0, $id]);
-            break;
-        case 'precio':
-            $db->prepare('UPDATE servicios SET precio = ? WHERE id = ?')->execute([max(0, (float)$_POST['precio']), $id]);
-            break;
+
+    if ($accion === 'cuenta' && in_array($_POST['cuenta'] ?? '', ['aprobada', 'pendiente', 'rechazada'])) {
+        $db->prepare("UPDATE usuarios SET cuenta = ? WHERE id = ? AND rol = 'cliente'")->execute([$_POST['cuenta'], $id]);
+        aviso('Cuenta actualizada.');
+    } elseif ($accion === 'activo') {
+        $db->prepare("UPDATE usuarios SET activo = ? WHERE id = ? AND rol = 'cliente'")->execute([empty($_POST['activo']) ? 0 : 1, $id]);
+        aviso('Usuario actualizado.');
+    } else {
+        $p = cargar_pedido($_POST['c'] ?? '');
+        if ($p && $accion === 'proforma') {                      // el admin fija el precio y se calcula la seña
+            $precio = (float)str_replace(',', '.', $_POST['precio'] ?? '0');
+            if (in_array($p['estado'], ['solicitada', 'proforma_emitida', 'vencida']) && $precio > 0) {
+                [$total, $sena] = calcular_totales($p['cantidad_kg'], $precio);
+                $db->prepare("UPDATE pedidos SET precio_kg = ?, total = ?, sena = ?, estado = 'proforma_emitida', vence_en = ? WHERE id = ?")
+                   ->execute([$precio, $total, $sena, date('Y-m-d H:i:s', time() + PROFORMA_DIAS * 86400), $p['id']]);
+                aviso('Proforma emitida. Avisale al cliente por WhatsApp.');
+            } else aviso('No se pudo emitir la proforma.', 'error');
+        } elseif ($p && $accion === 'estado') {                  // avanzar el pedido
+            $nuevo = $_POST['nuevo'] ?? '';
+            $permitido = ($nuevo === 'sena_acreditada' && in_array($p['estado'], ['proforma_emitida', 'sena_informada']) && $p['total'] !== null)
+                      || ($nuevo === 'cancelada' && !in_array($p['estado'], ['embarcada', 'cerrada', 'cancelada']))
+                      || (SIGUIENTE[$p['estado']] ?? '') === $nuevo;
+            if ($permitido) {
+                $embarcacion = $nuevo === 'embarcada' ? mb_substr(trim($_POST['embarcacion'] ?? ''), 0, 100) : $p['embarcacion'];
+                $db->prepare('UPDATE pedidos SET estado = ?, embarcacion = ? WHERE id = ?')->execute([$nuevo, $embarcacion, $p['id']]);
+                aviso('Pedido ' . $p['codigo'] . ': ' . ESTADOS[$nuevo] . '.');
+            } else aviso('Ese cambio de estado no está permitido.', 'error');
+        }
     }
-    // Después de un POST se vuelve a la misma pestaña con GET (así F5 no repite la acción)
-    ir('admin/index.php?' . http_build_query(['ver' => $ver, 'dia' => $dia]));
+    ir('admin/index.php?tab=' . $tab . (isset($_POST['c']) ? '&c=' . rawurlencode($_POST['c']) : ''));
 }
-
-// Dibuja un botón que manda una acción, para no repetir el mismo <form> en cada fila.
-function boton($accion, $id, $texto) {
-    return '<form method="post" class="enlinea">' . csrf_campo()
-         . '<input type="hidden" name="accion" value="' . $accion . '">'
-         . '<input type="hidden" name="id" value="' . $id . '">'
-         . '<button class="boton chico">' . $texto . '</button></form>';
-}
-
-// ---------- Datos de la pestaña elegida ----------
-if ($ver === 'turnos') {
-    $st = $db->prepare('SELECT t.*, s.nombre AS servicio, u.nombre AS cliente, u.whatsapp FROM turnos t
-                        JOIN servicios s ON s.id = t.servicio_id JOIN usuarios u ON u.id = t.usuario_id
-                        WHERE t.fecha = ? ORDER BY t.hora');
-    $st->execute([$dia]);
-    $filas = $st->fetchAll();
-} else {
-    $sql = [
-        'clientes'  => "SELECT u.*, (SELECT COUNT(*) FROM turnos WHERE usuario_id = u.id) AS turnos
-                        FROM usuarios u WHERE rol = 'cliente' ORDER BY id DESC",
-        'servicios' => 'SELECT * FROM servicios ORDER BY id',
-        'consultas' => 'SELECT * FROM consultas ORDER BY id DESC',
-        'accesos'   => 'SELECT * FROM accesos ORDER BY id DESC LIMIT 100',
-    ];
-    $filas = $db->query($sql[$ver])->fetchAll();
-}
-
 require '../inc/cabecera.php';
 ?>
-<h1>Administración</h1>
-<nav class="pestanas">
-  <?php foreach ($pestanas as $clave => $nombre): ?>
-    <a href="?ver=<?= $clave ?>" class="<?= $clave === $ver ? 'activa' : '' ?>"><?= $nombre ?></a>
-  <?php endforeach; ?>
-  <a href="exportar.php?que=<?= $ver ?>">Descargar CSV</a>
-</nav>
+<div class="pagina">
+  <h1>Administración</h1>
+  <p class="pestanas">
+    <?php foreach ($pestanas as $clave => $nombre): ?><a href="?tab=<?= $clave ?>" class="<?= $tab === $clave ? 'activa' : '' ?>"><?= $nombre ?></a><?php endforeach; ?>
+  </p>
 
-<?php if ($ver === 'turnos'): ?>
-  <form method="get" class="enlinea">
-    <input type="hidden" name="ver" value="turnos">
-    <input type="date" name="dia" value="<?= h($dia) ?>">
-    <button class="boton chico">Ver día</button>
-  </form>
-  <table>
-    <tr><th>Hora</th><th>Cliente</th><th>Animal</th><th>Servicio</th><th>Estado</th><th>Acciones</th></tr>
-    <?php foreach ($filas as $t): ?>
-    <tr>
-      <td><?= substr($t['hora'], 0, 5) ?></td>
-      <td><?= h($t['cliente']) ?><br>
-          <a href="https://wa.me/<?= preg_replace('/\D/', '', $t['whatsapp']) ?>"><small><?= h($t['whatsapp']) ?></small></a></td>
-      <td><?= h($t['mascota']) ?> <span class="especie <?= strtolower($t['especie']) ?>"><?= $t['especie'] ?></span></td>
-      <td><?= h($t['servicio']) ?></td>
-      <td><span class="estado <?= $t['estado'] ?>"><?= $t['estado'] ?></span></td>
-      <td><?php if ($t['estado'] === 'reservado') echo boton('atendido', $t['id'], 'Atendido') . boton('cancelar', $t['id'], 'Cancelar'); ?></td>
-    </tr>
+<?php if ($tab === 'resumen'): ?>
+  <?php
+    $cuentas = $db->query("SELECT cuenta, COUNT(*) AS n FROM usuarios WHERE rol = 'cliente' GROUP BY cuenta")->fetchAll();
+    $pedidos = $db->query('SELECT estado, COUNT(*) AS n FROM pedidos GROUP BY estado')->fetchAll();
+    $st = $db->prepare('SELECT exito, COUNT(*) AS n FROM accesos WHERE fecha > ? GROUP BY exito');
+    $st->execute([date('Y-m-d H:i:s', time() - 86400)]);
+    $ingresos = $st->fetchAll();
+  ?>
+  <div class="grilla">
+    <article class="tarjeta"><h3>Cuentas</h3><?php foreach ($cuentas as $r): ?><p><?= h(ucfirst($r['cuenta'])) ?>: <b><?= (int)$r['n'] ?></b></p><?php endforeach; ?><p><a href="?tab=cuentas">Revisar cuentas &rarr;</a></p></article>
+    <article class="tarjeta"><h3>Pedidos</h3><?php foreach ($pedidos as $r): ?><p><?= h(ESTADOS[$r['estado']]) ?>: <b><?= (int)$r['n'] ?></b></p><?php endforeach; ?><p><a href="?tab=pedidos">Ver pedidos &rarr;</a></p></article>
+    <article class="tarjeta"><h3>Ingresos de las últimas 24 h</h3><?php foreach ($ingresos as $r): ?><p><?= $r['exito'] ? 'Correctos' : 'Fallidos' ?>: <b><?= (int)$r['n'] ?></b></p><?php endforeach; ?><p><a href="?tab=accesos">Ver registro &rarr;</a></p></article>
+  </div>
+  <h2>Descargar para Excel (CSV)</h2>
+  <p>
+    <?php foreach (['usuarios' => 'Clientes', 'pedidos' => 'Pedidos', 'accesos' => 'Ingresos', 'consultas' => 'Consultas'] as $q => $n): ?>
+      <a class="boton chico" href="exportar.php?que=<?= $q ?>"><?= $n ?></a>
     <?php endforeach; ?>
-    <?php if (!$filas): ?><tr><td colspan="6">No hay turnos ese día.</td></tr><?php endif; ?>
-  </table>
+  </p>
 
-<?php elseif ($ver === 'clientes'): ?>
-  <table>
-    <tr><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Turnos</th><th>Alta</th><th>Estado</th></tr>
-    <?php foreach ($filas as $u): ?>
-    <tr>
-      <td><?= h($u['nombre']) ?></td>
-      <td><?= h($u['email']) ?></td>
-      <td><a href="https://wa.me/<?= preg_replace('/\D/', '', $u['whatsapp']) ?>"><?= h($u['whatsapp']) ?></a></td>
-      <td><?= $u['turnos'] ?></td>
-      <td><?= date('d/m/Y', strtotime($u['creado_en'])) ?></td>
-      <td><?= $u['activo'] ? boton('bloquear', $u['id'], 'Bloquear') : boton('activar', $u['id'], 'Activar') ?></td>
-    </tr>
+<?php elseif ($tab === 'cuentas'): ?>
+  <?php $filas = $db->query("SELECT * FROM usuarios WHERE rol = 'cliente' ORDER BY id DESC")->fetchAll(); ?>
+  <div class="tabla"><table class="chica">
+    <tr><th>Alta</th><th>Cliente</th><th>Comercio</th><th>CUIT</th><th>Ciudad</th><th>WhatsApp</th><th>Estado</th><th>Acción</th></tr>
+    <?php foreach ($filas as $r): ?>
+      <tr>
+        <td><?= h(substr($r['creado_en'], 0, 10)) ?></td><td><?= h($r['email']) ?><br><?= h($r['nombre']) ?></td>
+        <td><?= h($r['empresa']) ?><?= $r['perfil_completo'] ? '' : '<br><small>perfil incompleto</small>' ?></td>
+        <td><?= h($r['cuit']) ?></td><td><?= h($r['ciudad']) ?></td><td><?= h($r['whatsapp']) ?></td>
+        <td><span class="estado <?= h($r['cuenta']) ?>"><?= h(ucfirst($r['cuenta'])) ?></span><?= $r['activo'] ? '' : '<br><small>DESACTIVADO</small>' ?></td>
+        <td>
+          <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="cuenta"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
+            <select name="cuenta"><?php foreach (['aprobada', 'pendiente', 'rechazada'] as $c): ?><option <?= $r['cuenta'] === $c ? 'selected' : '' ?>><?= $c ?></option><?php endforeach; ?></select>
+            <button class="chico">OK</button></form>
+          <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="activo"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
+            <input type="hidden" name="activo" value="<?= $r['activo'] ? '' : '1' ?>"><button class="chico borde"><?= $r['activo'] ? 'Desactivar' : 'Reactivar' ?></button></form>
+        </td>
+      </tr>
     <?php endforeach; ?>
-  </table>
+  </table></div>
 
-<?php elseif ($ver === 'servicios'): ?>
-  <table>
-    <tr><th>Servicio</th><th>Detalle</th><th>Precio</th></tr>
-    <?php foreach ($filas as $s): ?>
-    <tr>
-      <td><?= h($s['nombre']) ?></td>
-      <td><?= h($s['detalle']) ?></td>
-      <td>
-        <form method="post" class="enlinea">
-          <?= csrf_campo() ?>
-          <input type="hidden" name="accion" value="precio"><input type="hidden" name="id" value="<?= $s['id'] ?>">
-          $ <input type="number" name="precio" min="0" step="100" value="<?= (int)$s['precio'] ?>">
-          <button class="boton chico">Guardar</button>
-        </form>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
+<?php elseif ($tab === 'pedidos'): ?>
+  <?php
+    $d = isset($_GET['c']) ? cargar_pedido($_GET['c']) : null;
+    $filas = $db->query('SELECT p.codigo, p.cantidad_kg, p.destino, p.estado, p.total, p.sena, p.creado_en, u.empresa FROM pedidos p JOIN usuarios u ON u.id = p.usuario_id ORDER BY p.id DESC LIMIT 200')->fetchAll();
+  ?>
+  <?php if ($d): ?>
+    <div class="tarjeta">
+      <h3>Pedido <?= h($d['codigo']) ?> · <?= etiqueta_estado($d['estado']) ?></h3>
+      <p><b><?= h($d['empresa']) ?></b> · <?= h($d['email']) ?> · WhatsApp <?= h($d['whatsapp']) ?></p>
+      <p><?= h($d['producto']) ?> · <?= (int)$d['cantidad_kg'] ?> kg · destino <?= h($d['destino']) ?></p>
+      <?php if ($d['total'] !== null): ?><p>Total <b><?= pesos($d['total']) ?></b> · seña 50 % <b><?= pesos($d['sena']) ?></b> · vence <?= h(substr((string)$d['vence_en'], 0, 10)) ?></p><?php endif; ?>
+      <?php if ($d['pago_ref']): ?><p><b>Pago informado:</b> <?= h($d['pago_banco']) ?> · operación <?= h($d['pago_ref']) ?> · <?= h($d['pago_fecha']) ?> · <?= pesos($d['pago_monto']) ?> · condiciones aceptadas el <?= h($d['acepto_en']) ?> desde la IP <?= h($d['acepto_ip']) ?></p><?php endif; ?>
+      <?php if ($d['embarcacion']): ?><p><b>Embarcación / transporte:</b> <?= h($d['embarcacion']) ?></p><?php endif; ?>
 
-<?php elseif ($ver === 'consultas'): ?>
-  <table>
-    <tr><th>Fecha</th><th>De</th><th>Mensaje</th><th>Responder</th></tr>
-    <?php foreach ($filas as $c): ?>
-    <tr>
-      <td><?= date('d/m/Y H:i', strtotime($c['fecha'])) ?></td>
-      <td><?= h($c['nombre']) ?><br><small><?= h($c['email']) ?></small></td>
-      <td><?= nl2br(h($c['mensaje'])) ?></td>
-      <td><a class="boton chico" href="https://wa.me/<?= preg_replace('/\D/', '', $c['whatsapp']) ?>">WhatsApp</a></td>
-    </tr>
+      <?php if (in_array($d['estado'], ['solicitada', 'proforma_emitida', 'vencida'])): ?>
+        <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="proforma"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>">
+          Precio por kilo $ <input name="precio" size="7" inputmode="decimal" required>
+          <button class="chico"><?= $d['estado'] === 'solicitada' ? 'Emitir proforma' : 'Reemitir proforma' ?></button></form>
+      <?php endif; ?>
+      <?php if (in_array($d['estado'], ['proforma_emitida', 'sena_informada']) && $d['total'] !== null): ?>
+        <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="estado"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>"><input type="hidden" name="nuevo" value="sena_acreditada">
+          <button class="chico">Confirmar: seña acreditada en el banco</button></form>
+      <?php endif; ?>
+      <?php if (($sig = SIGUIENTE[$d['estado']] ?? null)): ?>
+        <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="estado"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>"><input type="hidden" name="nuevo" value="<?= $sig ?>">
+          <?php if ($sig === 'embarcada'): ?><input name="embarcacion" size="28" maxlength="100" placeholder="Embarcación o transporte" required><?php endif; ?>
+          <button class="chico">Pasar a: <?= h(ESTADOS[$sig]) ?></button></form>
+      <?php endif; ?>
+      <?php if (!in_array($d['estado'], ['embarcada', 'cerrada', 'cancelada'])): ?>
+        <form method="post" class="en-linea"><?= csrf_campo() ?><input type="hidden" name="accion" value="estado"><input type="hidden" name="c" value="<?= h($d['codigo']) ?>"><input type="hidden" name="nuevo" value="cancelada">
+          <button class="chico borde">Cancelar pedido</button></form>
+      <?php endif; ?>
+      <p><a href="https://wa.me/<?= h(preg_replace('/\D/', '', (string)$d['whatsapp'])) ?>">Escribirle por WhatsApp</a></p>
+    </div>
+  <?php endif; ?>
+  <div class="tabla"><table class="chica">
+    <tr><th>Código</th><th>Fecha</th><th>Comercio</th><th>Kilos</th><th>Destino</th><th>Total</th><th>Seña</th><th>Estado</th></tr>
+    <?php foreach ($filas as $r): ?>
+      <tr><td><a href="?tab=pedidos&amp;c=<?= h(rawurlencode($r['codigo'])) ?>"><?= h($r['codigo']) ?></a></td><td><?= h(substr($r['creado_en'], 0, 10)) ?></td><td><?= h($r['empresa']) ?></td>
+          <td><?= (int)$r['cantidad_kg'] ?></td><td><?= h($r['destino']) ?></td><td><?= $r['total'] !== null ? pesos($r['total']) : '—' ?></td>
+          <td><?= $r['sena'] !== null ? pesos($r['sena']) : '—' ?></td><td><?= etiqueta_estado($r['estado']) ?></td></tr>
     <?php endforeach; ?>
-  </table>
+  </table></div>
+
+<?php elseif ($tab === 'accesos'): ?>
+  <?php $filas = $db->query('SELECT * FROM accesos ORDER BY id DESC LIMIT 200')->fetchAll(); ?>
+  <div class="tabla"><table class="chica">
+    <tr><th>Fecha</th><th>Quién</th><th>Resultado</th><th>Motivo</th><th>IP</th></tr>
+    <?php foreach ($filas as $r): ?>
+      <tr><td><?= h($r['fecha']) ?></td><td><?= h($r['email']) ?></td><td><?= $r['exito'] ? 'OK' : '<b>FALLÓ</b>' ?></td><td><?= h($r['motivo']) ?></td><td><?= h($r['ip']) ?></td></tr>
+    <?php endforeach; ?>
+  </table></div>
 
 <?php else: ?>
-  <table>
-    <tr><th>Fecha</th><th>Email</th><th>Resultado</th><th>IP</th></tr>
-    <?php foreach ($filas as $a): ?>
-    <tr>
-      <td><?= date('d/m/Y H:i:s', strtotime($a['fecha'])) ?></td>
-      <td><?= h($a['email']) ?></td>
-      <td><span class="estado <?= $a['exito'] ? 'atendido' : 'cancelado' ?>"><?= $a['exito'] ? 'correcto' : 'fallido' ?></span></td>
-      <td><?= h($a['ip']) ?></td>
-    </tr>
+  <?php $filas = $db->query('SELECT * FROM consultas ORDER BY id DESC LIMIT 200')->fetchAll(); ?>
+  <div class="tabla"><table class="chica">
+    <tr><th>Fecha</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Mensaje</th></tr>
+    <?php foreach ($filas as $r): ?>
+      <tr><td><?= h($r['fecha']) ?></td><td><?= h($r['nombre']) ?></td><td><?= h($r['email']) ?></td><td><?= h($r['whatsapp']) ?></td><td><?= nl2br(h($r['mensaje'])) ?></td></tr>
     <?php endforeach; ?>
-  </table>
+  </table></div>
 <?php endif; ?>
+</div>
 <?php require '../inc/pie.php'; ?>

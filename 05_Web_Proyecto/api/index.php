@@ -15,7 +15,7 @@ if (preg_match('#^(css|img)/[\w.-]+$#', $ruta) && is_file(__DIR__ . "/../$ruta")
 }
 
 // Páginas permitidas (lista blanca: nadie puede pedir inc/conexion.php ni otros archivos internos)
-$paginas = ['index.php', 'turnos.php', 'contacto.php', 'ingresar.php', 'registro.php', 'salir.php', 'admin/index.php', 'admin/exportar.php'];
+$paginas = ['index.php', 'productos.php', 'contacto.php', 'login.php', 'google.php', 'perfil.php', 'panel.php', 'pedido.php', 'salir.php', 'admin/index.php', 'admin/exportar.php'];
 if (!in_array($ruta, $paginas)) {
     http_response_code(404);
     exit('Página no encontrada');
