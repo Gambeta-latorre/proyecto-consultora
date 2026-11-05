@@ -33,7 +33,7 @@ require 'inc/cabecera.php';
 ?>
 <div class="pagina angosta">
   <h1>Ingresar</h1>
-  <p>Entrá con tu cuenta de Google. No hace falta crear ni recordar contraseñas.</p>
+  <?php if (google_activo()): ?><p>Entrá con tu cuenta de Google. No hace falta crear ni recordar contraseñas.</p><?php endif; ?>
   <?php if (google_activo()): ?>
     <form method="post" action="google.php">
       <?= csrf_campo() ?>
@@ -50,8 +50,6 @@ require 'inc/cabecera.php';
       <label>Nombre<input name="nombre" maxlength="100"></label>
       <button>Entrar (prueba)</button>
     </form>
-  <?php else: ?>
-    <div class="aviso error">El ingreso con Google todavía no está configurado en este sitio.</div>
   <?php endif; ?>
   <h2>Administración</h2>
   <form method="post" class="formulario">
@@ -60,6 +58,6 @@ require 'inc/cabecera.php';
     <label>Clave<input type="password" name="clave" required autocomplete="current-password"></label>
     <button class="borde">Entrar como administrador</button>
   </form>
-  <p class="nota">Después de ingresar completás los datos de tu comercio y nosotros aprobamos la cuenta. Cada ingreso queda registrado.</p>
+  <p class="nota">Cada ingreso queda registrado.</p>
 </div>
 <?php require 'inc/pie.php'; ?>
