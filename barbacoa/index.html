@@ -80,25 +80,14 @@
   .titulo-sec h2{font-size:clamp(2rem,4.5vw,3rem);color:var(--carbon)}
   .titulo-sec p{color:var(--suave);max-width:52ch;margin:14px auto 0}
 
-  /* Foto (placeholder ilustrado) */
-  .foto{position:relative;border-radius:var(--radio);overflow:hidden;aspect-ratio:4/3;display:flex;align-items:flex-end;
-    background:radial-gradient(circle at 30% 30%, #8a4a25, #3a1f10 70%)}
-  .foto::before{content:"";position:absolute;inset:0;background:
-      radial-gradient(ellipse 60% 35% at 50% 60%, rgba(120,50,20,.95), transparent 70%),
-      repeating-linear-gradient(115deg, transparent 0 18px, rgba(0,0,0,.35) 18px 22px);}
-  .foto.f2{background:radial-gradient(circle at 60% 40%, #c98a3c, #4a2a12 70%)}
-  .foto.f3{background:radial-gradient(circle at 40% 50%, #e3c27a, #6b4320 75%)}
-  .foto.f4{background:radial-gradient(circle at 50% 30%, #a3352a, #3d1410 70%)}
-  .foto .etiqueta{position:relative;z-index:1;margin:12px;background:rgba(22,17,13,.75);color:var(--crema);font-size:.72rem;padding:5px 10px;border-radius:999px;letter-spacing:.04em}
 
   /* Destacados */
   .destacados{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
   .plato{background:#fff;border-radius:calc(var(--radio) + 4px);overflow:hidden;box-shadow:0 10px 30px rgba(58,42,29,.08);transition:transform .2s}
   .plato:hover{transform:translateY(-4px)}
-  .plato .foto{border-radius:0}
-  .plato .info{padding:20px 22px 24px}
-  .plato h3{font-size:1.35rem;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
-  .plato h3 .precio{font-family:Inter,sans-serif;font-size:1rem;font-weight:700;color:var(--brasa)}
+  .plato .info{padding:26px 24px 28px;border-top:4px solid var(--brasa)}
+  .plato .icono{width:30px;height:30px;margin-bottom:12px}
+  .plato h3{font-size:1.35rem}
   .plato p{color:var(--suave);font-size:.94rem;margin-top:8px}
 
   /* Carta */
@@ -113,16 +102,12 @@
   .item{display:flex;align-items:baseline;gap:10px;padding:16px 0;border-bottom:1px dashed rgba(245,236,220,.14)}
   .item .nom{font-weight:500}
   .item .desc{display:block;font-size:.84rem;color:#a8977f;margin-top:2px}
-  .item .puntos{flex:1;border-bottom:1px dotted rgba(245,236,220,.25);transform:translateY(-4px);min-width:20px}
-  .item .pr{color:var(--brasa-2);font-weight:700;white-space:nowrap}
-  .nota-carta{text-align:center;color:#8f7f69;font-size:.82rem;margin-top:30px}
 
   /* Nosotros */
-  .nosotros .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+  .nosotros .grid{max-width:760px;text-align:center}
+  .nosotros .sellos{justify-content:center;flex-wrap:wrap}
   .nosotros h2{font-size:clamp(2rem,4vw,2.8rem);color:var(--carbon);margin-bottom:18px}
   .nosotros p{color:var(--suave);margin-bottom:14px}
-  .collage{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .collage .foto:first-child{grid-row:span 2;aspect-ratio:auto}
   .sellos{display:flex;gap:30px;margin-top:26px}
   .sello b{display:block;font-family:"Playfair Display",serif;font-size:2rem;color:var(--brasa)}
   .sello span{font-size:.85rem;color:var(--suave)}
@@ -157,7 +142,7 @@
   @media (max-width:900px){
     .menu-nav{display:none}
     .destacados{grid-template-columns:1fr 1fr}
-    .nosotros .grid,.visit-grid{grid-template-columns:1fr}
+    .visit-grid{grid-template-columns:1fr}
     .lista{grid-template-columns:1fr}
   }
   @media (max-width:600px){
@@ -174,7 +159,7 @@
 </head>
 <body>
 
-<div class="aviso">Muestra de diseño · fotos, textos y precios de ejemplo</div>
+<div class="aviso">Muestra de diseño · textos de ejemplo</div>
 
 <nav>
   <div class="wrap">
@@ -221,20 +206,17 @@
     <div class="titulo-sec">
       <span class="eyebrow">Lo que más se pide</span>
       <h2>Los favoritos de la casa</h2>
-      <p>Los platos con los que la gente vuelve. Cada uno con su foto, su precio y lo que lleva.</p>
+      <p>Los platos con los que la gente vuelve.</p>
     </div>
     <div class="destacados">
       <article class="plato">
-        <div class="foto"><span class="etiqueta">Foto del bife de chorizo</span></div>
-        <div class="info"><h3>Bife de chorizo <span class="precio">$ 24.900</span></h3><p>500 g, jugoso y con su costra. Sale con guarnición a elección.</p></div>
+        <div class="info"><svg class="icono" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3c2 5 7 7 7 13a7 7 0 0 1-14 0c0-3 1.5-5 3-6.5.3 2.5 1.6 4 3 4.5C14 10 15 6 16 3Z" fill="#e0662a"/><path d="M16 15c1 2 3 3 3 5.5a3 3 0 0 1-6 0c0-1.5 1-2.6 1.6-3.2.3 1 .8 1.6 1.4 1.8-.2-1.6-.3-2.7 0-4.1Z" fill="#f29a3a"/></svg><h3>Bife de chorizo</h3><p>500 g, jugoso y con su costra. Sale con guarnición a elección.</p></div>
       </article>
       <article class="plato">
-        <div class="foto f2"><span class="etiqueta">Foto del vacío</span></div>
-        <div class="info"><h3>Vacío a la parrilla <span class="precio">$ 21.500</span></h3><p>Cocción lenta, bien tierno por dentro y crocante por fuera.</p></div>
+        <div class="info"><svg class="icono" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3c2 5 7 7 7 13a7 7 0 0 1-14 0c0-3 1.5-5 3-6.5.3 2.5 1.6 4 3 4.5C14 10 15 6 16 3Z" fill="#e0662a"/><path d="M16 15c1 2 3 3 3 5.5a3 3 0 0 1-6 0c0-1.5 1-2.6 1.6-3.2.3 1 .8 1.6 1.4 1.8-.2-1.6-.3-2.7 0-4.1Z" fill="#f29a3a"/></svg><h3>Vacío a la parrilla</h3><p>Cocción lenta, bien tierno por dentro y crocante por fuera.</p></div>
       </article>
       <article class="plato">
-        <div class="foto f3"><span class="etiqueta">Foto de la provoleta</span></div>
-        <div class="info"><h3>Provoleta <span class="precio">$ 9.800</span></h3><p>Con orégano, ají molido y un hilo de oliva. Para arrancar.</p></div>
+        <div class="info"><svg class="icono" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3c2 5 7 7 7 13a7 7 0 0 1-14 0c0-3 1.5-5 3-6.5.3 2.5 1.6 4 3 4.5C14 10 15 6 16 3Z" fill="#e0662a"/><path d="M16 15c1 2 3 3 3 5.5a3 3 0 0 1-6 0c0-1.5 1-2.6 1.6-3.2.3 1 .8 1.6 1.4 1.8-.2-1.6-.3-2.7 0-4.1Z" fill="#f29a3a"/></svg><h3>Provoleta</h3><p>Con orégano, ají molido y un hilo de oliva. Para arrancar.</p></div>
       </article>
     </div>
   </div>
@@ -245,7 +227,7 @@
     <div class="titulo-sec">
       <span class="eyebrow">Nuestra carta</span>
       <h2>Para elegir sin apuro</h2>
-      <p>La carta completa, siempre actualizada. Si cambia un precio, se modifica en un minuto.</p>
+      <p>Cortes a la parrilla, entradas, guarniciones y postres caseros.</p>
     </div>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" aria-selected="true" data-tab="parrilla">Parrilla</button>
@@ -255,34 +237,33 @@
     </div>
 
     <div class="lista activa" id="parrilla">
-      <div class="item"><div><span class="nom">Bife de chorizo</span><span class="desc">500 g</span></div><span class="puntos"></span><span class="pr">$ 24.900</span></div>
-      <div class="item"><div><span class="nom">Ojo de bife</span><span class="desc">400 g</span></div><span class="puntos"></span><span class="pr">$ 26.500</span></div>
-      <div class="item"><div><span class="nom">Entraña</span><span class="desc">Fina y sabrosa</span></div><span class="puntos"></span><span class="pr">$ 23.800</span></div>
-      <div class="item"><div><span class="nom">Vacío</span><span class="desc">Porción abundante</span></div><span class="puntos"></span><span class="pr">$ 21.500</span></div>
-      <div class="item"><div><span class="nom">Asado de tira</span><span class="desc">Banderita</span></div><span class="puntos"></span><span class="pr">$ 20.900</span></div>
-      <div class="item"><div><span class="nom">Parrillada para dos</span><span class="desc">Asado, vacío, chorizo, morcilla y achuras</span></div><span class="puntos"></span><span class="pr">$ 45.000</span></div>
+      <div class="item"><div><span class="nom">Bife de chorizo</span><span class="desc">500 g</span></div></div>
+      <div class="item"><div><span class="nom">Ojo de bife</span><span class="desc">400 g</span></div></div>
+      <div class="item"><div><span class="nom">Entraña</span><span class="desc">Fina y sabrosa</span></div></div>
+      <div class="item"><div><span class="nom">Vacío</span><span class="desc">Porción abundante</span></div></div>
+      <div class="item"><div><span class="nom">Asado de tira</span><span class="desc">Banderita</span></div></div>
+      <div class="item"><div><span class="nom">Parrillada para dos</span><span class="desc">Asado, vacío, chorizo, morcilla y achuras</span></div></div>
     </div>
     <div class="lista" id="entradas">
-      <div class="item"><div><span class="nom">Empanada de carne</span><span class="desc">Cortada a cuchillo</span></div><span class="puntos"></span><span class="pr">$ 2.900</span></div>
-      <div class="item"><div><span class="nom">Provoleta</span><span class="desc">Con orégano y ají</span></div><span class="puntos"></span><span class="pr">$ 9.800</span></div>
-      <div class="item"><div><span class="nom">Chorizo</span><span class="desc">Casero</span></div><span class="puntos"></span><span class="pr">$ 4.500</span></div>
-      <div class="item"><div><span class="nom">Morcilla</span><span class="desc">Bombón</span></div><span class="puntos"></span><span class="pr">$ 4.200</span></div>
-      <div class="item"><div><span class="nom">Mollejas</span><span class="desc">Al limón</span></div><span class="puntos"></span><span class="pr">$ 16.900</span></div>
-      <div class="item"><div><span class="nom">Chinchulines</span><span class="desc">Bien crocantes</span></div><span class="puntos"></span><span class="pr">$ 9.500</span></div>
+      <div class="item"><div><span class="nom">Empanada de carne</span><span class="desc">Cortada a cuchillo</span></div></div>
+      <div class="item"><div><span class="nom">Provoleta</span><span class="desc">Con orégano y ají</span></div></div>
+      <div class="item"><div><span class="nom">Chorizo</span><span class="desc">Casero</span></div></div>
+      <div class="item"><div><span class="nom">Morcilla</span><span class="desc">Bombón</span></div></div>
+      <div class="item"><div><span class="nom">Mollejas</span><span class="desc">Al limón</span></div></div>
+      <div class="item"><div><span class="nom">Chinchulines</span><span class="desc">Bien crocantes</span></div></div>
     </div>
     <div class="lista" id="guarniciones">
-      <div class="item"><div><span class="nom">Papas fritas</span><span class="desc">Bastón</span></div><span class="puntos"></span><span class="pr">$ 7.500</span></div>
-      <div class="item"><div><span class="nom">Papas a la provenzal</span><span class="desc">Ajo y perejil</span></div><span class="puntos"></span><span class="pr">$ 8.200</span></div>
-      <div class="item"><div><span class="nom">Ensalada mixta</span><span class="desc">Lechuga, tomate y cebolla</span></div><span class="puntos"></span><span class="pr">$ 6.900</span></div>
-      <div class="item"><div><span class="nom">Puré de calabaza</span><span class="desc">Casero</span></div><span class="puntos"></span><span class="pr">$ 7.200</span></div>
+      <div class="item"><div><span class="nom">Papas fritas</span><span class="desc">Bastón</span></div></div>
+      <div class="item"><div><span class="nom">Papas a la provenzal</span><span class="desc">Ajo y perejil</span></div></div>
+      <div class="item"><div><span class="nom">Ensalada mixta</span><span class="desc">Lechuga, tomate y cebolla</span></div></div>
+      <div class="item"><div><span class="nom">Puré de calabaza</span><span class="desc">Casero</span></div></div>
     </div>
     <div class="lista" id="postres">
-      <div class="item"><div><span class="nom">Flan casero</span><span class="desc">Con dulce de leche o crema</span></div><span class="puntos"></span><span class="pr">$ 6.500</span></div>
-      <div class="item"><div><span class="nom">Panqueque con dulce de leche</span><span class="desc">Caramelizado</span></div><span class="puntos"></span><span class="pr">$ 7.200</span></div>
-      <div class="item"><div><span class="nom">Queso y dulce</span><span class="desc">Batata o membrillo</span></div><span class="puntos"></span><span class="pr">$ 6.800</span></div>
-      <div class="item"><div><span class="nom">Helado</span><span class="desc">Dos bochas</span></div><span class="puntos"></span><span class="pr">$ 6.000</span></div>
+      <div class="item"><div><span class="nom">Flan casero</span><span class="desc">Con dulce de leche o crema</span></div></div>
+      <div class="item"><div><span class="nom">Panqueque con dulce de leche</span><span class="desc">Caramelizado</span></div></div>
+      <div class="item"><div><span class="nom">Queso y dulce</span><span class="desc">Batata o membrillo</span></div></div>
+      <div class="item"><div><span class="nom">Helado</span><span class="desc">Dos bochas</span></div></div>
     </div>
-    <p class="nota-carta">Precios de ejemplo para la muestra. En la página real van los de su carta.</p>
   </div>
 </section>
 
@@ -298,11 +279,6 @@
         <div class="sello"><b>Mar–Sáb</b><span>Noche</span></div>
         <div class="sello"><b>Dom</b><span>Mediodía</span></div>
       </div>
-    </div>
-    <div class="collage">
-      <div class="foto f4"><span class="etiqueta">Foto del salón</span></div>
-      <div class="foto f2"><span class="etiqueta">Foto de la parrilla</span></div>
-      <div class="foto f3"><span class="etiqueta">Foto del equipo</span></div>
     </div>
   </div>
 </section>
