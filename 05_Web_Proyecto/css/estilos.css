@@ -9,7 +9,6 @@ h2 { font-size: 1.7rem; margin-top: 2.2rem; }
 h3 { font-size: 1.15rem; }
 main, .barra, .pie-contenido { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 main { padding-bottom: 40px; }
-.ancho { max-width: 1280px; }
 
 /* ---- Barra superior (el menú del celular se abre con un checkbox, sin JavaScript) ---- */
 header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid var(--linea); z-index: 20; }
@@ -24,13 +23,11 @@ nav a.activa { color: var(--verde); text-decoration: underline; text-underline-o
 .hamburguesa { font-size: 1.6rem; cursor: pointer; }
 
 /* ---- Botones ---- */
-.boton, button { display: inline-block; background: var(--verde); color: #fff !important; border: 0; padding: 12px 24px; border-radius: 6px; font: inherit; font-weight: 700; text-decoration: none !important; cursor: pointer; }
-.boton:hover, button:hover { background: var(--oscuro); }
-.boton.chico, button.chico { padding: 8px 16px; font-size: .9rem; }
+.boton { display: inline-block; background: var(--verde); color: #fff !important; border: 0; padding: 12px 24px; border-radius: 6px; font: inherit; font-weight: 700; text-decoration: none !important; cursor: pointer; }
+.boton:hover { background: var(--oscuro); }
+.boton.chico { padding: 8px 16px; font-size: .9rem; }
 .boton.dorado { background: var(--dorado); color: var(--texto) !important; }
 .boton.claro { background: transparent; border: 2px solid #fff; }
-.boton.borde, button.borde { background: transparent; color: var(--verde) !important; border: 2px solid var(--verde); }
-.boton.google { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #1f1f1f !important; border: 1px solid #c9d3cc; }
 
 /* ---- Portada ---- */
 .portada { background: var(--verde); color: #fff; margin: 0 -20px; padding: 80px 20px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: center; background-image: radial-gradient(circle at 85% 20%, rgba(201, 162, 39, .35), transparent 45%); }
@@ -45,47 +42,9 @@ nav a.activa { color: var(--verde); text-decoration: underline; text-underline-o
 .tarjeta.producto { border-top: 4px solid var(--dorado); }
 .numero { position: absolute; top: -12px; left: 16px; background: var(--dorado); color: var(--texto); font-weight: 700; border-radius: 50%; width: 32px; height: 32px; display: grid; place-items: center; }
 .precio { color: var(--verde) !important; font-size: 1.15rem; font-weight: 700; }
-.bloqueado { background: #fff; border: 1px dashed var(--dorado); padding: 8px 12px; border-radius: 6px; }
-.caso { background: var(--suave); border-radius: 10px; padding: 8px 22px 18px; margin-top: 30px; }
-.nota { font-size: .9rem; color: var(--gris); }
 
-/* ---- Formularios ---- */
 .pagina { padding-block: 40px; }
-.angosta { max-width: 560px; }
-.media { max-width: 760px; }
-form.formulario { display: grid; gap: 14px; margin: 18px 0; }
-label { display: grid; gap: 6px; font-weight: 700; font-size: .92rem; }
-label small, .formulario small { color: var(--gris); font-weight: 400; }
-input, select, textarea { padding: 11px 12px; border: 1px solid #b8c6bd; border-radius: 6px; font: inherit; background: #fff; width: 100%; }
-input:focus, select:focus, textarea:focus { outline: 2px solid var(--dorado); border-color: var(--dorado); }
-.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.casilla { display: flex; align-items: flex-start; gap: 10px; font-weight: 400; }
-.casilla input { width: auto; margin-top: .3em; }
-.aviso { padding: 12px 16px; border-radius: 6px; margin: 14px 0; }
-.aviso.ok { background: #e8f6ec; border: 1px solid #9ad3a9; }
-.aviso.error { background: #fdecee; border: 1px solid #f3a1ab; }
-.en-linea { display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center; margin: 4px 6px 4px 0; }
-.en-linea input, .en-linea select { width: auto; padding: 6px 8px; }
-
-/* ---- Tablas y estados ---- */
-.tabla { overflow: auto; }
-table { border-collapse: collapse; width: 100%; }
-th, td { border-bottom: 1px solid var(--linea); padding: 10px; text-align: left; vertical-align: top; }
-th { background: var(--suave); }
-table.chica { font-size: .86rem; }
-table.chica th, table.chica td { padding: 6px 8px; }
-table.datos th { width: 42%; background: transparent; }
-.estado { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .82rem; font-weight: 700; background: #e3e8e5; color: #33433a; }
-.estado.solicitada, .estado.proforma_emitida, .estado.sena_informada, .estado.pendiente { background: #fff4d6; color: #7a5b00; }
-.estado.sena_acreditada, .estado.en_produccion, .estado.embarcada, .estado.cerrada, .estado.aprobada { background: #d8f0df; color: #176233; }
-.estado.cancelada, .estado.vencida, .estado.rechazada { background: #fdecee; color: #9b1c2c; }
-.cuenta { border-radius: 10px; padding: 16px 22px; margin: 1rem 0; background: var(--suave); }
-.cuenta.aprobada { background: #e8f6ec; } .cuenta.pendiente { background: #fff4d6; } .cuenta.rechazada { background: #fdecee; }
-.pestanas { display: flex; gap: 6px; flex-wrap: wrap; }
-.pestanas a { padding: 8px 14px; border-radius: 6px; background: var(--suave); text-decoration: none; font-weight: 700; }
-.pestanas a.activa { background: var(--verde); color: #fff; }
-pre.banco { background: var(--suave); border: 1px solid var(--linea); border-radius: 8px; padding: 12px; white-space: pre-wrap; }
-.pasos { padding-left: 1.2em; }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 
 /* ---- Pie y botón de WhatsApp ---- */
 .pie { background: var(--oscuro); color: #d6e3db; margin-top: 40px; padding: 30px 0 16px; }

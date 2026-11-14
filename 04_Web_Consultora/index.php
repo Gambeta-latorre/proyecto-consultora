@@ -8,7 +8,7 @@ require 'inc/cabecera.php';
   <div>
     <p class="etiqueta">Desarrollo web para comercios</p>
     <h1>Hacemos la web de <span>tu negocio</span></h1>
-    <p>Sitios, ventas y pedidos online y tiendas para comercios y profesionales. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
+    <p>Sitios, catálogos con pedidos por WhatsApp y tiendas para comercios y profesionales. Simples de usar, rápidos en el celular y con atención por WhatsApp.</p>
     <a class="boton" href="contacto.php">Pedir presupuesto</a>
     <a class="boton claro" href="trabajos.php">Ver trabajos</a>
   </div>
@@ -31,7 +31,7 @@ require 'inc/cabecera.php';
   <img src="img/ashab_pedido.jpg" alt="Pedido en el sitio de ASHAB">
   <div>
     <h2>Último trabajo: ASHAB, yerba mate</h2>
-    <p>Un sitio donde los comercios ingresan con Google, piden yerba por mayor y envían el pedido por WhatsApp o mail, mientras la empresa aprueba clientes y sigue cada pedido desde un panel.</p>
+    <p>Un sitio donde se ven las yerbas con sus precios, leídos de una base de datos MySQL, y cada una tiene un botón para pedirla por WhatsApp con el mensaje ya escrito.</p>
     <a class="boton claro" href="trabajos.php">Ver el caso</a>
   </div>
 </section>

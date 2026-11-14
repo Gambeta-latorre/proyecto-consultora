@@ -3,8 +3,8 @@
 Proyecto final 7°2 · E.E.S.T. N°4 Berazategui · **Juan Cruz Ceresani**
 
 **Berasoft S.R.L.** es una empresa de desarrollo web. Su cliente es **ASHAB**, una marca de yerba mate argentina que vende por menor y por mayor.
-Los pedidos mayoristas se acuerdan y pagan por WhatsApp o mail (el sitio arma el mensaje) y se siguen hasta que se **embarcan**.
-Los dos sitios están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB además usa una base **MySQL**.
+Los dos sitios son **solo para ver**: no tienen inicio de sesión ni formularios, y todos los pedidos y consultas se hacen con un **botón de WhatsApp** que abre el chat con el mensaje ya escrito.
+Están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB lee sus yerbas y precios de una base **MySQL** (una tabla: `productos`).
 
 ## Sitios publicados
 
@@ -20,10 +20,8 @@ Los dos sitios están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB
 | [`01_Logo/`](01_Logo) | Logo de Berasoft (monograma BS) y logo de ASHAB |
 | [`03_Bocetos/`](03_Bocetos) | Mapa de secciones y bocetos de las pantallas de la web de Berasoft |
 | [`04_Web_Consultora/`](04_Web_Consultora) | Web de Berasoft (Inicio, Servicios, Trabajos, Nosotros, Contacto) |
-| [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de ASHAB: productos, ingreso con Google, pedidos y administración, con MySQL |
-| [`06_Documentos/`](06_Documentos) | Carpeta física del proyecto y presentación |
+| [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de ASHAB: inicio, productos (desde MySQL) y contacto, con botones de WhatsApp |
+| [`06_Documentos/`](06_Documentos) | Carpeta física (PDF para imprimir), presentación, guía de instalación y guía de defensa |
 
-## Administrador de ASHAB
-
-Entra con el Gmail **juancruzceresani@gmail.com** (ingreso con Google). No hay contraseñas guardadas en ningún lado.
-Las instrucciones para XAMPP y para publicar están en [`05_Web_Proyecto/README.md`](05_Web_Proyecto/README.md).
+## Cómo correrlo
+Las instrucciones para XAMPP están en [`05_Web_Proyecto/README.md`](05_Web_Proyecto/README.md) y en `06_Documentos/Guia_Instalacion_y_Defensa.pdf`.

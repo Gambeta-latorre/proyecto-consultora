@@ -15,8 +15,8 @@ require 'inc/cabecera.php';
     </div>
     <div class="precio-caja">
       <p class="precio"><?= h($precio) ?></p>
-      <!-- El botón lleva al formulario con este servicio ya elegido -->
-      <a class="boton" href="contacto.php?servicio=<?= urlencode($nombre) ?>">Consultar</a>
+      <!-- El botón abre WhatsApp con este servicio ya escrito -->
+      <a class="boton" href="<?= whatsapp("Hola Berasoft, quiero presupuesto de: $nombre.") ?>">Consultar por WhatsApp</a>
     </div>
   </article>
 <?php endforeach; ?>

@@ -1,10 +1,13 @@
 <?php
-// Inicio: presentación de la marca, las yerbas (leídas de la base) y cómo comprar por mayor.
-$raiz = '';
-require 'inc/funciones.php';
+// Inicio: presentación de la marca, las yerbas (leídas de la base de datos) y cómo comprar.
+require 'inc/config.php';
+require 'inc/conexion.php';
 $titulo = 'Inicio';
 $activa = 'Inicio';
+
+// Trae de la tabla productos solo las yerbas activas.
 $productos = $db->query('SELECT * FROM productos WHERE activo = 1 ORDER BY id')->fetchAll();
+
 require 'inc/cabecera.php';
 ?>
 <section class="portada">
@@ -14,7 +17,7 @@ require 'inc/cabecera.php';
     <p>Elegimos la hoja, la estacionamos y la molemos con cuidado. Comprala en cualquier almacén o pedila por mayor para tu comercio, con entrega coordinada.</p>
     <p>
       <a class="boton dorado" href="productos.php">Ver productos</a>
-      <a class="boton claro" href="https://wa.me/<?= WHATSAPP ?>">Hablar por WhatsApp</a>
+      <a class="boton claro" href="<?= whatsapp('Hola ASHAB, quiero hacer una consulta.') ?>">Hablar por WhatsApp</a>
     </p>
   </div>
   <img src="img/logo.svg" alt="Logo de ASHAB" class="portada-logo">
@@ -34,17 +37,11 @@ require 'inc/cabecera.php';
 </section>
 
 <section>
-  <h2>Comprá por mayor</h2>
+  <h2>Cómo comprar</h2>
   <div class="grilla">
-    <article class="tarjeta"><span class="numero">1</span><h3>Ingresá con Google</h3><p>Con tu cuenta de Gmail, sin crear contraseñas.</p></article>
-    <article class="tarjeta"><span class="numero">2</span><h3>Completá tu comercio</h3><p>Razón social, CUIT y WhatsApp. Aprobamos tu cuenta.</p></article>
-    <article class="tarjeta"><span class="numero">3</span><h3>Armá tu pedido</h3><p>Elegís la yerba y los kilos. Ves el total al instante.</p></article>
-    <article class="tarjeta"><span class="numero">4</span><h3>Acordá el pago</h3><p>Nos mandás el pedido por WhatsApp o mail y arreglamos el pago directo.</p></article>
+    <article class="tarjeta"><span class="numero">1</span><h3>Elegí tu yerba</h3><p>Mirá las yerbas y los precios en Productos.</p></article>
+    <article class="tarjeta"><span class="numero">2</span><h3>Tocá WhatsApp</h3><p>Se abre el chat con el mensaje ya escrito.</p></article>
+    <article class="tarjeta"><span class="numero">3</span><h3>Acordamos todo</h3><p>Cantidad, pago y entrega se arreglan directo con nosotros.</p></article>
   </div>
-</section>
-
-<section class="caso">
-  <h2>Cómo se paga</h2>
-  <p>El pago se acuerda directamente con nosotros por <strong>WhatsApp</strong> o por mail. Al hacer el pedido, la página te arma un mensaje con todo el detalle para que lo envíes con un toque. Pedidos de <?= MIN_KG ?> a <?= number_format(MAX_KG, 0, ',', '.') ?> kg.</p>
 </section>
 <?php require 'inc/pie.php'; ?>

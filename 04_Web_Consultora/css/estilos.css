@@ -57,9 +57,6 @@ h1 span, h2 span { color: #0ea5e9; }
 .dos-columnas { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; }
 
 /* ---------- Formulario ---------- */
-label { display: block; margin-bottom: 12px; font-weight: bold; }
-input, select, textarea { display: block; width: 100%; margin-top: 4px; padding: 9px; font: inherit; border: 1px solid #bbb; border-radius: 6px; }
-.error { background: #fde8e8; color: #8a1c1c; padding: 10px 14px; border-radius: 6px; }
 
 /* ---------- Pie ---------- */
 .pie { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding: 24px 24px 72px; margin-top: 40px;
