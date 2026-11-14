@@ -5,8 +5,11 @@ CREATE DATABASE IF NOT EXISTS ashab CHARACTER SET utf8mb4 COLLATE utf8mb4_unicod
 USE ashab;
 SET NAMES utf8mb4; -- para que respete tildes y ñ al importar
 
+-- Si se importa dos veces, se borra la tabla vieja para no repetir las yerbas.
+DROP TABLE IF EXISTS productos;
+
 -- Catálogo de yerbas: precio al público (por paquete) y precio mayorista (por kilo).
-CREATE TABLE IF NOT EXISTS productos (
+CREATE TABLE productos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(80) NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
