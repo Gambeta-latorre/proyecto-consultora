@@ -22,7 +22,7 @@ Están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB lee sus yerbas
 | [`03_Bocetos/`](03_Bocetos) | Mapa de secciones y bocetos de las pantallas de la web de Berasoft |
 | [`04_Web_Consultora/`](04_Web_Consultora) | Web de Berasoft (Inicio, Servicios, Trabajos, Nosotros, Contacto) |
 | [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de ASHAB: inicio, productos (desde MySQL) y contacto, con botones de WhatsApp |
-| [`06_Documentos/`](06_Documentos) | Carpeta técnica (PDF para imprimir), presentación y carpeta de defensa (guion, demo, código, MySQL, preguntas e instalación) |
+| [`06_Documentos/`](06_Documentos) | Carpeta técnica (PDF para imprimir), presentación y carpeta de defensa (código comentado) |
 
 ## Cómo correrlo
-Las instrucciones para XAMPP están en [`05_Web_Proyecto/README.md`](05_Web_Proyecto/README.md) y en `06_Documentos/Carpeta_de_Defensa_ASHAB.pdf` (punto 7).
+Las instrucciones para XAMPP están en [`05_Web_Proyecto/README.md`](05_Web_Proyecto/README.md) .
