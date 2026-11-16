@@ -1,6 +1,7 @@
 <?php
 // Cabecera común: antes de incluirla, cada página define $titulo y $activa.
 $menu = ['index.php' => 'Inicio', 'productos.php' => 'Productos', 'contacto.php' => 'Contacto'];
+$yo = usuario_actual();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,6 +24,12 @@ $menu = ['index.php' => 'Inicio', 'productos.php' => 'Productos', 'contacto.php'
       <?php foreach ($menu as $archivo => $nombre): ?>
         <a href="<?= $archivo ?>" class="<?= $nombre === $activa ? 'activa' : '' ?>"><?= $nombre ?></a>
       <?php endforeach; ?>
+      <?php if ($yo): ?>
+        <span class="hola">Hola, <?= h($yo['nombre']) ?></span>
+        <a href="salir.php">Salir</a>
+      <?php else: ?>
+        <a href="login.php" class="<?= $activa === 'Ingresar' ? 'activa' : '' ?>">Ingresar</a>
+      <?php endif; ?>
       <a href="<?= whatsapp('Hola ASHAB, quiero hacer una consulta.') ?>" class="boton chico">Pedir por WhatsApp</a>
     </nav>
   </div>

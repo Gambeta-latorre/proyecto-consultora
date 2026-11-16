@@ -46,6 +46,16 @@ nav a.activa { color: var(--verde); text-decoration: underline; text-underline-o
 .pagina { padding-block: 40px; }
 .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 
+/* ---- Formularios de registro e inicio de sesión ---- */
+.angosta { max-width: 460px; }
+.formulario { display: grid; gap: 14px; margin: 18px 0; }
+.formulario label { display: grid; gap: 6px; font-weight: 700; font-size: .92rem; }
+.formulario input { padding: 11px 12px; border: 1px solid #b8c6bd; border-radius: 6px; font: inherit; }
+.aviso { padding: 12px 16px; border-radius: 6px; background: var(--suave); border: 1px solid var(--linea); }
+.aviso.ok { background: #e8f6ec; border-color: #9ad3a9; }
+.aviso.error { background: #fdecee; border-color: #f3a1ab; }
+.hola { color: var(--gris); font-size: .9rem; }
+
 /* ---- Pie y botón de WhatsApp ---- */
 .pie { background: var(--oscuro); color: #d6e3db; margin-top: 40px; padding: 30px 0 16px; }
 .pie-contenido { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }

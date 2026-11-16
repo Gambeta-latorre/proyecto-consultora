@@ -56,7 +56,14 @@ h1 span, h2 span { color: #0ea5e9; }
           line-height: 90px; font-size: 2rem; font-weight: bold; }
 .dos-columnas { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; }
 
-/* ---------- Formulario ---------- */
+/* ---------- Formulario de inicio de sesión ---------- */
+.angosta { max-width: 440px; }
+label { display: block; margin-bottom: 12px; font-weight: bold; }
+input { display: block; width: 100%; margin-top: 4px; padding: 9px; font: inherit; border: 1px solid #bbb; border-radius: 6px; }
+.error { background: #fde8e8; color: #8a1c1c; padding: 10px 14px; border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e5e7eb; }
+th { background: var(--grafito); color: #fff; }
 
 /* ---------- Pie ---------- */
 .pie { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding: 24px 24px 72px; margin-top: 40px;

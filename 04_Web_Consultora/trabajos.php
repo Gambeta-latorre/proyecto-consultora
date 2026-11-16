@@ -17,6 +17,7 @@ require 'inc/cabecera.php';
     <ul>
       <li>Sitio con las yerbas y sus precios al público y por mayor.</li>
       <li>Los productos se guardan en una base de datos MySQL: la empresa cambia un precio y se actualiza la página.</li>
+      <li>Cuentas de clientes guardadas en MySQL: quien inicia sesión ve el precio por mayor.</li>
       <li>Cada yerba tiene un botón para pedirla por WhatsApp con el mensaje ya escrito.</li>
       <li>Diseño adaptado al celular y botón fijo de atención al cliente.</li>
     </ul>

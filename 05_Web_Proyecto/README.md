@@ -1,6 +1,9 @@
 # ASHAB · sitio web (HTML + CSS + PHP + MySQL)
 
-Yerba mate argentina. Es un sitio **solo para ver**: muestra las yerbas y sus precios (leídos de la base MySQL) y cada yerba tiene un botón para **pedirla por WhatsApp** con el mensaje ya escrito. No tiene inicio de sesión, ni formularios, ni panel. Sin JavaScript.
+Yerba mate argentina. Muestra las yerbas y sus precios (leídos de la base MySQL) y cada yerba tiene un botón para **pedirla por WhatsApp** con el mensaje ya escrito.
+Los clientes pueden **crear una cuenta e iniciar sesión**: los usuarios se guardan en MySQL (tabla `usuarios`, contraseña encriptada) y quien inicia sesión ve el **precio por mayor**. Sin JavaScript.
+
+Usuario de prueba: `demo@ashab.com` · contraseña `ashab123`.
 
 ## Archivos
 | Archivo | Para qué sirve |
@@ -8,10 +11,11 @@ Yerba mate argentina. Es un sitio **solo para ver**: muestra las yerbas y sus pr
 | `index.php` | Inicio: portada, yerbas con precio al público y cómo comprar |
 | `productos.php` | Catálogo completo con precio al público, precio por mayor y botón de WhatsApp |
 | `contacto.php` | WhatsApp, horario y email |
-| `inc/config.php` | Datos del negocio (número de WhatsApp) y funciones `h()`, `pesos()` y `whatsapp()` |
+| `registro.php`, `login.php`, `salir.php` | Crear cuenta, iniciar sesión y cerrar sesión (tabla `usuarios`) |
+| `inc/config.php` | Abre la sesión, datos del negocio y funciones `h()`, `pesos()`, `whatsapp()` y `usuario_actual()` |
 | `inc/conexion.php` | Conexión PDO a MySQL |
 | `inc/cabecera.php`, `inc/pie.php` | Se repiten en todas las páginas |
-| `database.sql` | Crea la base `ashab`, la tabla `productos` y carga las 4 yerbas |
+| `database.sql` | Crea la base `ashab`, las tablas `productos` (4 yerbas) y `usuarios` (con el usuario de prueba) |
 | `api/index.php`, `inc/vercel.php`, `vercel.json` | Solo para el sitio publicado en Vercel |
 
 ## Correrlo en XAMPP

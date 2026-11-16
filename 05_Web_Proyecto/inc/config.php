@@ -1,5 +1,7 @@
 <?php
 // Datos del negocio y funciones chicas que usan todas las páginas.
+session_start(); // abre la sesión: así el sitio recuerda quién inició sesión entre una página y otra
+
 const MARCA    = 'ASHAB';
 const WHATSAPP = '5491133486017'; // número de atención al cliente (sin + ni espacios)
 const EMAIL    = 'juancruzceresani@gmail.com';
@@ -19,4 +21,9 @@ function whatsapp($texto = '') {
     $enlace = 'https://wa.me/' . WHATSAPP;
     if ($texto !== '') $enlace .= '?text=' . rawurlencode($texto);
     return $enlace;
+}
+
+// Devuelve el usuario que inició sesión (id, nombre y email) o null si nadie inició sesión.
+function usuario_actual() {
+    return $_SESSION['usuario'] ?? null;
 }

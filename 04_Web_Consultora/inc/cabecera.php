@@ -23,6 +23,12 @@ $menu = ['index.php' => 'Inicio', 'servicios.php' => 'Servicios', 'trabajos.php'
     <?php foreach ($menu as $archivo => $nombre): ?>
       <a href="<?= $archivo ?>" class="<?= $nombre === $activa ? 'activa' : '' ?>"><?= $nombre ?></a>
     <?php endforeach; ?>
+    <?php if (logueado()): ?>
+      <a href="panel.php" class="<?= $activa === 'Panel' ? 'activa' : '' ?>">Panel</a>
+      <a href="salir.php">Salir</a>
+    <?php else: ?>
+      <a href="login.php" class="<?= $activa === 'Ingresar' ? 'activa' : '' ?>">Ingresar</a>
+    <?php endif; ?>
     <a href="contacto.php" class="boton">Pedir presupuesto</a>
   </nav>
 </header>

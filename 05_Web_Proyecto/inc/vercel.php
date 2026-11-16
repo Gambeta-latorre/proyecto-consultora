@@ -20,5 +20,10 @@ if (!$db->query("SELECT to_regclass('ashab_web.productos')")->fetchColumn()) {
         presentacion VARCHAR(60) NOT NULL, precio_publico DECIMAL(10,2) NOT NULL,
         precio_mayorista_kg DECIMAL(10,2) NOT NULL, activo SMALLINT NOT NULL DEFAULT 1)");
     $sql = file_get_contents(__DIR__ . '/../database.sql');
-    $db->exec(substr($sql, strpos($sql, 'INSERT INTO productos')));
+    $inicio = strpos($sql, 'INSERT INTO productos');
+    $db->exec(substr($sql, $inicio, strpos($sql, ';', $inicio) - $inicio + 1));
+}
+if (!$db->query("SELECT to_regclass('ashab_web.usuarios')")->fetchColumn()) {
+    $db->exec("CREATE TABLE usuarios (id SERIAL PRIMARY KEY, nombre VARCHAR(100) NOT NULL,
+        email VARCHAR(150) NOT NULL UNIQUE, contrasena VARCHAR(255) NOT NULL, fecha_registro TIMESTAMP NOT NULL)");
 }
