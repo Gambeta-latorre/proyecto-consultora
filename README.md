@@ -22,7 +22,7 @@ Están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB usa una base *
 | [`03_Bocetos/`](03_Bocetos) | Mapa de secciones y bocetos de las pantallas de la web de Berasoft |
 | [`04_Web_Consultora/`](04_Web_Consultora) | Web de Berasoft (Inicio, Servicios, Trabajos, Nosotros, Contacto) |
 | [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de ASHAB: inicio, productos (desde MySQL), contacto, registro e inicio de sesión |
-| [`06_Documentos/`](06_Documentos) | Carpeta técnica (PDF para imprimir), presentación y carpeta de defensa (código comentado) |
+| [`06_Documentos/`](06_Documentos) | Carpeta técnica (PDF para imprimir), **presentación final** (`Presentacion_Final_ASHAB.pdf`), presentación editable (.pptx) y carpeta de defensa (código comentado) |
 
 ## Cómo correrlo
 Las instrucciones para XAMPP están en [`05_Web_Proyecto/README.md`](05_Web_Proyecto/README.md) .
