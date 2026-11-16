@@ -18,6 +18,7 @@ Están hechos solo con **HTML, CSS y PHP**, sin JavaScript. ASHAB lee sus yerbas
 | Carpeta | Qué tiene |
 |---|---|
 | [`01_Logo/`](01_Logo) | Logo de Berasoft (monograma BS) y logo de ASHAB |
+| [`02_Diagramas/`](02_Diagramas) | DFD de la consultora (nivel 0 y 9 de nivel 1) y diagramas de ASHAB (contexto, nivel 1, casos de uso, DER, arquitectura, sitemap) en SVG |
 | [`03_Bocetos/`](03_Bocetos) | Mapa de secciones y bocetos de las pantallas de la web de Berasoft |
 | [`04_Web_Consultora/`](04_Web_Consultora) | Web de Berasoft (Inicio, Servicios, Trabajos, Nosotros, Contacto) |
 | [`05_Web_Proyecto/`](05_Web_Proyecto) | Sitio de ASHAB: inicio, productos (desde MySQL) y contacto, con botones de WhatsApp |
