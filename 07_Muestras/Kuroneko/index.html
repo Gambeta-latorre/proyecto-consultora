@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuroneko Tattoo · Lomas de Zamora</title>
+<meta name="description" content="Kuroneko Tattoo. Estudio de tatuajes en Lomas de Zamora. Armá tu idea y consultá el precio por WhatsApp.">
+<meta name="theme-color" content="#0d0c0b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --tinta:#0d0c0b;
+    --tinta-2:#161412;
+    --tinta-3:#211e1b;
+    --linea:rgba(240,232,218,.10);
+    --papel:#f0e8da;
+    --papel-2:#cfc5b4;
+    --suave:#8e8578;
+    --sello:#d23a2c;
+    --sello-2:#ff5a45;
+    --wa:#25d366;
+    --radio:16px;
+    --max:1160px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Space Grotesk",system-ui,sans-serif;color:var(--papel);background:var(--tinta);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  button{font:inherit;color:inherit}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-family:"Shippori Mincho",Georgia,serif;line-height:1.08;font-weight:800}
+  .kanji{font-family:"Shippori Mincho",serif}
+  section{padding:110px 0;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:var(--sello-2);margin-bottom:18px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:currentColor}
+  .titulo{font-size:clamp(2.1rem,5vw,3.6rem);max-width:16ch}
+  .bajada{color:var(--papel-2);max-width:56ch;margin-top:16px;font-size:1.05rem}
+
+  /* Grano de papel */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.06;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* Aviso de muestra */
+  .aviso{background:var(--sello);color:#fff;text-align:center;font-size:.8rem;padding:7px 12px;letter-spacing:.02em}
+
+  /* Botones */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;font-weight:700;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;white-space:nowrap}
+  .btn:hover{transform:translateY(-2px)}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn-wa{background:var(--wa);color:#06301a;padding:15px 26px;box-shadow:0 10px 28px rgba(37,211,102,.22)}
+  .btn-sello{background:var(--sello);color:#fff;padding:15px 26px;box-shadow:0 10px 30px rgba(210,58,44,.3)}
+  .btn-sello:hover{background:var(--sello-2)}
+  .btn-ig{color:#fff;padding:14px 24px;background:linear-gradient(45deg,#f9a03f 0%,#e1306c 45%,#833ab4 100%);box-shadow:0 10px 28px rgba(225,48,108,.25)}
+  .btn-borde{border:1.5px solid rgba(240,232,218,.3);color:var(--papel);padding:13px 22px;background:transparent}
+  .btn-borde:hover{border-color:var(--papel)}
+  .btn-sm{padding:9px 16px;font-size:.88rem}
+  .btn-sm svg{width:17px;height:17px}
+
+  /* Navegación */
+  nav{position:sticky;top:0;z-index:40;background:rgba(13,12,11,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+  .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .logo svg{width:34px;height:34px}
+  .logo b{font-family:"Shippori Mincho",serif;font-size:1.3rem;letter-spacing:.04em}
+  .logo small{display:block;font-size:.62rem;letter-spacing:.3em;color:var(--suave);text-transform:uppercase;margin-top:-2px}
+  .menu-nav{display:flex;gap:28px;list-style:none}
+  .menu-nav a{color:var(--papel-2);text-decoration:none;font-size:.92rem}
+  .menu-nav a:hover{color:var(--papel)}
+  .nav-btns{display:flex;gap:8px}
+
+  /* Hero */
+  .hero{min-height:calc(100vh - 100px);display:flex;align-items:center;overflow:hidden;padding:70px 0 90px;
+    background:radial-gradient(ellipse 60% 70% at 78% 40%, rgba(210,58,44,.16), transparent 65%),var(--tinta)}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;width:100%}
+  .hero h1{font-size:clamp(2.9rem,7.4vw,6.2rem);letter-spacing:-.01em}
+  .hero h1 em{font-style:normal;color:var(--sello-2)}
+  .hero .lead{font-size:1.15rem;color:var(--papel-2);max-width:46ch;margin:24px 0 34px}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px}
+  .datos{display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;padding-top:26px;border-top:1px solid var(--linea)}
+  .datos div{font-size:.86rem;color:var(--suave)}
+  .datos strong{display:block;font-family:"Shippori Mincho",serif;font-size:1.25rem;color:var(--papel)}
+  .hero-arte{position:relative;aspect-ratio:1;max-width:520px;justify-self:center;width:100%}
+  .hero-arte .sol{position:absolute;inset:8%;border-radius:50%;background:var(--sello);opacity:.92}
+  .hero-arte .gato{position:absolute;inset:0;width:100%;height:100%}
+  .hero-arte .vertical{position:absolute;right:-6px;top:6%;writing-mode:vertical-rl;font-family:"Shippori Mincho",serif;font-size:clamp(1.6rem,3.2vw,2.4rem);letter-spacing:.3em;color:var(--papel)}
+  .hero-arte .sello-chico{position:absolute;left:4%;bottom:6%;width:62px;height:62px;border:2px solid var(--sello-2);color:var(--sello-2);border-radius:8px;display:grid;place-items:center;font-family:"Shippori Mincho",serif;font-size:1.05rem;line-height:1;text-align:center;transform:rotate(-8deg)}
+  .cola{transform-origin:150px 330px;animation:cola 4s ease-in-out infinite}
+  @keyframes cola{0%,100%{transform:rotate(0)}50%{transform:rotate(7deg)}}
+  .ojo{animation:parpadeo 5s infinite}
+  @keyframes parpadeo{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+
+  /* Cinta */
+  .cinta{border-block:1px solid var(--linea);overflow:hidden;background:var(--tinta-2)}
+  .cinta-track{display:flex;gap:46px;padding:18px 0;width:max-content;animation:cinta 34s linear infinite}
+  .cinta span{font-family:"Shippori Mincho",serif;font-size:1.4rem;color:var(--papel-2);white-space:nowrap;display:flex;align-items:center;gap:46px}
+  .cinta span::after{content:"✦";color:var(--sello-2);font-size:.9rem}
+  @keyframes cinta{to{transform:translateX(-50%)}}
+
+  /* Galería */
+  .gal-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:46px}
+  .galeria{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:240px;gap:14px}
+  .pieza{position:relative;border-radius:var(--radio);overflow:hidden;background:var(--tinta-2);border:1px solid var(--linea);display:grid;place-items:center;text-decoration:none}
+  .pieza svg{width:72%;height:72%;transition:transform .5s}
+  .pieza:hover svg{transform:scale(1.06) rotate(-1deg)}
+  .pieza.alta{grid-row:span 2}
+  .pieza.ancha{grid-column:span 2}
+  .pieza .tag{position:absolute;left:14px;bottom:14px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(13,12,11,.75);padding:6px 10px;border-radius:999px;border:1px solid var(--linea)}
+  .pieza .hover{position:absolute;inset:0;background:rgba(13,12,11,.72);display:grid;place-items:center;opacity:0;transition:opacity .25s;font-weight:700}
+  .pieza:hover .hover{opacity:1}
+  .pieza.ig{background:linear-gradient(135deg,#2a1420,#1b1021 60%,#120d17);flex-direction:column;text-align:center;padding:24px}
+  .pieza.ig .ig-in{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .pieza.ig .ig-in svg{width:44px;height:44px}
+  .pieza.ig b{font-family:"Shippori Mincho",serif;font-size:1.4rem}
+  .pieza.ig small{color:var(--papel-2)}
+  .nota-foto{margin-top:16px;font-size:.82rem;color:var(--suave)}
+
+  /* Estilos */
+  .estilos{background:var(--tinta-2);border-block:1px solid var(--linea)}
+  .estilos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden;margin-top:50px}
+  .estilo{background:var(--tinta-2);padding:34px 30px;transition:background .2s}
+  .estilo:hover{background:var(--tinta-3)}
+  .estilo .k{font-family:"Shippori Mincho",serif;font-size:2.2rem;color:var(--sello-2);line-height:1}
+  .estilo h3{font-size:1.4rem;margin:14px 0 8px}
+  .estilo p{color:var(--papel-2);font-size:.95rem}
+
+  /* Armador */
+  .armador{background:radial-gradient(ellipse 50% 40% at 15% 0%, rgba(210,58,44,.12), transparent 70%),var(--tinta)}
+  .arm-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;margin-top:50px;align-items:start}
+  .panel{background:var(--tinta-2);border:1px solid var(--linea);border-radius:22px;padding:34px}
+  .paso{padding-bottom:28px;margin-bottom:28px;border-bottom:1px dashed var(--linea)}
+  .paso:last-of-type{border-bottom:0;margin-bottom:6px;padding-bottom:0}
+  .paso-tit{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .paso-tit .n{font-family:"Shippori Mincho",serif;color:var(--sello-2);font-size:1.1rem;min-width:26px}
+  .paso-tit h3{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.06rem}
+  .paso-tit small{color:var(--suave);font-weight:400;font-size:.85rem}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1.5px solid rgba(240,232,218,.18);background:transparent;padding:9px 15px;border-radius:999px;cursor:pointer;font-size:.92rem;color:var(--papel-2);transition:all .15s}
+  .chip:hover{border-color:rgba(240,232,218,.5);color:var(--papel)}
+  .chip[aria-pressed="true"]{background:var(--papel);color:var(--tinta);border-color:var(--papel);font-weight:700}
+  .tamano{display:flex;align-items:center;gap:18px}
+  .tamano input[type=range]{flex:1;accent-color:var(--sello);height:28px}
+  .tamano output{min-width:150px;text-align:right;font-weight:700}
+  .tamano output small{display:block;color:var(--suave);font-weight:400;font-size:.8rem}
+  .regla{display:flex;justify-content:space-between;color:var(--suave);font-size:.75rem;margin-top:4px;padding-right:168px}
+  textarea,input[type=text]{width:100%;background:var(--tinta);border:1.5px solid rgba(240,232,218,.15);border-radius:12px;padding:14px 16px;color:var(--papel);font:inherit;font-size:.98rem;resize:vertical}
+  textarea{min-height:110px}
+  textarea:focus,input:focus{outline:none;border-color:var(--sello-2)}
+  ::placeholder{color:#6f675d}
+  .fila{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .check{display:flex;align-items:center;gap:10px;margin-top:14px;color:var(--papel-2);font-size:.94rem;cursor:pointer}
+  .check input{width:18px;height:18px;accent-color:var(--sello)}
+
+  /* Vista previa del chat */
+  .chat{position:sticky;top:92px;border-radius:24px;overflow:hidden;border:1px solid var(--linea);background:#0b141a;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+  .chat-top{background:#1f2c33;display:flex;align-items:center;gap:12px;padding:14px 16px}
+  .chat-top .av{width:40px;height:40px;border-radius:50%;background:var(--papel);display:grid;place-items:center}
+  .chat-top .av svg{width:26px;height:26px}
+  .chat-top b{display:block;font-size:.98rem}
+  .chat-top small{color:#8696a0;font-size:.78rem}
+  .chat-body{padding:22px 16px 18px;min-height:340px;background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,.025) 0 2px, transparent 3px) 0 0/28px 28px,#0b141a}
+  .burbuja{background:#005c4b;color:#e9edef;border-radius:12px 0 12px 12px;padding:10px 12px 8px;margin-left:auto;max-width:92%;font-size:.9rem;white-space:pre-wrap;word-wrap:break-word;position:relative;line-height:1.45}
+  .burbuja::after{content:"";position:absolute;right:-8px;top:0;border-left:8px solid #005c4b;border-bottom:10px solid transparent}
+  .burbuja .hora{display:block;text-align:right;font-size:.68rem;color:#8fd5c6;margin-top:4px}
+  .chat-foot{padding:16px;background:#111b21;display:grid;gap:10px}
+  .chat-foot .btn{width:100%}
+  .chat-foot p{font-size:.78rem;color:#8696a0;text-align:center}
+  .falta{color:#ffb4a8;font-size:.85rem;text-align:center;min-height:1.2em}
+
+  /* Proceso */
+  .proceso{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:50px;counter-reset:p}
+  .proceso li{list-style:none;padding:30px 26px;border:1px solid var(--linea);border-radius:var(--radio);background:var(--tinta-2);position:relative}
+  .proceso li::before{counter-increment:p;content:"0" counter(p);font-family:"Shippori Mincho",serif;font-size:2.6rem;color:transparent;-webkit-text-stroke:1px var(--sello-2);display:block;margin-bottom:12px;line-height:1}
+  .proceso h3{font-family:"Space Grotesk",sans-serif;font-size:1.08rem;margin-bottom:8px}
+  .proceso p{color:var(--papel-2);font-size:.93rem}
+
+  /* FAQ */
+  .faq{background:var(--tinta-2);border-top:1px solid var(--linea)}
+  .faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px}
+  details{border-bottom:1px solid var(--linea);padding:20px 0}
+  summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-weight:700;font-size:1.04rem}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--sello-2);font-size:1.4rem;line-height:1;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--papel-2);margin-top:12px;max-width:62ch}
+
+  /* Ubicación */
+  .ubi-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch}
+  .ubi-card{border:1px solid var(--linea);border-radius:22px;padding:40px;background:var(--tinta-2);display:flex;flex-direction:column;gap:22px}
+  .ubi-card dl{display:grid;gap:18px}
+  .ubi-card dt{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--suave)}
+  .ubi-card dd{font-size:1.1rem;margin-top:4px}
+  .mapa{border-radius:22px;overflow:hidden;border:1px solid var(--linea);min-height:340px;background:var(--tinta-2)}
+  .mapa iframe{width:100%;height:100%;min-height:340px;border:0;filter:grayscale(1) invert(.92) contrast(.9)}
+
+  /* CTA final */
+  .final{text-align:center;overflow:hidden}
+  .final .gran-k{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:"Shippori Mincho",serif;font-size:clamp(14rem,40vw,30rem);color:rgba(210,58,44,.07);line-height:1;pointer-events:none;white-space:nowrap}
+  .final .wrap{position:relative}
+  .final h2{font-size:clamp(2.4rem,6vw,4.6rem);max-width:14ch;margin:0 auto}
+  .final p{color:var(--papel-2);margin:20px auto 34px;max-width:46ch}
+  .final .ctas{justify-content:center}
+
+  footer{border-top:1px solid var(--linea);color:var(--suave);font-size:.86rem;padding:30px 0}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center}
+  footer a{text-decoration:none;color:var(--papel-2)}
+  footer a:hover{color:var(--papel)}
+  .redes{display:flex;gap:18px}
+
+  /* Botón flotante */
+  .flotante{position:fixed;right:18px;bottom:18px;z-index:50;width:60px;height:60px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.4);transition:transform .15s}
+  .flotante:hover{transform:scale(1.07)}
+  .flotante svg{width:32px;height:32px;color:#fff}
+
+  /* Aparición */
+  .rev{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .rev.si{opacity:1;transform:none}
+
+  @media (max-width:980px){
+    .menu-nav{display:none}
+    .hero .wrap,.arm-grid,.faq-grid,.ubi-grid{grid-template-columns:1fr}
+    .hero-arte{max-width:380px;order:-1}
+    .galeria{grid-template-columns:repeat(2,1fr);grid-auto-rows:200px}
+    .estilos-grid{grid-template-columns:1fr 1fr}
+    .proceso{grid-template-columns:1fr 1fr}
+    .chat{position:relative;top:0}
+  }
+  @media (max-width:620px){
+    section{padding:76px 0}
+    .wrap{padding:0 16px}
+    .nav-btns .btn-ig{display:none}
+    .logo small{display:none}
+    .hero{padding:36px 0 70px;min-height:auto}
+    .hero-arte{max-width:290px}
+    .ctas .btn{width:100%}
+    .galeria{grid-auto-rows:170px;gap:10px}
+    .pieza.ancha{grid-column:span 2}
+    .estilos-grid,.proceso,.fila{grid-template-columns:1fr}
+    .panel{padding:24px 18px}
+    .tamano{flex-direction:column;align-items:stretch;gap:6px}
+    .tamano output{text-align:left}
+    .regla{padding-right:0}
+    .ubi-card{padding:28px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rev{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="aviso">Propuesta de diseño para Kuroneko · las imágenes se reemplazan por los trabajos reales de su Instagram</div>
+
+<nav>
+  <div class="wrap">
+    <a href="#inicio" class="logo" aria-label="Kuroneko Tattoo, inicio">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#d23a2c"/><path d="M11 30c0-6 2-10 4-12l-2-7 5 4h4l5-4-2 7c2 2 4 6 4 12z" fill="#0d0c0b"/><circle cx="17" cy="21" r="1.3" fill="#f0e8da"/><circle cx="23" cy="21" r="1.3" fill="#f0e8da"/></svg>
+      <span><b>Kuroneko</b><small>Tattoo · 黒猫</small></span>
+    </a>
+    <ul class="menu-nav">
+      <li><a href="#trabajos">Trabajos</a></li>
+      <li><a href="#estilos">Estilos</a></li>
+      <li><a href="#armar">Armá tu tatuaje</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
+      <li><a href="#estudio">Estudio</a></li>
+    </ul>
+    <div class="nav-btns">
+      <a class="btn btn-ig btn-sm js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        Instagram
+      </a>
+      <a class="btn btn-wa btn-sm js-wa" href="#armar">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-wa"/></svg>
+        Cotizar
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div class="rev">
+      <span class="eyebrow">Estudio de tatuajes · Lomas de Zamora</span>
+      <h1>Tinta que se queda <em>con vos.</em></h1>
+      <p class="lead">Diseños pensados de cero para tu piel. Contanos tu idea, elegí estilo, zona y tamaño, y en un minuto tenés tu consulta lista para mandar por WhatsApp.</p>
+      <div class="ctas">
+        <a class="btn btn-sello" href="#armar">Armá tu tatuaje →</a>
+        <a class="btn btn-ig js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          Ver trabajos en Instagram
+        </a>
+      </div>
+      <div class="datos">
+        <div><strong>Diseño propio</strong>cada pieza es única</div>
+        <div><strong>Material descartable</strong>agujas y cartuchos nuevos</div>
+        <div><strong>Respuesta rápida</strong>por WhatsApp</div>
+      </div>
+    </div>
+
+    <div class="hero-arte rev" aria-hidden="true">
+      <div class="sol"></div>
+      <svg class="gato" viewBox="0 0 400 400">
+        <!-- Gato negro sentado -->
+        <g fill="#0d0c0b">
+          <path class="cola" d="M150 330c-60 6-92-20-96-60-3-30 18-50 40-46-22 10-26 32-20 48 10 26 40 36 80 30z"/>
+          <path d="M140 352c-6-60 4-104 26-130-14-16-20-36-20-58l-6-58 34 34c14-4 38-4 52 0l34-34-6 58c0 22-6 42-20 58 22 26 32 70 26 130z"/>
+        </g>
+        <g fill="#f0e8da">
+          <ellipse class="ojo" style="transform-origin:177px 158px" cx="177" cy="158" rx="9" ry="12"/>
+          <ellipse class="ojo" style="transform-origin:223px 158px" cx="223" cy="158" rx="9" ry="12"/>
+        </g>
+        <g fill="#0d0c0b"><rect x="175" y="149" width="4" height="18" rx="2"/><rect x="221" y="149" width="4" height="18" rx="2"/></g>
+        <path d="M194 182l6 5 6-5" fill="none" stroke="#d23a2c" stroke-width="3" stroke-linecap="round"/>
+        <!-- Ramas -->
+        <g stroke="#0d0c0b" stroke-width="3" fill="none" stroke-linecap="round">
+          <path d="M260 40c40 20 70 40 100 80"/><path d="M300 64c6-14 18-20 30-20"/><path d="M330 90c10-8 22-8 30-4"/>
+        </g>
+        <g fill="#f0e8da"><circle cx="300" cy="58" r="7"/><circle cx="330" cy="88" r="6"/><circle cx="350" cy="110" r="5"/><circle cx="276" cy="48" r="5"/></g>
+        <line x1="40" y1="352" x2="360" y2="352" stroke="#0d0c0b" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="vertical">黒猫刺青</span>
+      <span class="sello-chico">黒<br>猫</span>
+    </div>
+  </div>
+</header>
+
+<div class="cinta" aria-hidden="true">
+  <div class="cinta-track">
+    <span>Fine line</span><span>Blackwork</span><span>Japonés</span><span>Anime</span><span>Lettering</span><span>Minimalista</span><span>Ornamental</span><span>Cover up</span>
+    <span>Fine line</span><span>Blackwork</span><span>Japonés</span><span>Anime</span><span>Lettering</span><span>Minimalista</span><span>Ornamental</span><span>Cover up</span>
+  </div>
+</div>
+
+<section id="trabajos">
+  <div class="wrap">
+    <div class="gal-head rev">
+      <div>
+        <span class="eyebrow">Trabajos</span>
+        <h2 class="titulo">Cada pieza cuenta una historia.</h2>
+      </div>
+      <a class="btn btn-borde js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">Ver todo en @kuroneko.tt →</a>
+    </div>
+
+    <div class="galeria rev">
+      <a class="pieza alta js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 200 300" fill="none" stroke="#f0e8da" stroke-width="2.2" stroke-linecap="round"><path d="M100 20c-30 40-30 70 0 100s30 60 0 100-30 60 0 70"/><path d="M100 60c18-10 34-6 44 6M100 60c-18-10-34-6-44 6"/><circle cx="100" cy="140" r="34"/><path d="M80 140c6-14 34-14 40 0-6 14-34 14-40 0z" fill="#d23a2c" stroke="none"/><path d="M66 200l-16 10M134 200l16 10M60 236l-14 4M140 236l14 4"/></svg>
+        <span class="tag">Fine line</span><span class="hover">Ver en Instagram</span>
+      </a>
+      <a class="pieza js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="60" fill="#d23a2c"/><path d="M60 140c0-26 8-40 18-48l-8-30 20 16h20l20-16-8 30c10 8 18 22 18 48z" fill="#0d0c0b"/><circle cx="90" cy="104" r="3" fill="#f0e8da"/><circle cx="110" cy="104" r="3" fill="#f0e8da"/></svg>
+        <span class="tag">Blackwork</span><span class="hover">Ver en Instagram</span>
+      </a>
+      <a class="pieza js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 200 200" fill="none" stroke="#f0e8da" stroke-width="2.4" stroke-linecap="round"><path d="M20 150c30 0 40-60 80-60 30 0 34 30 14 34-14 3-18-14-6-18"/><path d="M20 170c40 0 60-20 100-20s40 20 60 20"/><path d="M110 90c10-30 40-50 70-46-20 6-34 20-40 40"/><circle cx="150" cy="50" r="14" fill="#d23a2c" stroke="none"/></svg>
+        <span class="tag">Japonés</span><span class="hover">Ver en Instagram</span>
+      </a>
+      <a class="pieza alta js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 200 300" fill="none" stroke="#f0e8da" stroke-width="2.2" stroke-linecap="round"><path d="M100 30v190"/><path d="M84 220h32l-16 50z" fill="#d23a2c" stroke="none"/><path d="M70 60h60M86 40h28"/><path d="M100 90c-30 0-40 20-40 40s20 30 40 20 20-30 0-34"/><path d="M100 160c30 0 40 14 30 30"/></svg>
+        <span class="tag">Ornamental</span><span class="hover">Ver en Instagram</span>
+      </a>
+      <a class="pieza ancha js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 400 200" fill="none" stroke="#f0e8da" stroke-width="2.2" stroke-linecap="round" style="width:80%"><text x="200" y="118" text-anchor="middle" fill="#f0e8da" stroke="none" font-family="Shippori Mincho,serif" font-size="56" font-style="italic">siempre</text><path d="M80 140c60 14 180 14 240 0"/><circle cx="330" cy="70" r="6" fill="#d23a2c" stroke="none"/></svg>
+        <span class="tag">Lettering</span><span class="hover">Ver en Instagram</span>
+      </a>
+      <a class="pieza js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 200 200" fill="none" stroke="#f0e8da" stroke-width="2.4" stroke-linecap="round"><path d="M100 40a60 60 0 1 0 40 104 48 48 0 1 1-40-104z" fill="#f0e8da" stroke="none"/><path d="M150 50l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#d23a2c" stroke="none"/></svg>
+        <span class="tag">Minimalista</span><span class="hover">Ver en Instagram</span>
+      </a>
+      <a class="pieza ig js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <span class="ig-in">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg>
+          <b>@kuroneko.tt</b>
+          <small>Seguinos para ver los trabajos nuevos y las fechas libres</small>
+        </span>
+      </a>
+    </div>
+    <p class="nota-foto">En la versión final esta galería muestra fotos reales de los tatuajes, tomadas de la cuenta de Instagram.</p>
+  </div>
+</section>
+
+<section class="estilos" id="estilos">
+  <div class="wrap">
+    <div class="rev">
+      <span class="eyebrow">Estilos</span>
+      <h2 class="titulo">¿Qué te querés tatuar?</h2>
+      <p class="bajada">Si todavía no sabés qué estilo va con tu idea, no pasa nada: lo charlamos y te asesoramos.</p>
+    </div>
+    <div class="estilos-grid rev">
+      <div class="estilo"><span class="k">線</span><h3>Fine line</h3><p>Trazos finos y delicados. Ideal para piezas chicas, flores, frases y detalles.</p></div>
+      <div class="estilo"><span class="k">黒</span><h3>Blackwork</h3><p>Negro sólido, contraste fuerte y formas que se leen de lejos.</p></div>
+      <div class="estilo"><span class="k">波</span><h3>Japonés</h3><p>Olas, koi, flores y criaturas con la estética oriental clásica.</p></div>
+      <div class="estilo"><span class="k">漫</span><h3>Anime</h3><p>Tus personajes favoritos, con línea limpia y mucho carácter.</p></div>
+      <div class="estilo"><span class="k">字</span><h3>Lettering</h3><p>Nombres, fechas y frases con tipografías hechas a medida.</p></div>
+      <div class="estilo"><span class="k">新</span><h3>Cover up</h3><p>¿Un tatuaje que ya no te gusta? Lo transformamos en algo nuevo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="armador" id="armar">
+  <div class="wrap">
+    <div class="rev">
+      <span class="eyebrow">Armá tu tatuaje</span>
+      <h2 class="titulo">Contanos tu idea y consultá el precio.</h2>
+      <p class="bajada">Elegí las opciones y el mensaje se arma solo. Después tocás el botón y se abre WhatsApp con todo escrito.</p>
+    </div>
+
+    <div class="arm-grid">
+      <form class="panel" id="form" onsubmit="return false">
+        <div class="paso">
+          <div class="paso-tit"><span class="n">01</span><h3>Estilo</h3></div>
+          <div class="chips" data-grupo="estilo">
+            <button type="button" class="chip">Fine line</button>
+            <button type="button" class="chip">Blackwork</button>
+            <button type="button" class="chip">Japonés</button>
+            <button type="button" class="chip">Anime</button>
+            <button type="button" class="chip">Lettering</button>
+            <button type="button" class="chip">Minimalista</button>
+            <button type="button" class="chip">Realismo</button>
+            <button type="button" class="chip">Cover up</button>
+            <button type="button" class="chip">No sé, asesorame</button>
+          </div>
+        </div>
+
+        <div class="paso">
+          <div class="paso-tit"><span class="n">02</span><h3>Zona del cuerpo</h3></div>
+          <div class="chips" data-grupo="zona">
+            <button type="button" class="chip">Antebrazo</button>
+            <button type="button" class="chip">Brazo</button>
+            <button type="button" class="chip">Muñeca</button>
+            <button type="button" class="chip">Mano</button>
+            <button type="button" class="chip">Cuello</button>
+            <button type="button" class="chip">Pecho</button>
+            <button type="button" class="chip">Espalda</button>
+            <button type="button" class="chip">Costillas</button>
+            <button type="button" class="chip">Pierna</button>
+            <button type="button" class="chip">Tobillo</button>
+            <button type="button" class="chip">Otra</button>
+          </div>
+        </div>
+
+        <div class="paso">
+          <div class="paso-tit"><span class="n">03</span><h3>Tamaño aproximado</h3></div>
+          <div class="tamano">
+            <input type="range" id="tam" min="3" max="40" value="10" aria-label="Tamaño en centímetros">
+            <output id="tam-out" for="tam">10 cm<small>Mediano</small></output>
+          </div>
+          <div class="regla"><span>3 cm</span><span>20 cm</span><span>40 cm</span></div>
+        </div>
+
+        <div class="paso">
+          <div class="paso-tit"><span class="n">04</span><h3>Color</h3></div>
+          <div class="chips" data-grupo="color">
+            <button type="button" class="chip" aria-pressed="true">Solo negro</button>
+            <button type="button" class="chip">Negro y grises</button>
+            <button type="button" class="chip">A color</button>
+          </div>
+        </div>
+
+        <div class="paso">
+          <div class="paso-tit"><span class="n">05</span><h3>Tu idea <small>· lo más importante</small></h3></div>
+          <textarea id="idea" maxlength="600" placeholder="Ej.: un gatito negro durmiendo sobre una luna, con algunas estrellas alrededor."></textarea>
+          <label class="check"><input type="checkbox" id="ref"> Tengo fotos de referencia para mandar</label>
+          <label class="check"><input type="checkbox" id="primero"> Es mi primer tatuaje</label>
+        </div>
+
+        <div class="paso">
+          <div class="paso-tit"><span class="n">06</span><h3>Tus datos</h3></div>
+          <div class="fila">
+            <input type="text" id="nombre" maxlength="40" placeholder="Tu nombre" autocomplete="given-name">
+            <input type="text" id="cuando" maxlength="40" placeholder="¿Para cuándo? (opcional)">
+          </div>
+        </div>
+      </form>
+
+      <aside class="chat" aria-label="Vista previa del mensaje de WhatsApp">
+        <div class="chat-top">
+          <span class="av"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M11 30c0-6 2-10 4-12l-2-7 5 4h4l5-4-2 7c2 2 4 6 4 12z" fill="#0d0c0b"/></svg></span>
+          <div><b>Kuroneko Tattoo</b><small>11 6487-8207</small></div>
+        </div>
+        <div class="chat-body">
+          <div class="burbuja"><span id="preview"></span><span class="hora" id="hora"></span></div>
+        </div>
+        <div class="chat-foot">
+          <p class="falta" id="falta" aria-live="polite"></p>
+          <a class="btn btn-wa" id="enviar" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-wa"/></svg>
+            Consultar precio por WhatsApp
+          </a>
+          <p>Se abre WhatsApp con el mensaje escrito. Solo tenés que tocar enviar.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="rev">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <h2 class="titulo">De la idea a la piel, en cuatro pasos.</h2>
+    </div>
+    <ol class="proceso rev">
+      <li><h3>Consulta</h3><p>Nos mandás tu idea por WhatsApp desde esta página y te respondemos con el presupuesto.</p></li>
+      <li><h3>Diseño</h3><p>Dibujamos tu pieza a medida y la ajustamos hasta que te encante.</p></li>
+      <li><h3>Turno</h3><p>Reservás la fecha con una seña que después se descuenta del total.</p></li>
+      <li><h3>Sesión</h3><p>Tatuamos con material descartable y te llevás las indicaciones de cuidado.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="faq" id="preguntas">
+  <div class="wrap faq-grid">
+    <div class="rev">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2 class="titulo">Lo que todos preguntan.</h2>
+      <p class="bajada">¿Te quedó otra duda? Escribinos y te contestamos.</p>
+    </div>
+    <div class="rev">
+      <details open><summary>¿Cuánto sale un tatuaje?</summary><p>Depende del tamaño, la zona, el nivel de detalle y si lleva color. Por eso lo mejor es armar tu idea en esta página: con esos datos te pasamos un precio exacto.</p></details>
+      <details><summary>¿Hay que dejar seña?</summary><p>Sí, para reservar el turno se deja una seña que se descuenta del total el día de la sesión.</p></details>
+      <details><summary>¿Duele?</summary><p>Depende de la zona y de cada persona. Las zonas con más hueso, como costillas o tobillo, suelen molestar más. Vamos a tu ritmo y hacemos pausas cuando lo necesites.</p></details>
+      <details><summary>¿Tatúan a menores?</summary><p>Solo a partir de los 16 años, con autorización firmada y presencia de madre, padre o tutor. Consultanos antes.</p></details>
+      <details><summary>¿Cómo lo cuido después?</summary><p>Te damos todas las indicaciones por escrito: lavado suave, crema cicatrizante, nada de sol, pileta ni mar durante las primeras semanas.</p></details>
+      <details><summary>¿Puedo traer mi propio diseño?</summary><p>¡Claro! Lo adaptamos a tu piel y a la zona para que quede lo mejor posible.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="estudio">
+  <div class="wrap ubi-grid">
+    <div class="ubi-card rev">
+      <div>
+        <span class="eyebrow">El estudio</span>
+        <h2 class="titulo" style="font-size:clamp(2rem,4vw,3rem)">Te esperamos en Lomas.</h2>
+      </div>
+      <dl>
+        <div><dt>Dirección</dt><dd>San Martín 123, Lomas de Zamora</dd></div>
+        <div><dt>Atención</dt><dd>Solo con turno · consultá por WhatsApp</dd></div>
+        <div><dt>WhatsApp</dt><dd>11 6487-8207</dd></div>
+      </dl>
+      <div class="ctas">
+        <a class="btn btn-sello" href="#armar">Consultar precio</a>
+        <a class="btn btn-borde" href="https://www.google.com/maps/search/?api=1&query=San+Mart%C3%ADn+123%2C+Lomas+de+Zamora" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </div>
+    <div class="mapa rev">
+      <iframe title="Mapa del estudio" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=San+Mart%C3%ADn+123,+Lomas+de+Zamora,+Buenos+Aires&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <span class="gran-k" aria-hidden="true">黒猫</span>
+  <div class="wrap rev">
+    <span class="eyebrow">¿Lo hacemos?</span>
+    <h2>Tu próximo tatuaje empieza con un mensaje.</h2>
+    <p>Armá tu idea en un minuto y consultá el precio sin compromiso.</p>
+    <div class="ctas">
+      <a class="btn btn-sello" href="#armar">Armá tu tatuaje →</a>
+      <a class="btn btn-ig js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        Seguinos en Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© Kuroneko Tattoo · Lomas de Zamora</span>
+    <div class="redes">
+      <a class="js-ig" href="https://www.instagram.com/kuroneko.tt/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://wa.me/5491164878207" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://berasoftsrl.vercel.app" target="_blank" rel="noopener">Web por Berasoft</a>
+    </div>
+  </div>
+</footer>
+
+<a class="flotante" href="#armar" aria-label="Consultar precio por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-wa"/></svg>
+</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
+</svg>
+
+<script>
+(function(){
+  var WA = '5491164878207';
+  var IG_USER = 'kuroneko.tt';
+  var estado = { estilo:'', zona:'', color:'Solo negro' };
+
+  // Instagram: en el celular abre la app directamente; si no está, sigue el enlace web.
+  var esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  document.querySelectorAll('.js-ig').forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (!esMovil) return;
+      e.preventDefault();
+      var web = 'https://www.instagram.com/' + IG_USER + '/';
+      var t = setTimeout(function(){ window.location.href = web; }, 900);
+      window.addEventListener('pagehide', function(){ clearTimeout(t); }, { once:true });
+      window.location.href = 'instagram://user?username=' + IG_USER;
+    });
+  });
+
+  // Chips (una opción por grupo)
+  document.querySelectorAll('.chips').forEach(function(grupo){
+    var clave = grupo.dataset.grupo;
+    grupo.querySelectorAll('.chip').forEach(function(chip){
+      if (!chip.hasAttribute('aria-pressed')) chip.setAttribute('aria-pressed','false');
+      chip.addEventListener('click', function(){
+        var activo = chip.getAttribute('aria-pressed') === 'true';
+        grupo.querySelectorAll('.chip').forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+        if (!activo || clave === 'color') { chip.setAttribute('aria-pressed','true'); estado[clave] = chip.textContent.trim(); }
+        else { estado[clave] = ''; }
+        armar();
+      });
+    });
+  });
+
+  var tam = document.getElementById('tam'), tamOut = document.getElementById('tam-out');
+  function categoria(cm){ return cm <= 5 ? 'Chiquito' : cm <= 12 ? 'Mediano' : cm <= 22 ? 'Grande' : 'Pieza grande'; }
+
+  var campos = ['idea','nombre','cuando','ref','primero'].map(function(id){ return document.getElementById(id); });
+  campos.forEach(function(c){ c.addEventListener('input', armar); c.addEventListener('change', armar); });
+  tam.addEventListener('input', armar);
+
+  var enviar = document.getElementById('enviar'), falta = document.getElementById('falta');
+
+  function armar(){
+    var cm = +tam.value;
+    tamOut.innerHTML = cm + ' cm<small>' + categoria(cm) + '</small>';
+    var v = function(id){ return document.getElementById(id).value.trim(); };
+    var nombre = v('nombre'), idea = v('idea'), cuando = v('cuando');
+
+    var l = [];
+    l.push('¡Hola Kuroneko! 🐈‍⬛' + (nombre ? ' Soy ' + nombre + '.' : ''));
+    l.push('Quiero consultar el precio de un tatuaje:');
+    l.push('');
+    l.push('🎨 Estilo: ' + (estado.estilo || 'a definir'));
+    l.push('📍 Zona: ' + (estado.zona || 'a definir'));
+    l.push('📏 Tamaño: aprox. ' + cm + ' cm (' + categoria(cm).toLowerCase() + ')');
+    l.push('🖤 Color: ' + estado.color);
+    l.push('');
+    l.push('💡 Idea: ' + (idea || '…'));
+    if (document.getElementById('ref').checked) l.push('📎 Tengo fotos de referencia, te las mando por acá.');
+    if (document.getElementById('primero').checked) l.push('✨ Es mi primer tatuaje.');
+    if (cuando) l.push('🗓️ Me gustaría hacerlo: ' + cuando);
+    l.push('');
+    l.push('¿Cuánto saldría? ¡Gracias!');
+    var texto = l.join('\n');
+
+    document.getElementById('preview').textContent = texto;
+    enviar.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(texto);
+
+    var faltan = [];
+    if (!estado.zona) faltan.push('la zona');
+    if (!idea) faltan.push('tu idea');
+    falta.textContent = faltan.length ? 'Tip: sumá ' + faltan.join(' y ') + ' para un precio más exacto.' : '';
+  }
+
+  var d = new Date();
+  document.getElementById('hora').textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ' ✓✓';
+  armar();
+
+  // Animación de aparición
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('si'); io.unobserve(e.target); } });
+    }, { threshold:.12 });
+    document.querySelectorAll('.rev').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.rev').forEach(function(el){ el.classList.add('si'); });
+  }
+})();
+</script>
+</body>
+</html>
